@@ -1,3 +1,3 @@
 ## Reddit Clone
 
-A Reddit clone (planned to be) made using NexJS app router + MongoDB
+A Reddit clone (planned to be) made using NextJS app router + MongoDB + OAuth
