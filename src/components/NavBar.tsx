@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { SiReddit } from 'react-icons/si'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Subreddit from './Subreddit'
 import Searchbar from './Searchbar'
 import IconGroup from './IconGroup'
+import { SignupWindow, LoginWindow } from './Modals'
 
 type ModalStateType = 'closed' | 'login' | 'signup'
 
@@ -16,31 +17,6 @@ const NavBar = () => {
   console.log(session)
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
-
-  const modalParentClassName = 'fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black/75'
-  const modalChild1ClassName = 'h-[95%] my-2 w-4/12 flex flex-cols justify-center items-center mx-auto relative bg-white rounded-xl'
-
-  useEffect(() => {
-    console.log(modalState)
-  }, [modalState])
-
-  const loginWindow = (
-    <div className={`${modalState === 'login' ? modalParentClassName : 'hidden'}`}>
-      <div className={modalChild1ClassName}>
-        <p> This is the login window </p>
-        <button className='bg-purple-400 p-2' onClick={() => setModalState('closed')}> Close window </button>
-      </div>
-    </div>
-  )
-
-  const signUpWindow = (
-    <div className={`${modalState === 'signup' ? modalParentClassName : 'hidden'}`}>
-      <div className={modalChild1ClassName}>
-        <p className='text-black'> This is the signup window </p>
-        <button className='bg-purple-400 p-2' onClick={() => setModalState('closed')}> Close window </button>
-      </div>
-    </div>
-  )
 
   return (
     <nav className='bg-reddit-dark px-5 h-12 flex flex-row justify-between gap-x-5 items-center border-b-[1px] border-reddit-border top-0 fixed w-full'>
@@ -69,8 +45,8 @@ const NavBar = () => {
           <button onClick={() => signOut()} className='bg-reddit-orange p-2'> Logout </button>
         )
       }
-      {loginWindow}
-      {signUpWindow}
+      <LoginWindow modalState={modalState} setModalState={setModalState} />
+      <SignupWindow modalState={modalState} setModalState={setModalState} />
     </nav>
   )
 }

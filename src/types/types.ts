@@ -1,0 +1,1 @@
+export type ModalStateType = 'closed' | 'login' | 'signup'
