@@ -1,19 +1,19 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { ModalStateType } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
 
 const modalParentClassName = 'fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black/75'
-const modalChild1ClassName = 'h-[95%] my-2 w-11/12 md:w-6/12 lg:w-4/12 flex flex-col justify-center items-center mx-auto relative bg-white rounded-xl'
+const modalChild1ClassName = 'h-[95%] my-2 w-[25rem] flex flex-col justify-center items-center mx-auto relative bg-white rounded-xl'
 const modalContainerClassName = 'w-3/4 mx-auto'
 
 const dividerBorder = (
   <div className="relative flex py-5 items-center">
-    <div className="flex-grow border-t border-gray-400"></div>
+    <div className="flex-grow border-t border-gray-100"></div>
     <span className="flex-shrink mx-4 text-black"> OR </span>
-    <div className="flex-grow border-t border-gray-400"></div>
+    <div className="flex-grow border-t border-gray-100"></div>
   </div>
 )
 
@@ -46,6 +46,11 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
     }))
   }
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    console.log(formData)
+  }
+
   return (
     <main className={`${modalState === 'login' ? modalParentClassName : 'hidden'} text-black`}>
       <div className={modalChild1ClassName}>
@@ -67,7 +72,7 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
           <>
             {dividerBorder}
           </>
-          <form className='w-full flex flex-col gap-y-4'>
+          <form className='w-full flex flex-col gap-y-4' onSubmit={handleSubmit}>
             <input
               type='text'
               className='w-full border-gray-300 border-[1px] rounded-full p-3'
@@ -88,7 +93,7 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
           </form>
           <div className='my-2'>
             <span> New to Reddit? </span>
-            <span className='text-blue-500 underline font-bold hover:text-red-500' onClick={() => setModalState('signup')}>Sign up!</span>
+            <span className='text-blue-500 underline font-bold hover:text-red-500 hover:cursor-pointer' onClick={() => setModalState('signup')}>Sign up!</span>
           </div>
         </section>
       </div>
