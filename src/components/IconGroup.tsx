@@ -19,9 +19,9 @@ interface IconProps {
 // }
 
 const IconGroup = () => {
-  const className = 'h-6 w-6 hover:cursor-pointer'
+  const className = 'h-8 w-8 hover:cursor-pointer hover:bg-reddit-hover-gray p-1'
   return (
-    <div className='flex flex-row gap-x-4'>
+    <div className='flex flex-row gap-x-2'>
       <CgArrowTopRightO className={className} />
       <BsChatDots className={className} />
       <VscBell className={className} />
