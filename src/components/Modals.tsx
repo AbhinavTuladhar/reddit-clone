@@ -168,7 +168,7 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
             className='w-full border-gray-300 border-[1px] rounded-full p-3'
             name='email'
             value={formData.email}
-            placeholder='Username'
+            placeholder='Email'
             onChange={handleFormChange}
           />
           <button

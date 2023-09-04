@@ -8,8 +8,7 @@ import Subreddit from './Subreddit'
 import Searchbar from './Searchbar'
 import IconGroup from './IconGroup'
 import { SignupWindow, LoginWindow } from './Modals'
-
-type ModalStateType = 'closed' | 'login' | 'signup'
+import { ModalStateType } from '@/types/types'
 
 const NavBar = () => {
   const session = useSession()
@@ -33,11 +32,11 @@ const NavBar = () => {
         ? (
           <div className='flex flex-row gap-x-4'>
             <button
-              className='bg-reddit-orange p-2 rounded-3xl hover:brightness-50 text-white'
+              className='bg-reddit-orange p-2 rounded-3xl hover:brightness-50 text-white whitespace-nowrap'
               onClick={() => setModalState('login')}
-            > Login </button>
+            > Log In </button>
             <button
-              className='text-reddit-orange p-2 rounded-3xl hover:brightness-50 bg-white'
+              className='text-reddit-orange p-2 rounded-3xl hover:brightness-50 bg-white whitespace-nowrap'
               onClick={() => setModalState('signup')}
             > Sign up </button>
           </div>
