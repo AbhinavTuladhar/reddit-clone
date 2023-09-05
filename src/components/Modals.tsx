@@ -165,7 +165,9 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
           </>
           <input
             type='email'
-            className='w-full border-gray-300 border-[1px] rounded-full p-3'
+            className='w-full border-gray-300 border-[1px] rounded-full p-3 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+            invalid:border-pink-500 invalid:text-pink-600
+            focus:invalid:border-pink-500 focus:invalid:ring-pink-500'
             name='email'
             value={formData.email}
             placeholder='Email'
