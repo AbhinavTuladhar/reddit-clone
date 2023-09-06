@@ -16,7 +16,17 @@ const handler = NextAuth({
       clientId: googleClientId,
       clientSecret: googleSecretId
     })
-  ]
+  ],
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log({ user, account, profile, email, credentials })
+      if (account?.provider === 'google') {
+        return '/test'
+      } else {
+        return '/'
+      }
+    }
+  }
 })
 
 export { handler as GET, handler as POST }

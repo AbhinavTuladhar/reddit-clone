@@ -1,40 +1,29 @@
 import { Schema, model, models } from "mongoose";
 
-const UserSchema = new Schema({
-  userName: {
+const SubredditSchema = new Schema({
+  name: {
     type: String,
     required: true,
     unique: true
   },
-  email: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  bio: {
-    type: String,
-  },
-  postKarma: {
-    type: Number,
-    default: 0,
-  },
-  commentKarma: {
-    type: Number,
-    default: 0
-  },
-  subscribedSubs: [
+  description: String,
+  rules: [
+    { type: String }
+  ],
+  subscribers: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Subreddit'
+      ref: 'User'
     }
-  ]
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
-export default models.User || model('User', UserSchema)
+export default models.Subreddit || model('Subreddit', SubredditSchema)
