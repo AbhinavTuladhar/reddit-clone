@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true
-  }, 
+  },
   password: {
     type: String,
     required: true
@@ -20,16 +20,15 @@ const UserSchema = new Schema({
   },
   bio: {
     type: String,
+    default: ''
   },
-  karma: {
-    postKarma: {
-      type: Number,
-      default: 0,
-    }, 
-    commentKarma: {
-      type: Number,
-      default: 0
-    }
+  postKarma: {
+    type: Number,
+    default: 0,
+  },
+  commentKarma: {
+    type: Number,
+    default: 0
   },
   subscribedSubs: [
     {
