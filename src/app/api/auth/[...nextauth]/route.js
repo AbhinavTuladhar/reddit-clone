@@ -20,12 +20,12 @@ const handler = NextAuth({
       clientSecret: googleSecretId
     }),
     CredentialsProvider({
-      id: "password",
-      name: "userName and Password",
-      credentials: {
-        userName: { label: "userName", type: "text", placeholder: "spez" },
-        password: { label: "Password", type: "password" }
-      },
+      id: "credentials",
+      name: "credentials",
+      // credentials: {
+      //   userName: { label: "userName", type: "text", placeholder: "spez" },
+      //   password: { label: "Password", type: "password" }
+      // },
       authorize: async (credentials, _req) => {
         await connectDatabase()
         try {
@@ -50,16 +50,16 @@ const handler = NextAuth({
       }
     }),
   ],
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log({ user, account, profile, email, credentials })
-      if (account?.provider === 'google') {
-        return '/test'
-      } else {
-        return '/'
-      }
-    }
-  }
+  // callbacks: {
+  //   async signIn({ user, account, profile, email, credentials }) {
+  //     console.log({ user, account, profile, email, credentials })
+  //     if (account?.provider === 'google') {
+  //       return '/test'
+  //     } else {
+  //       return '/'
+  //     }
+  //   }
+  // }
 })
 
 export { handler as GET, handler as POST }

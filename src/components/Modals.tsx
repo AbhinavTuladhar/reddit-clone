@@ -7,13 +7,13 @@ import { RxCross2 } from 'react-icons/rx'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 
 const modalParentClassName = 'fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black/75'
-const modalChild1ClassName = 'h-[95%] my-2 w-[25rem] flex flex-col justify-center items-center mx-auto relative bg-white rounded-xl'
+const modalChild1ClassName = 'h-[95%] my-2 w-[25rem] flex flex-col justify-center items-center mx-auto relative bg-reddit-dark text-white rounded-xl'
 const modalContainerClassName = 'w-3/4 mx-auto'
 
 const dividerBorder = (
   <div className="relative flex py-5 items-center">
     <div className="flex-grow border-t border-gray-100"></div>
-    <span className="flex-shrink mx-4 text-black"> OR </span>
+    <span className="flex-shrink mx-4 text-white"> OR </span>
     <div className="flex-grow border-t border-gray-100"></div>
   </div>
 )
@@ -50,6 +50,7 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log(formData)
+    signIn('credentials', formData)
   }
 
   return (
@@ -65,7 +66,7 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
             <span className='text-sm'> By continuing, you are setting up a Reddit account and agree to our User Agreement and Privacy Policy. </span>
           </div>
           <div
-            className='w-full py-2 flex justify-center items-center border-[1px] border-gray-300 rounded-full my-4 hover:cursor-pointer hover:bg-blue-50'
+            className='w-full py-2 flex justify-center items-center border-[1px] border-gray-300 rounded-full my-4 hover:cursor-pointer hover:bg-gray-900'
             onClick={handleGoogleSignIn}
           >
             Continue with Google
@@ -76,7 +77,7 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
           <form className='w-full flex flex-col gap-y-4' onSubmit={handleSubmit}>
             <input
               type='text'
-              className='w-full border-gray-300 border-[1px] rounded-full p-3'
+              className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
               name='userName'
               value={formData.userName}
               placeholder='Username'
@@ -84,7 +85,7 @@ export const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState })
             />
             <input
               type='password'
-              className='w-full border-gray-300 border-[1px] rounded-full p-3'
+              className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
               name='password'
               value={formData.password}
               placeholder='Password'
@@ -155,7 +156,7 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
             <span className='text-sm'> By continuing, you are setting up a Reddit account and agree to our User Agreement and Privacy Policy. </span>
           </div>
           <div
-            className='w-full py-2 flex justify-center items-center border-[1px] border-gray-300 rounded-full my-4 hover:cursor-pointer hover:bg-blue-50'
+            className='w-full py-2 flex justify-center items-center border-[1px] border-gray-300 rounded-full my-4 hover:cursor-pointer hover:bg-gray-900'
             onClick={handleGoogleSignIn}
           >
             Continue with Google
@@ -206,7 +207,7 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
           <form className='w-full flex flex-col gap-y-4 mt-4'>
             <input
               type='text'
-              className='w-full border-gray-300 border-[1px] rounded-full p-3'
+              className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
               name='userName'
               value={formData.userName}
               placeholder='Username'
@@ -214,7 +215,7 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
             />
             <input
               type='password'
-              className='w-full border-gray-300 border-[1px] rounded-full p-3'
+              className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
               name='password'
               value={formData.password}
               placeholder='Password'
@@ -246,5 +247,33 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
       )}
     </>
   );
+}
 
+interface SubProps {
+  handleModalView: () => void
+}
+
+export const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
+  return (
+    <main className={modalParentClassName}>
+      <section className={`${modalChild1ClassName} h-fit bg-reddit-gray border-[1px] border-reddit-border`}>
+        <div className={`${modalContainerClassName} flex flex-col gap-y-4 py-4`}>
+          <div className='flex flex-row justify-between items-center border-b-[1px] border-reddit-border pb-4'>
+            <h3 className='text-lg'>
+              Create a community
+            </h3>
+            <RxCross2 onClick={handleModalView} className='hover:cursor-pointer' />
+          </div>
+          <div className='flex flex-col gap-y-2'>
+            <h1 className='text-xl'>
+              Name
+            </h1>
+            <p className='text-sm'>
+              Community names including capitalization cannot be changed.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
 }
