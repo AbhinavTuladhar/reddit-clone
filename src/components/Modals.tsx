@@ -250,10 +250,15 @@ export const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }
 }
 
 interface SubProps {
+  visibilityFlag: boolean,
   handleModalView: () => void
 }
 
-export const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
+export const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, visibilityFlag }) => {
+  if (!visibilityFlag) {
+    return
+  }
+
   return (
     <main className={modalParentClassName}>
       <section className={`${modalChild1ClassName} h-fit bg-reddit-gray border-[1px] border-reddit-border`}>

@@ -24,9 +24,7 @@ const IconGroup = () => {
   return (
     <>
       <>
-        <div className={`${subCreationFlag ? 'flex' : 'hidden'}`}>
-          <SubCreationWindow handleModalView={handleModalView} />
-        </div>
+        <SubCreationWindow handleModalView={handleModalView} visibilityFlag={subCreationFlag} />
       </>
       <div className='flex flex-row gap-x-2'>
         <CgArrowTopRightO className={`${className} hidden md:block`} onClick={handleModalView} />
