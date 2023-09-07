@@ -3,12 +3,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { SiReddit } from 'react-icons/si'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Subreddit from './Subreddit'
 import Searchbar from './Searchbar'
 import IconGroup from './IconGroup'
-import { SignupWindow, LoginWindow } from './Modals'
 import { ModalStateType } from '@/types/types'
+import LoginWindow from './LoginWindow'
+import SignupWindow from './SignupWindow'
+import ModalWrapper from '@/hoc/ModalWrapper'
 
 const NavBar = () => {
   const session = useSession()
@@ -50,8 +52,12 @@ const NavBar = () => {
           > Logout </button>
         )
       }
-      <LoginWindow modalState={modalState} setModalState={setModalState} />
-      <SignupWindow modalState={modalState} setModalState={setModalState} />
+      <ModalWrapper visibilityFlag={modalState === 'login'}>
+        <LoginWindow modalState={modalState} setModalState={setModalState} />
+      </ModalWrapper>
+      <ModalWrapper visibilityFlag={modalState === 'signup'}>
+        <SignupWindow modalState={modalState} setModalState={setModalState} />
+      </ModalWrapper>
     </nav>
   )
 }

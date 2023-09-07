@@ -22,7 +22,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className='min-h-screen flex flex-col justify-between'>
             <NavBar />
-            <main className='px-4'>
+            <main className='px-4 py-12'> {/* py-12 is for the height of the fixed navbar. */}
               {children}
             </main>
             <p> Footer </p>

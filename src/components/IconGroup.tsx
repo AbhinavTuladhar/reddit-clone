@@ -1,12 +1,13 @@
 'use client'
 
-import React, { FC, ReactElement, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CgArrowTopRightO } from 'react-icons/cg'
 import { BsChatDots } from 'react-icons/bs'
 import { VscBell } from 'react-icons/vsc'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconType } from 'react-icons'
-import { SubCreationWindow } from './Modals'
+import SubCreationWindow from './SubCreationWindow'
+import ModalWrapper from '@/hoc/ModalWrapper'
 
 interface IconProps {
   icon: IconType,
@@ -23,9 +24,9 @@ const IconGroup = () => {
   const className = 'h-8 w-8 hover:cursor-pointer hover:bg-reddit-hover-gray p-1'
   return (
     <>
-      <>
-        <SubCreationWindow handleModalView={handleModalView} visibilityFlag={subCreationFlag} />
-      </>
+      <ModalWrapper visibilityFlag={subCreationFlag} containerClassName='w-5/6'>
+        <SubCreationWindow handleModalView={handleModalView} />
+      </ModalWrapper>
       <div className='flex flex-row gap-x-2'>
         <CgArrowTopRightO className={`${className} hidden md:block`} onClick={handleModalView} />
         <BsChatDots className={className} />
