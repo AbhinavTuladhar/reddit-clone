@@ -6,6 +6,7 @@ import { BsChatDots } from 'react-icons/bs'
 import { VscBell } from 'react-icons/vsc'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconType } from 'react-icons'
+import { Tooltip } from 'react-tooltip'
 import ModalWrapper from '@/hoc/ModalWrapper'
 import SubCreationWindow from './SubCreationWindow'
 
@@ -28,11 +29,23 @@ const IconGroup = () => {
         <SubCreationWindow handleModalView={handleModalView} />
       </ModalWrapper>
       <div className='flex flex-row gap-x-2'>
-        <CgArrowTopRightO className={`${className} hidden md:block`} onClick={handleModalView} />
-        <BsChatDots className={className} />
-        <VscBell className={className} />
-        <AiOutlinePlus className={className} />
+        <CgArrowTopRightO id='createSub' className={`${className} hidden md:block`} onClick={handleModalView} />
+        <BsChatDots id='chats' className={className} />
+        <VscBell id='notifications' className={className} />
+        <AiOutlinePlus id='createPost' className={className} />
       </div>
+      <Tooltip anchorSelect="#createSub" place="bottom">
+        Create subreddit
+      </Tooltip>
+      <Tooltip anchorSelect="#chats" place="bottom">
+        Messages
+      </Tooltip>
+      <Tooltip anchorSelect="#notifications" place="bottom">
+        Notifications
+      </Tooltip>
+      <Tooltip anchorSelect="#createPost" place="bottom">
+        Create post
+      </Tooltip>
     </>
   )
 }
