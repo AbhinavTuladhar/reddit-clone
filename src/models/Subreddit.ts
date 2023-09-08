@@ -6,7 +6,10 @@ const SubredditSchema = new Schema({
     required: true,
     unique: true
   },
-  description: String,
+  description: {
+    type: String,
+    default: ''
+  },
   rules: [
     { type: String }
   ],

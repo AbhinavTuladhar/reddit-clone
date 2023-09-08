@@ -8,9 +8,9 @@ import Subreddit from './Subreddit'
 import Searchbar from './Searchbar'
 import IconGroup from './IconGroup'
 import { ModalStateType } from '@/types/types'
+import ModalWrapper from '@/hoc/ModalWrapper'
 import LoginWindow from './LoginWindow'
 import SignupWindow from './SignupWindow'
-import ModalWrapper from '@/hoc/ModalWrapper'
 
 const NavBar = () => {
   const session = useSession()
@@ -55,6 +55,15 @@ const NavBar = () => {
             <div> Loading... </div>
           )
       }
+      {/* {modalState === 'login' && (
+        <div className='fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black/75'>
+          <section className='h-[95%] my-2 w-[25rem] flex flex-col justify-center items-center mx-auto relative bg-reddit-dark text-white rounded-xl'>
+            <section className={`w-3/4 mx-auto`}>
+              <LoginWindow modalState={modalState} setModalState={setModalState} />
+            </section>
+          </section>
+        </div>
+      )} */}
       <ModalWrapper visibilityFlag={modalState === 'login'}>
         <LoginWindow modalState={modalState} setModalState={setModalState} />
       </ModalWrapper>

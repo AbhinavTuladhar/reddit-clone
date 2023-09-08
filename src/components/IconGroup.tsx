@@ -6,8 +6,8 @@ import { BsChatDots } from 'react-icons/bs'
 import { VscBell } from 'react-icons/vsc'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconType } from 'react-icons'
-import SubCreationWindow from './SubCreationWindow'
 import ModalWrapper from '@/hoc/ModalWrapper'
+import SubCreationWindow from './SubCreationWindow'
 
 interface IconProps {
   icon: IconType,

@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { RxCross2 } from 'react-icons/rx'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
 
 interface SubProps {
   handleModalView: () => void
@@ -11,6 +13,11 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
   const nameLimit = 21
   const [charactersRemaining, setCharactersRemaining] = useState(nameLimit)
   const [subredditName, setSubredditName] = useState('')
+  const session = useSession()
+  console.log(session)
+
+  const email = session?.data?.user?.email || null
+  console.log(email)
 
   useEffect(() => {
     const subLength = subredditName.length
@@ -29,6 +36,14 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
     setSubredditName('')
   }
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setSubredditName('')
+
+    await axios.post('/api/r', { email, subredditName })
+    alert('Subreddit created!')
+  }
+
   return (
     <div className='flex flex-col gap-y-4 py-4'>
       <RxCross2 onClick={handleClose} className='hover:cursor-pointer top-0 right-0 absolute mr-4 mt-4' />
@@ -45,7 +60,7 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
           Community names including capitalization cannot be changed.
         </p>
       </div>
-      <div className='flex flex-col gap-y-4'>
+      <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
         <input
           className='border-reddit-border border bg-reddit-dark p-2 text-white'
           type='text'
@@ -55,7 +70,10 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
         <span className='text-sm'>
           {charactersRemaining} characters remaining.
         </span>
-      </div>
+        <button className='rounded-full bg-white text-black p-2'>
+          Create community
+        </button>
+      </form>
     </div>
   )
 }
