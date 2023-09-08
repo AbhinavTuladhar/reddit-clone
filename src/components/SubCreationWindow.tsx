@@ -14,10 +14,8 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
   const [charactersRemaining, setCharactersRemaining] = useState(nameLimit)
   const [subredditName, setSubredditName] = useState('')
   const session = useSession()
-  console.log(session)
 
   const email = session?.data?.user?.email || null
-  console.log(email)
 
   useEffect(() => {
     const subLength = subredditName.length
@@ -41,7 +39,7 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
     setSubredditName('')
 
     await axios.post('/api/r', { email, subredditName })
-    alert('Subreddit created!')
+    // const test = await axios.get(`/api/r?email=${email}`)
   }
 
   return (
