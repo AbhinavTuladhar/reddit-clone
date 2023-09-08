@@ -33,7 +33,7 @@ const NavBar = () => {
       <div className='w-28 rounded-full px-4 py-2 bg-reddit-gray flex justify-center items-center'>
         Advertise
       </div>
-      {status === 'unauthenticated' || status === 'loading'
+      {status === 'unauthenticated'
         ? (
           <div className='flex flex-row gap-x-4'>
             <button
@@ -45,12 +45,15 @@ const NavBar = () => {
               onClick={() => setModalState('signup')}
             > Sign up </button>
           </div>
-        ) : (
-          <button
-            onClick={() => signOut()}
-            className='bg-reddit-orange p-2 w-52'
-          > Logout </button>
-        )
+        ) : status === 'authenticated'
+          ? (
+            <button
+              onClick={() => signOut()}
+              className='bg-reddit-orange p-2 w-52'
+            > Logout </button>
+          ) : (
+            <div> Loading... </div>
+          )
       }
       <ModalWrapper visibilityFlag={modalState === 'login'}>
         <LoginWindow modalState={modalState} setModalState={setModalState} />
