@@ -20,10 +20,10 @@ export const POST = async (request: NextRequest) => {
 
     await newSub.save()
 
-    return new NextResponse(JSON.stringify(body), { status: 200 })
+    return new NextResponse(JSON.stringify(body), { status: 201 })
   } catch (error) {
     console.error(error)
-    return new NextResponse(JSON.stringify({ message: 'error' }), { status: 500 })
+    return new NextResponse(JSON.stringify({ message: 'error' }), { status: 501 })
   }
 }
 

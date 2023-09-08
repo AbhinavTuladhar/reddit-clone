@@ -1,11 +1,13 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { ModalProps } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import BorderDivider from './BorderDivider'
+import axios from 'axios'
 
 const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   type SignUpPage = 'Page 1' | 'Page 2'
@@ -16,14 +18,19 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
     confirmation: string
   }
 
+  const clearForm = () => {
+    return {
+      email: '',
+      userName: '',
+      password: '',
+      confirmation: ''
+    }
+  }
+
   const [currentPage, setCurrentPage] = useState<SignUpPage>('Page 1')
   const [buttonDisabledFlag, setButtonDisabledFlag] = useState(true)
-  const [formData, setFormData] = useState<SignUpFormType>({
-    email: '',
-    userName: '',
-    password: '',
-    confirmation: ''
-  })
+  const [formData, setFormData] = useState<SignUpFormType>(clearForm())
+  const router = useRouter()
 
   useEffect(() => {
     const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
@@ -45,6 +52,14 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
       ...prevState,
       [name]: value
     }))
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const response = await axios.post('/api/auth/register', formData)
+    response.status === 201 && router.push('?success=account created')
+    setFormData(clearForm())
+    setModalState('closed')
   }
 
   const firstPage = (
@@ -100,7 +115,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
           Reddit is anonymous, so your username is what you’ll go by here. Choose wisely—because once you get a name, you can’t change it.
         </span>
       </div>
-      <form className='w-full flex flex-col gap-y-4 mt-4'>
+      <form className='w-full flex flex-col gap-y-4 mt-4' onSubmit={handleSubmit}>
         <input
           type='text'
           className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
@@ -119,8 +134,8 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         />
         <input
           type='password'
-          className='w-full border-gray-300 border-[1px] rounded-full p-3'
-          name='Password'
+          className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
+          name='confirmation'
           value={formData.confirmation}
           placeholder='Confirm Password'
           onChange={handleFormChange}

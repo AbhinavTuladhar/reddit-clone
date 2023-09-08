@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { RxCross2 } from 'react-icons/rx'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 interface SubProps {
   handleModalView: () => void
@@ -14,6 +15,7 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
   const [charactersRemaining, setCharactersRemaining] = useState(nameLimit)
   const [subredditName, setSubredditName] = useState('')
   const session = useSession()
+  const router = useRouter()
 
   const email = session?.data?.user?.email || null
 
@@ -38,8 +40,10 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
     event.preventDefault()
     setSubredditName('')
 
-    await axios.post('/api/r', { email, subredditName })
+    const response = await axios.post('/api/r', { email, subredditName })
+    response.status === 201 && router.push('/?success=subreddit created')
     // const test = await axios.get(`/api/r?email=${email}`)
+    handleModalView()
   }
 
   return (
