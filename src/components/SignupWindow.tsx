@@ -13,7 +13,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   type SignUpPage = 'Page 1' | 'Page 2'
   interface SignUpFormType {
     email: string,
-    userName: string,
+    name: string,
     password: string,
     confirmation: string
   }
@@ -21,7 +21,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   const clearForm = () => {
     return {
       email: '',
-      userName: '',
+      name: '',
       password: '',
       confirmation: ''
     }
@@ -119,9 +119,9 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         <input
           type='text'
           className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
-          name='userName'
-          value={formData.userName}
-          placeholder='Username'
+          name='name'
+          value={formData.name}
+          placeholder='name'
           onChange={handleFormChange}
         />
         <input

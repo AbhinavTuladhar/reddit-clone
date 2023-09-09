@@ -4,7 +4,7 @@ import User from "@/models/User"
 import bcrypt from 'bcryptjs'
 
 export const POST = async (request: NextRequest) => {
-  const { userName, email, password } = await request.json()
+  const { name, email, password } = await request.json()
 
   try {
     await connectDatabase()
@@ -12,7 +12,7 @@ export const POST = async (request: NextRequest) => {
     const hashedPassword = await bcrypt.hash(password, 5)
 
     const newUser = new User({
-      userName,
+      name,
       email,
       password: hashedPassword,
     })

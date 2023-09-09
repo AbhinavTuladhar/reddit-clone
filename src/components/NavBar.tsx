@@ -11,11 +11,12 @@ import { ModalStateType } from '@/types/types'
 import ModalWrapper from '@/hoc/ModalWrapper'
 import LoginWindow from './LoginWindow'
 import SignupWindow from './SignupWindow'
+import Profile from '@images/reddit_default_pp.png'
 
 const NavBar = () => {
   const session = useSession()
   const { status } = session
-  // console.log(session)
+  console.log(session)
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
 
@@ -30,9 +31,11 @@ const NavBar = () => {
       <Searchbar />
       {/* </div> */}
       {status === 'authenticated' && <IconGroup />}
-      <div className='w-28 rounded-full px-4 py-2 bg-reddit-gray flex justify-center items-center'>
-        Advertise
-      </div>
+      {status === 'authenticated' && (
+        <div className='w-28 rounded-full px-4 py-2 bg-reddit-gray flex justify-center items-center'>
+          {session.data.user?.name}
+        </div>
+      )}
       {status === 'unauthenticated'
         ? (
           <div className='flex flex-row gap-x-4'>

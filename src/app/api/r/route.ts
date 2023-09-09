@@ -44,7 +44,7 @@ export const GET = async (request: NextRequest) => {
     }, {
       $project: {
         name: 1,
-        creatorName: '$creatorInfo.userName',
+        creatorName: '$creatorInfo.name',
         _id: 0
       }
     }

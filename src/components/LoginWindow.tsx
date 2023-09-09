@@ -7,13 +7,13 @@ import { RxCross2 } from 'react-icons/rx'
 import BorderDivider from './BorderDivider'
 
 interface SignInFormType {
-  userName: string,
+  name: string,
   password: string
 }
 
 const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   const [formData, setFormData] = useState<SignInFormType>({
-    userName: '',
+    name: '',
     password: ''
   })
 
@@ -57,9 +57,9 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         <input
           type='text'
           className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
-          name='userName'
-          value={formData.userName}
-          placeholder='Username'
+          name='name'
+          value={formData.name}
+          placeholder='name'
           onChange={handleFormChange}
         />
         <input

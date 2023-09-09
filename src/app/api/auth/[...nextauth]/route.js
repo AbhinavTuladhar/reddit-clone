@@ -23,13 +23,13 @@ const handler = NextAuth({
       id: "credentials",
       name: "credentials",
       // credentials: {
-      //   userName: { label: "userName", type: "text", placeholder: "spez" },
+      //   name: { label: "name", type: "text", placeholder: "spez" },
       //   password: { label: "Password", type: "password" }
       // },
       authorize: async (credentials, _req) => {
         await connectDatabase()
         try {
-          const user = await User.findOne({ userName: credentials?.userName })
+          const user = await User.findOne({ name: credentials?.name })
           const providedPassword = credentials?.password
           if (user && providedPassword) {
             // Checking the password
