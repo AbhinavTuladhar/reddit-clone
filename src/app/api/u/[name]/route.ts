@@ -16,7 +16,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
 
     const foundUser = await User.findOne({ name })
 
-    console.log(foundUser)
+    // console.log(foundUser)
     return new NextResponse(JSON.stringify(foundUser), { status: 201 })
   } catch (error) {
     console.error(error)

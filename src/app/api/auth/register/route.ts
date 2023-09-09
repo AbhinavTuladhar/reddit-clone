@@ -19,7 +19,7 @@ export const POST = async (request: NextRequest) => {
 
     newUser.save()
 
-    console.log(newUser)
+    // console.log(newUser)
 
     return new NextResponse('User created', { status: 201 })
   } catch (error) {

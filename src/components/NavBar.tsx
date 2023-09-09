@@ -18,7 +18,7 @@ const NavBar = () => {
   const session = useSession()
   const router = useRouter()
   const { status } = session
-  console.log(session)
+  // console.log(session)
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
 

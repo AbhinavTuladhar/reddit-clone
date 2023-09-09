@@ -32,7 +32,7 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(formData)
+    // console.log(formData)
     signIn('credentials', formData)
   }
 
