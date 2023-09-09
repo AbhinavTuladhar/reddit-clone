@@ -1,24 +1,31 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { SiReddit } from 'react-icons/si'
 import { signOut, useSession } from 'next-auth/react'
 import Subreddit from './Subreddit'
 import Searchbar from './Searchbar'
 import IconGroup from './IconGroup'
-import { ModalStateType } from '@/types/types'
 import ModalWrapper from '@/hoc/ModalWrapper'
 import LoginWindow from './LoginWindow'
 import SignupWindow from './SignupWindow'
-import Profile from '@images/reddit_default_pp.png'
+import UserOptions from './UserOptions'
+import { ModalStateType } from '@/types/types'
 
 const NavBar = () => {
   const session = useSession()
+  const router = useRouter()
   const { status } = session
   console.log(session)
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
+
+  const handleLogOut = () => {
+    signOut()
+    router.push('/')
+  }
 
   return (
     <nav className='bg-reddit-dark px-5 h-12 flex flex-row justify-between gap-x-5 items-center border-b-[1px] border-reddit-border top-0 fixed w-full'>
@@ -31,10 +38,11 @@ const NavBar = () => {
       <Searchbar />
       {/* </div> */}
       {status === 'authenticated' && <IconGroup />}
-      {status === 'authenticated' && (
-        <div className='w-28 rounded-full px-4 py-2 bg-reddit-gray flex justify-center items-center'>
-          {session.data.user?.name}
-        </div>
+      {status === 'authenticated' && session && (
+        // <div className='w-28 rounded-full px-4 py-2 bg-reddit-gray flex justify-center items-center'>
+        //   {session.data.user?.name}
+        // </div>
+        <UserOptions userName={session?.data?.user?.name} />
       )}
       {status === 'unauthenticated'
         ? (
@@ -51,8 +59,8 @@ const NavBar = () => {
         ) : status === 'authenticated'
           ? (
             <button
-              onClick={() => signOut()}
-              className='bg-reddit-orange p-2 w-52'
+              onClick={handleLogOut}
+              className='bg-reddit-orange p-2'
             > Logout </button>
           ) : (
             <div> Loading... </div>
