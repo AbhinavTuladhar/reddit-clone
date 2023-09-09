@@ -25,7 +25,6 @@ export default function RootLayout({
             <main className='px-4 py-12'> {/* py-12 is for the height of the fixed navbar. */}
               {children}
             </main>
-            <p> Footer </p>
           </div>
         </AuthProvider>
       </body>

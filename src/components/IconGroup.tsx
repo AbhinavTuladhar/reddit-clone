@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { CgArrowTopRightO } from 'react-icons/cg'
 import { BsChatDots } from 'react-icons/bs'
 import { VscBell } from 'react-icons/vsc'
@@ -32,7 +33,9 @@ const IconGroup = () => {
         <CgArrowTopRightO id='createSub' className={`${className} hidden md:block`} onClick={handleModalView} />
         <BsChatDots id='chats' className={className} />
         <VscBell id='notifications' className={className} />
-        <AiOutlinePlus id='createPost' className={className} />
+        <Link href='/submit'>
+          <AiOutlinePlus id='createPost' className={className} />
+        </Link>
       </div>
       <Tooltip anchorSelect="#createSub" place="bottom">
         Create subreddit
