@@ -28,7 +28,7 @@ const IconGroup = () => {
       <ModalWrapper visibilityFlag={subCreationFlag} containerClassName='w-5/6'>
         <SubCreationWindow handleModalView={handleModalView} />
       </ModalWrapper>
-      <div className='flex flex-row gap-x-2'>
+      <div className='flex flex-row gap-x-1.5'>
         <CgArrowTopRightO id='createSub' className={`${className} hidden md:block`} onClick={handleModalView} />
         <BsChatDots id='chats' className={className} />
         <VscBell id='notifications' className={className} />

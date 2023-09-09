@@ -28,7 +28,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className='bg-reddit-dark px-5 h-12 flex flex-row justify-between gap-x-5 items-center border-b-[1px] border-reddit-border top-0 fixed w-full'>
+    <nav className='bg-reddit-dark px-5 h-12 flex flex-row justify-between gap-x-2 items-center border-b-[1px] border-reddit-border top-0 fixed w-full'>
       {/* <div className={`flex flex-row items-center gap-x-7 ${status === 'authenticated' ? '' : 'justify-between'}`}> */}
       <Link className='flex flex-row items-center gap-x-2' href='/'>
         <SiReddit className='bg-white text-reddit-orange h-8 w-8 rounded-full' />

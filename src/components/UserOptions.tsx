@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Profile from '../images/reddit_default_pp.png'
+import KarmaIcon from '../images/karma_icon.png'
 import { PiCaretDown } from 'react-icons/pi'
 import axios from 'axios'
 
@@ -29,12 +30,15 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
   }, [userName])
 
   return (
-    <section className='h-10 flex flex-row justify-between items-center text-xs w-52 border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'>
+    <section className='h-10 w-20 min-w-fit lg:w-52 flex flex-row justify-between items-center text-xs border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'>
       <div className='h-10 flex flex-row items-center gap-x-2 px-1'>
         <Image src={Profile} className='h-6 w-6' alt='profile' />
-        <div className='flex flex-col gap-y-0.5'>
+        <div className='hidden lg:flex lg:flex-col gap-y-0.5 '>
           <span> {userName} </span>
-          <span> {totalKarma} karma </span>
+          <div className='flex flex-row items-center text-gray-300'>
+            <Image src={KarmaIcon} className='h-4 w-4' alt='karma' />
+            <span> {totalKarma} karma </span>
+          </div>
         </div>
       </div>
       <PiCaretDown />
