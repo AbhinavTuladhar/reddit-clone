@@ -15,8 +15,8 @@ const SubredditSchema = new Schema({
   ],
   subscribers: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+      type: String,
+      required: true
     }
   ],
   createdAt: {
@@ -24,8 +24,8 @@ const SubredditSchema = new Schema({
     default: Date.now
   },
   creator: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String,
+    required: true
   }
 })
 

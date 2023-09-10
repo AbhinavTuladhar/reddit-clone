@@ -15,7 +15,7 @@ export const POST = async (request: NextRequest) => {
     // Now creating the subreddit
     const newSub: Document = new Subreddit({
       name: subredditName,
-      creator: matchedUser?._id
+      creator: matchedUser?.name
     })
 
     await newSub.save()
@@ -30,25 +30,7 @@ export const POST = async (request: NextRequest) => {
 export const GET = async (request: NextRequest) => {
   // const email = request.nextUrl.searchParams.get('email') || ''
 
-  // For finding out the userName of the creator based on their id.
-  const subsAndCreators = await Subreddit.aggregate([
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'creator',
-        foreignField: '_id',
-        as: 'creatorInfo'
-      }
-    }, {
-      $unwind: '$creatorInfo'
-    }, {
-      $project: {
-        name: 1,
-        creatorName: '$creatorInfo.name',
-        _id: 0
-      }
-    }
-  ])
+  const subsAndCreators = await Subreddit.find({}, { name: 1, creator: 1 })
 
   return new NextResponse(JSON.stringify(subsAndCreators), { status: 200 })
 }

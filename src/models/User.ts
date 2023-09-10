@@ -32,8 +32,8 @@ const UserSchema = new Schema({
   },
   subscribedSubs: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'Subreddit'
+      type: String,
+      required: true
     }
   ]
 })

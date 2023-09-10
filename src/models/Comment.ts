@@ -3,8 +3,8 @@ import { Schema, model, models } from "mongoose";
 const CommentSchema = new Schema({
   content: { type: String, required: true },
   author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String,
+    required: true
   },
   post: {
     type: Schema.Types.ObjectId,

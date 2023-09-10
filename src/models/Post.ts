@@ -2,13 +2,11 @@ import { Schema, model, models } from "mongoose";
 
 const PostSchema = new Schema({
   author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+    type: String,
     required: true
   },
   subreddit: {
-    type: Schema.Types.ObjectId,
-    ref: 'Subreddit',
+    type: String,
     required: true
   },
   title: {
@@ -17,12 +15,12 @@ const PostSchema = new Schema({
   },
   body: String,
   upvotedBy: [{
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String,
+    required: true
   }],
   downVotedBy: [{
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String,
+    required: true
   }],
   comments: {
     type: Schema.Types.ObjectId,
