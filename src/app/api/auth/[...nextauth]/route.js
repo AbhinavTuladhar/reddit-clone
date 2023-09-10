@@ -42,14 +42,17 @@ const handler = NextAuth({
               return user
             }
           }
-          return null
+          throw new Error('Wrong credentials!')
         } catch (error) {
           console.error(error)
-          return null
+          throw new Error(error)
         }
       }
     }),
   ],
+  pages: {
+    error: '/'
+  }
   // callbacks: {
   //   async signIn({ user, account, profile, email, credentials }) {
   //     console.log({ user, account, profile, email, credentials })

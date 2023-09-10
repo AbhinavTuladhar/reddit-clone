@@ -1,9 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import PostSubredditSelector from '@/components/PostSubredditSelector'
 import PostingRules from '@/components/PostingRules'
 import useFetch from '@/utils/useFetch'
+import axios from 'axios'
 
 interface SubListResponse {
   name: string,
@@ -20,6 +22,9 @@ const page = () => {
       body: ''
     }
   }
+
+  const session = useSession()
+  const userName = session?.data?.user?.name
 
   // FOr the title text
   const [titleLength, setTitleLength] = useState(0)
@@ -41,17 +46,29 @@ const page = () => {
     }))
   }
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const requestBody = {
+      author: userName,
+      subreddit: selectedSubreddit.slice(2),
+      title: postData.title,
+      body: postData.body
+    }
+
+    await axios.post('/api/post', requestBody)
+  }
+
   // Checking whether the post can be made or not
   const buttonDisableFlag = postData.title === '' || selectedSubreddit === placeholderSub
 
   return (
-    <main className='flex flex-row justify-between gap-x-6 mx-2 md:mx-10 lg:mx-20'>
+    <main className='-z-10 flex flex-row justify-between gap-x-6 mx-2 md:mx-10 lg:mx-20'>
       <section className='flex flex-col flex-1 gap-y-4 h-full'>
         <h1 className='mt-6 pb-4 text-xl border-b-[1px] border-reddit-border'>
           Create a post
         </h1>
         <PostSubredditSelector subredditList={subredditList} selectedSubreddit={selectedSubreddit} setSelectedSubreddit={setSelectedSubreddit} />
-        <form className='flex flex-col gap-y-4'>
+        <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
           <div className='relative w-full'>
             <input
               className='w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark'

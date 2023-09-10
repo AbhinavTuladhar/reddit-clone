@@ -3,10 +3,20 @@ import { connectDatabase } from "@/utils/db"
 import Post from "@/models/Post"
 
 export const POST = async (request: NextRequest) => {
-  const body = await request.json()
-  const subredditName = request.nextUrl.searchParams.get('sub')
+  const requestBody = await request.json()
 
-  console.log(subredditName)
+  const { author, subreddit, title, body = '' } = requestBody
 
-  return new NextResponse(JSON.stringify({ subredditName }), { status: 201 })
+  try {
+    await connectDatabase()
+
+    const newPost = new Post({ author, subreddit, title, body })
+    await newPost.save()
+
+    return new NextResponse(JSON.stringify(requestBody), { status: 201 })
+  } catch (error) {
+    console.error('new error')
+    return new NextResponse(JSON.stringify({ error: 'error!' }), { status: 501 })
+  }
+
 }

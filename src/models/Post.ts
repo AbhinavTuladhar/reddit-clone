@@ -14,18 +14,22 @@ const PostSchema = new Schema({
     required: true
   },
   body: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   upvotedBy: [{
     type: String,
     required: true
   }],
-  downVotedBy: [{
+  downvotedBy: [{
     type: String,
     required: true
   }],
-  comments: {
+  comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'
-  }
+  }]
 })
 
 export default models.Post || model('Post', PostSchema)

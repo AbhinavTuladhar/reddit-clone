@@ -21,7 +21,7 @@ const PostSubredditSelector: React.FC<SubSelectorProps> = ({
   }
 
   return (
-    <main className='relative group w-72 p-2 flex justify-between items-center bg-reddit-dark rounded-lg border-[1px] border-reddit-border' onClick={toggleMenu}>
+    <main className='relative w-72 p-2 flex justify-between items-center bg-reddit-dark rounded-lg border-[1px] border-reddit-border' onClick={toggleMenu}>
       {selectedSubreddit}
       <PiCaretDown className='hover:cursor-pointer' />
       {isOpen && (
