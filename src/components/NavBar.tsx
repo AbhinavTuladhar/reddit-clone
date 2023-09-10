@@ -22,9 +22,9 @@ const NavBar = () => {
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
 
-  const handleLogOut = () => {
-    signOut()
-    router.push('/')
+  const handleLogOut = async () => {
+    const data = await signOut({ callbackUrl: '/', redirect: false })
+    router.push(data.url)
   }
 
   return (

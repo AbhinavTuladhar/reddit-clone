@@ -6,19 +6,19 @@ import { ModalProps } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
 import BorderDivider from './BorderDivider'
 
-interface SignInFormType {
-  name: string,
-  password: string
-}
+// interface SignInFormType {
+//   name: string,
+//   password: string
+// }
 
 const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
-  const [formData, setFormData] = useState<SignInFormType>({
+  const [formData, setFormData] = useState({
     name: '',
     password: ''
   })
 
-  const handleGoogleSignIn = () => {
-    signIn('google')
+  const handleGoogleSignIn = async () => {
+    await signIn('google')
     setModalState('closed')
   }
 
@@ -30,10 +30,10 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
     }))
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     // console.log(formData)
-    signIn('credentials', formData)
+    await signIn('credentials', formData)
   }
 
   return (
