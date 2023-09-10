@@ -62,16 +62,16 @@ const page = () => {
   const buttonDisableFlag = postData.title === '' || selectedSubreddit === placeholderSub
 
   return (
-    <main className='-z-10 flex flex-row justify-between gap-x-6 mx-2 md:mx-10 lg:mx-20'>
+    <main className='flex flex-row justify-between gap-x-6 mx-2 md:mx-10 lg:mx-20'>
       <section className='flex flex-col flex-1 gap-y-4 h-full'>
         <h1 className='mt-6 pb-4 text-xl border-b-[1px] border-reddit-border'>
           Create a post
         </h1>
         <PostSubredditSelector subredditList={subredditList} selectedSubreddit={selectedSubreddit} setSelectedSubreddit={setSelectedSubreddit} />
         <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
-          <div className='relative w-full'>
+          <div className='z-0 relative w-full'>
             <input
-              className='w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark'
+              className='w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark relative z-0'
               placeholder='Title'
               type='text'
               value={postData.title}

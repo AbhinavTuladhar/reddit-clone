@@ -30,8 +30,8 @@ const IconGroup = () => {
         <SubCreationWindow handleModalView={handleModalView} />
       </ModalWrapper>
       <div className='flex flex-row gap-x-1.5'>
-        <CgArrowTopRightO id='createSub' className={`${className} hidden md:block`} onClick={handleModalView} />
-        <BsChatDots id='chats' className={className} />
+        <CgArrowTopRightO id='createSub' className={className} onClick={handleModalView} />
+        <BsChatDots id='chats' className={`${className} hidden md:block`} />
         <VscBell id='notifications' className={className} />
         <Link href='/submit'>
           <AiOutlinePlus id='createPost' className={className} />

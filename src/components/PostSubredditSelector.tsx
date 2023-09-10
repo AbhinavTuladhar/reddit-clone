@@ -21,14 +21,14 @@ const PostSubredditSelector: React.FC<SubSelectorProps> = ({
   }
 
   return (
-    <main className='relative w-72 p-2 flex justify-between items-center bg-reddit-dark rounded-lg border-[1px] border-reddit-border' onClick={toggleMenu}>
+    <main className='z-0 relative w-72 p-2 flex justify-between items-center bg-reddit-dark rounded-lg border-[1px] border-reddit-border' onClick={toggleMenu}>
       {selectedSubreddit}
       <PiCaretDown className='hover:cursor-pointer' />
       {isOpen && (
-        <div className='z-10 p-2 absolute top-9 right-0 mt-2 w-72 bg-reddit-dark rounded-lg'>
+        <div className='z-0 p-2 absolute top-9 right-0 mt-2 w-72 bg-reddit-dark rounded-lg'>
           {subredditList?.map((sub, index) => (
             <div
-              className='p-2 text-sm hover:cursor-pointer'
+              className='p-2 text-sm hover:cursor-pointer hover:brightness-110'
               onClick={() => setSelectedSubreddit(sub)}
               key={index}
             >
