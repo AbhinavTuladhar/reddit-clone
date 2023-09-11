@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import useFetch from '@/utils/useFetch';
-import { SubredditType, PostType } from '@/types/types';
+import { SubredditType, PostType } from '@/types/types'
+import PostCard from '@/components/PostCard';
 import axios from 'axios'
+import Link from 'next/link';
 
 interface SubredditParams {
   params: {
@@ -36,9 +38,11 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   return (
     <div>
       {subredditName}
-      <div>
+      <div className='flex flex-col gap-y-0'>
         {postDetails?.map(post => (
-          <span> {post.title} </span>
+          <Link href={`/r/${post.subreddit}/${post._id}`}>
+            <PostCard {...post} />
+          </Link>
         ))}
       </div>
     </div>

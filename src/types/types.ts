@@ -16,6 +16,7 @@ export interface SubredditType {
 }
 
 export interface PostType {
+  _id: string,
   author: string,
   subreddit: string,
   title: string,

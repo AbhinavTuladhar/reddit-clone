@@ -26,7 +26,7 @@ const IconGroup = () => {
   const className = 'h-8 w-8 hover:cursor-pointer hover:bg-reddit-hover-gray p-1'
   return (
     <>
-      <ModalContainer visibilityFlag={subCreationFlag}>
+      <ModalContainer visibilityFlag={subCreationFlag} containerClassName='w-5/6 mx-auto'>
         <SubCreationWindow handleModalView={handleModalView} />
       </ModalContainer>
       <div className='flex flex-row gap-x-1.5'>
