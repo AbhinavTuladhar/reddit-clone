@@ -16,9 +16,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
   try {
     await connectDatabase()
 
-    const foundPost = await Post.find({ _id: id })
-
-    console.log(foundPost)
+    const foundPost = await Post.findOne({ _id: id })
 
     return new NextResponse(JSON.stringify(foundPost), { status: 201 })
   } catch (error) {
