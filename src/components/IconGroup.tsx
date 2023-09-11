@@ -8,7 +8,7 @@ import { VscBell } from 'react-icons/vsc'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconType } from 'react-icons'
 import { Tooltip } from 'react-tooltip'
-import ModalWrapper from '@/hoc/ModalWrapper'
+import ModalContainer from './ModalContainer'
 import SubCreationWindow from './SubCreationWindow'
 
 interface IconProps {
@@ -26,9 +26,9 @@ const IconGroup = () => {
   const className = 'h-8 w-8 hover:cursor-pointer hover:bg-reddit-hover-gray p-1'
   return (
     <>
-      <ModalWrapper visibilityFlag={subCreationFlag} containerClassName='w-5/6'>
+      <ModalContainer visibilityFlag={subCreationFlag}>
         <SubCreationWindow handleModalView={handleModalView} />
-      </ModalWrapper>
+      </ModalContainer>
       <div className='flex flex-row gap-x-1.5'>
         <CgArrowTopRightO id='createSub' className={className} onClick={handleModalView} />
         <BsChatDots id='chats' className={`${className} hidden md:block`} />
