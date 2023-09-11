@@ -26,7 +26,11 @@ const SubredditSchema = new Schema({
   creator: {
     type: String,
     required: true
-  }
+  },
+  posts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Post'
+  }]
 })
 
 export default models.Subreddit || model('Subreddit', SubredditSchema)

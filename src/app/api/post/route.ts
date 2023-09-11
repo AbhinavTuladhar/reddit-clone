@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { connectDatabase } from "@/utils/db"
 import Post from "@/models/Post"
+import Subreddit from "@/models/Subreddit"
+import User from "@/models/User"
 
 export const POST = async (request: NextRequest) => {
   const requestBody = await request.json()
@@ -12,6 +14,19 @@ export const POST = async (request: NextRequest) => {
 
     const newPost = new Post({ author, subreddit, title, body })
     await newPost.save()
+
+    // Update posts in the subreddit
+    await Subreddit.findOneAndUpdate(
+      { name: subreddit },
+      { $push: { posts: newPost._id } },
+      { new: true }
+    )
+
+    // Update posts in the user profile
+    await User.findOneAndUpdate(
+      { name: author },
+      { $push: { posts: newPost._id } }
+    )
 
     return new NextResponse(JSON.stringify(requestBody), { status: 201 })
   } catch (error) {
