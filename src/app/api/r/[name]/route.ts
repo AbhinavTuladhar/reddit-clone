@@ -14,7 +14,7 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
   try {
     await connectDatabase()
 
-    const foundSubreddit = await Subreddit.find({ name })
+    const foundSubreddit = await Subreddit.findOne({ name })
 
     // console.log(foundSubreddit)
     return new NextResponse(JSON.stringify(foundSubreddit), { status: 201 })
