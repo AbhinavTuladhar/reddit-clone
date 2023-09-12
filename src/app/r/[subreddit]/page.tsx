@@ -40,7 +40,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       {subredditName}
       <div className='flex flex-col gap-y-0'>
         {postDetails?.map(post => (
-          <Link href={`/r/${post.subreddit}/${post._id}`}>
+          <Link href={`/r/${post.subreddit}/comments/${post._id}`}>
             <PostCard {...post} />
           </Link>
         ))}

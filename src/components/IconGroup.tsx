@@ -12,11 +12,10 @@ import ModalContainer from './ModalContainer'
 import SubCreationWindow from './SubCreationWindow'
 
 interface IconProps {
-  icon: IconType,
-  className?: string
+  mutateData: () => void
 }
 
-const IconGroup = () => {
+const IconGroup: React.FC<IconProps> = ({ mutateData }) => {
   const [subCreationFlag, setSubCreationFlag] = useState(false)
 
   const handleModalView = () => {
@@ -27,7 +26,7 @@ const IconGroup = () => {
   return (
     <>
       <ModalContainer visibilityFlag={subCreationFlag} containerClassName='w-5/6 mx-auto'>
-        <SubCreationWindow handleModalView={handleModalView} />
+        <SubCreationWindow handleModalView={handleModalView} mutateData={mutateData} />
       </ModalContainer>
       <div className='flex flex-row gap-x-1.5'>
         <CgArrowTopRightO id='createSub' className={className} onClick={handleModalView} />

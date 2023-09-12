@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import PostSubredditSelector from '@/components/PostSubredditSelector'
 import PostingRules from '@/components/PostingRules'
-import useFetch from '@/utils/useFetch'
 import axios from 'axios'
+import useSWR from 'swr'
 
 interface SubListResponse {
   name: string,
@@ -31,7 +31,9 @@ const page = () => {
   const [selectedSubreddit, setSelectedSubreddit] = useState<string>(placeholderSub)
   const [postData, setPostData] = useState(initFormData())
 
-  const { data, error, isLoading } = useFetch<SubListResponse[]>('/api/r')
+  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  const { data } = useSWR<SubListResponse[]>('/api/r', fetcher)
+
   const subredditList = data?.map(row => `r/${row.name}`)
 
   useEffect(() => {

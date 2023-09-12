@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SiReddit } from 'react-icons/si'
 import { signOut, useSession } from 'next-auth/react'
+import useSWR from 'swr'
 import Subreddit from './Subreddit'
 import Searchbar from './Searchbar'
 import IconGroup from './IconGroup'
@@ -14,13 +15,22 @@ import SignupWindow from './SignupWindow'
 import UserOptions from './UserOptions'
 import { ModalStateType } from '@/types/types'
 
+interface SubListResponse {
+  name: string,
+  creatorName: string
+}
+
 const NavBar = () => {
   const session = useSession()
   const router = useRouter()
   const { status } = session
-  // console.log(session)
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
+
+  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  const { data, mutate: mutateSubredditList } = useSWR<SubListResponse[]>('/api/r', fetcher)
+
+  const subredditList = data?.map(row => `r/${row.name}`)
 
   const handleLogOut = async () => {
     const data = await signOut({ callbackUrl: '/', redirect: false })
@@ -33,9 +43,9 @@ const NavBar = () => {
         <SiReddit className='bg-white text-reddit-orange h-8 w-8 rounded-full' />
         <h1 className='text-white text-xl hidden lg:block'> reddit </h1>
       </Link>
-      <Subreddit />
+      <Subreddit subredditList={subredditList} />
       <Searchbar />
-      {status === 'authenticated' && <IconGroup />}
+      {status === 'authenticated' && <IconGroup mutateData={mutateSubredditList} />}
       {status === 'authenticated' && session && (
         <UserOptions userName={session?.data?.user?.name} />
       )}

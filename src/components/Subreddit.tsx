@@ -4,18 +4,19 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { AiFillHome } from 'react-icons/ai'
 import { PiCaretDown } from 'react-icons/pi'
-import useFetch from '@/utils/useFetch'
+import useSWR from 'swr'
 
 interface SubListResponse {
   name: string,
   creatorName: string
 }
 
-const Subreddit = () => {
-  const [isOpen, setIsOpen] = useState(false)
+interface SubredditProps {
+  subredditList: string[] | undefined
+}
 
-  const { data, error, isLoading } = useFetch<SubListResponse[]>('/api/r')
-  const subredditList = data?.map(row => `r/${row.name}`)
+const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
+  const [isOpen, setIsOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsOpen(prevState => !prevState)

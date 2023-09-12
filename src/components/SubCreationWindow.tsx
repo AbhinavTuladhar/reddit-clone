@@ -7,10 +7,11 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 interface SubProps {
-  handleModalView: () => void
+  handleModalView: () => void,
+  mutateData: () => void
 }
 
-const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
+const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) => {
   const nameLimit = 21
   const [charactersRemaining, setCharactersRemaining] = useState(nameLimit)
   const [subredditName, setSubredditName] = useState('')
@@ -42,7 +43,8 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
 
     const response = await axios.post('/api/r', { email, subredditName })
     response.status === 201 && router.push('/?success=subreddit created')
-    // const test = await axios.get(`/api/r?email=${email}`)
+
+    mutateData()
     handleModalView()
   }
 
