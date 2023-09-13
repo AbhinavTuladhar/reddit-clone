@@ -8,7 +8,8 @@ const CommentSchema = new Schema({
   },
   post: {
     type: Schema.Types.ObjectId,
-    ref: 'Post'
+    ref: 'Post',
+    required: true
   },
   parentComment: {
     type: Schema.Types.ObjectId,

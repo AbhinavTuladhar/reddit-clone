@@ -10,7 +10,7 @@ export interface SubredditType {
   description: string,
   rules?: string[],
   subscribers?: string[],
-  createdAt: Date,
+  createdAt: string,
   creator: string,
   posts: string[]
 }
@@ -21,7 +21,7 @@ export interface PostType {
   subreddit: string,
   title: string,
   body?: string,
-  createdAt: Date,
+  createdAt: string,
   upvotedBy: string[],
   downvotedBy: string[],
   comments: string[]

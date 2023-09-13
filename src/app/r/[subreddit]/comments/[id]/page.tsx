@@ -61,8 +61,20 @@ const Page: React.FC<SubredditCommentParams> = ({
     setComment(value)
   }
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const requestBody = {
+      content: comment,
+      author: userName,
+      post: postId,
+    }
+
+    await axios.post('/api/comment', requestBody)
+    setComment('')
+  }
+
   const commentForm = (
-    <form className='flex flex-col gap-y-2 flex-1'>
+    <form className='flex flex-col gap-y-2 flex-1' onSubmit={handleSubmit}>
       <span className='text-sm'>
         Comment as&nbsp;
         <Link href={`/u/${userName}`} className='text-blue-500 hover:underline hover:text-red-500'>
