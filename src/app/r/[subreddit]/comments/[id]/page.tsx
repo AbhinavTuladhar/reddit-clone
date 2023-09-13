@@ -35,6 +35,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   } = data || {}
 
   const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+  const paragraphs = body?.split('\n')
 
   return (
     <main className='flex flex-row gap-x-6 bg-reddit-dark w-full lg:w-3/4 mx-auto border border-reddit-border px-8 py-4'>
@@ -43,16 +44,18 @@ const Page: React.FC<SubredditCommentParams> = ({
         <span> {effectiveKarma}</span>
         <PiArrowFatDownBold className='hover:bg-blue-600' />
       </section>
-      <section className='flex flex-col gap-y-4'>
+      <section className='flex flex-col gap-y-2'>
         <small className='text-gray-400 text-xs'>
           {`Posted by u/${author}`}
         </small>
         <h1 className='text-xl font-bold'>
           {title}
         </h1>
-        <p>
-          {body}
-        </p>
+        {paragraphs?.map((row) => (
+          <>
+            {row} <br />
+          </>
+        ))}
       </section>
     </main>
   );
