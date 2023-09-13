@@ -73,9 +73,9 @@ const page = () => {
         </h1>
         <PostSubredditSelector subredditList={subredditList} selectedSubreddit={selectedSubreddit} setSelectedSubreddit={setSelectedSubreddit} />
         <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
-          <div className='z-0 relative w-full'>
+          <div className='relative w-full'>
             <input
-              className='w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark relative z-0'
+              className='relative w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark z-0'
               placeholder='Title'
               type='text'
               value={postData.title}
