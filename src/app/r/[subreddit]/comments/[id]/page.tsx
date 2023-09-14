@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { PiArrowFatUpBold, PiArrowFatDownBold } from 'react-icons/pi'
 import useFetch from '@/utils/useFetch';
-import { SubredditType, PostType } from '@/types/types'
+import { SubredditType, PostType, CommentType as CommentProps } from '@/types/types'
 import PostCard from '@/components/PostCard';
 import axios from 'axios'
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import { FaRegCommentAlt } from 'react-icons/fa'
 import { FiGift } from 'react-icons/fi'
 import { PiShareFatBold } from 'react-icons/pi'
 import { useSession } from 'next-auth/react';
+import CommentCard from '@/components/CommentCard';
 import useSWR from 'swr'
 // import { PostType } from '@/types/types'
 
@@ -30,6 +31,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   const session = useSession()
   const [comment, setComment] = useState<string>('')
+  const [commentData, setCommentData] = useState<CommentProps[]>([])
 
   const authStatus = session?.status
   const userName = session?.data?.user?.name
@@ -37,7 +39,9 @@ const Page: React.FC<SubredditCommentParams> = ({
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
   const { data, mutate } = useSWR<PostType | null>(`/api/post/${postId}`, fetcher)
 
-  const { author,
+  const {
+    _id,
+    author,
     subreddit,
     title,
     body,
@@ -57,6 +61,21 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
   const paragraphs = body?.split('\n')
+
+  // For fethcing the comments
+  useEffect(() => {
+    if (comments?.length === 0 || !comments) {
+      return
+    }
+
+    const fetchData = async () => {
+      const responses: CommentProps[] = await Promise.all(
+        comments.map(async (comment: string) => await axios.get(`/api/comment/${comment}`).then(response => response.data))
+      )
+      setCommentData(responses)
+    }
+    fetchData()
+  }, [comments])
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { target: { value } } = event
@@ -135,6 +154,10 @@ const Page: React.FC<SubredditCommentParams> = ({
           <>
             {authStatus === 'authenticated' && commentForm}
           </>
+
+          {commentData?.map(comment => (
+            <CommentCard {...comment} />
+          ))}
 
         </section>
       </div>

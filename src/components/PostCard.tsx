@@ -5,6 +5,7 @@ import { PiArrowFatUpBold, PiArrowFatDownBold } from 'react-icons/pi'
 import { PostType as PostProps } from '@/types/types'
 
 const PostCard: React.FC<PostProps> = ({
+  _id,
   author,
   subreddit,
   title,

@@ -26,3 +26,16 @@ export interface PostType {
   downvotedBy: string[],
   comments: string[]
 }
+
+export interface CommentType {
+  _id: string,
+  content: string,
+  author: string,
+  post: string,
+  parentComment: string | null,
+  createdAt: string,
+  replies: string[],
+  upvotedBy: string[],
+  downvotedBy: string[],
+  comments: string[]
+}
