@@ -11,6 +11,7 @@ import { FaRegCommentAlt } from 'react-icons/fa'
 import { FiGift } from 'react-icons/fi'
 import { PiShareFatBold } from 'react-icons/pi'
 import { useSession } from 'next-auth/react';
+import useSWR from 'swr'
 // import { PostType } from '@/types/types'
 
 interface SubredditCommentParams {
@@ -33,7 +34,8 @@ const Page: React.FC<SubredditCommentParams> = ({
   const authStatus = session?.status
   const userName = session?.data?.user?.name
 
-  const { data } = useFetch<PostType | null>(`/api/post/${postId}`)
+  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  const { data, mutate } = useSWR<PostType | null>(`/api/post/${postId}`, fetcher)
 
   const { author,
     subreddit,
@@ -71,6 +73,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
     await axios.post('/api/comment', requestBody)
     setComment('')
+    mutate()
   }
 
   const commentForm = (
