@@ -23,7 +23,15 @@ const CommentSchema = new Schema({
   replies: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'
-  }]
+  }],
+  upvotedBy: [{
+    type: String,
+    required: true
+  }],
+  downvotedBy: [{
+    type: String,
+    required: true
+  }],
 })
 
 export default models.Comment || model('Comment', CommentSchema)

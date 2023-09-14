@@ -43,7 +43,23 @@ const UserSchema = new Schema({
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'
-  }]
+  }],
+  upvotedPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Post'
+  }],
+  downvotedPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Post'
+  }],
+  upvotedComments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  }],
+  downvotedComments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  }],
 })
 
 export default models.User || model('User', UserSchema)
