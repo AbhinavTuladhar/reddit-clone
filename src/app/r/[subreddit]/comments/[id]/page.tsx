@@ -31,7 +31,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   const session = useSession()
   const [comment, setComment] = useState<string>('')
-  const [commentData, setCommentData] = useState<CommentProps[]>([])
+  const [commentData, setCommentData] = useState<string[]>([])
 
   const authStatus = session?.status
   const userName = session?.data?.user?.name
@@ -68,13 +68,14 @@ const Page: React.FC<SubredditCommentParams> = ({
       return
     }
 
-    const fetchData = async () => {
-      const responses: CommentProps[] = await Promise.all(
-        comments.map(async (comment: string) => await axios.get(`/api/comment/${comment}`).then(response => response.data))
-      )
-      setCommentData(responses)
-    }
-    fetchData()
+    // const fetchData = async () => {
+    //   const responses: CommentProps[] = await Promise.all(
+    //     comments.map(async (comment: string) => await axios.get(`/api/comment/${comment}`).then(response => response.data))
+    //   )
+    //   setCommentData(responses)
+    // }
+    // fetchData()
+    setCommentData(comments)
   }, [comments])
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -162,7 +163,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
           <>
             {commentData?.map(comment => (
-              <CommentCard {...comment} />
+              <CommentCard id={comment} />
             ))}
           </>
 
