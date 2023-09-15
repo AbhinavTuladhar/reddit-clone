@@ -4,23 +4,34 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Profile from '../images/reddit_default_pp.png'
-import { CommentType as CommentProps } from '@/types/types'
+import { CommentType } from '@/types/types'
 import axios from 'axios'
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
+import useSWR from 'swr'
+
+interface CommentProps {
+  id: string
+}
 
 const CommentCard: React.FC<CommentProps> = ({
-  _id,
-  content,
-  author,
-  post,
-  parentComment,
-  createdAt,
-  replies,
-  upvotedBy,
-  downvotedBy,
-  comments,
+  id,
 }) => {
   type voteStatus = 'upvoted' | 'nonvoted' | 'downvoted'
+  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
+  const { data, mutate } = useSWR<CommentType>(`/api/comment/${id}`, fetcher)
+
+  const {
+    author,
+    comments,
+    content,
+    createdAt,
+    downvotedBy = [],
+    parentComment,
+    post,
+    replies,
+    upvotedBy = []
+  } = data || {}
 
   const [voteStatus, setVoteStatus] = useState<voteStatus>('nonvoted')
 
@@ -50,14 +61,14 @@ const CommentCard: React.FC<CommentProps> = ({
         </section>
         <div className='flex flex-row gap-x-2'>
           <PiArrowFatUpFill
-            className={`${baseIconClassName} ${voteStatus === 'upvoted' && 'text-red-500'} hover:text-red-500`}
+            className={`${baseIconClassName} ${voteStatus === 'upvoted' && 'text-red-400'} hover:text-red-500`}
             onClick={() => handleVoteChange('upvoted')}
           />
           <span className='text-sm'>
             {effectiveKarma}
           </span>
           <PiArrowFatDownFill
-            className={`${baseIconClassName} ${voteStatus === 'downvoted' && 'text-blue-600'} hover:text-blue-500`}
+            className={`${baseIconClassName} ${voteStatus === 'downvoted' && 'text-blue-400'} hover:text-blue-500`}
             onClick={() => handleVoteChange('downvoted')}
           />
         </div>

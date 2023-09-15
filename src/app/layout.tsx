@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import NavBar from '@/components/NavBar'
 import AuthProvider from '@/components/AuthProvider'
+import { SessionProvider } from '@/components/SessionContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,12 +21,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <div className='min-h-screen flex flex-col justify-between'>
-            <NavBar />
-            <main className='px-4 py-12'> {/* py-12 is for the height of the fixed navbar. */}
-              {children}
-            </main>
-          </div>
+          <SessionProvider>
+            <div className='min-h-screen flex flex-col justify-between'>
+              <NavBar />
+              <main className='px-4 py-12'> {/* py-12 is for the height of the fixed navbar. */}
+                {children}
+              </main>
+            </div>
+          </SessionProvider>
         </AuthProvider>
       </body>
     </html>
