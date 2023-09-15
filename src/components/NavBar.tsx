@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SiReddit } from 'react-icons/si'
@@ -14,6 +14,7 @@ import LoginWindow from './LoginWindow'
 import SignupWindow from './SignupWindow'
 import UserOptions from './UserOptions'
 import { ModalStateType } from '@/types/types'
+import { SessionContext } from './SessionContext'
 
 interface SubListResponse {
   name: string,
@@ -21,9 +22,15 @@ interface SubListResponse {
 }
 
 const NavBar = () => {
-  const session = useSession()
   const router = useRouter()
+  const session = useSession()
   const { status } = session
+  const sessionNew = useContext(SessionContext)
+
+  // const { session: newSession } = sessionNew
+  // const { data: sessionData, status: newStatus } = newSession || {}
+
+  // const { user, expires } = (sessionData as { user: { email: string; name: string }; expires: string }) || {};
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
 
@@ -46,7 +53,7 @@ const NavBar = () => {
       <Subreddit subredditList={subredditList} />
       <Searchbar />
       {status === 'authenticated' && <IconGroup mutateData={mutateSubredditList} />}
-      {status === 'authenticated' && session && (
+      {status === 'authenticated' && (
         <UserOptions userName={session?.data?.user?.name} />
       )}
       {status === 'unauthenticated'
