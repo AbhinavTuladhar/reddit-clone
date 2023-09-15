@@ -121,7 +121,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   )
 
   return (
-    <main className='flex flex-col gap-y-6 bg-reddit-dark w-full lg:w-3/4 mx-auto border border-reddit-border px-8 py-4 my-4'>
+    <main className='flex flex-col gap-y-6 bg-reddit-dark w-full lg:w-3/4 mx-auto border border-reddit-border px-8 py-4 mt-4'>
       <div className='flex flex-row gap-x-4'>
         <section className='flex flex-col items-center gap-y-1'>
           <PiArrowFatUpBold className='hover:bg-red-600' />
@@ -155,9 +155,16 @@ const Page: React.FC<SubredditCommentParams> = ({
             {authStatus === 'authenticated' && commentForm}
           </>
 
-          {commentData?.map(comment => (
-            <CommentCard {...comment} />
-          ))}
+          <div className="relative flex py-5 items-center">
+            <div className="flex-grow border-t border-gray-100"></div>
+            <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
+          </div>
+
+          <>
+            {commentData?.map(comment => (
+              <CommentCard {...comment} />
+            ))}
+          </>
 
         </section>
       </div>
