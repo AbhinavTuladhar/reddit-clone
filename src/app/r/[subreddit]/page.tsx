@@ -5,7 +5,6 @@ import useFetch from '@/utils/useFetch';
 import { SubredditType, PostType } from '@/types/types'
 import PostCard from '@/components/PostCard';
 import axios from 'axios'
-import Link from 'next/link';
 
 interface SubredditParams {
   params: {
@@ -30,7 +29,6 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       )
 
       setPostDetails(postInfo)
-      console.log(postInfo)
     }
     fetchPostDetails()
   }, [])
@@ -40,9 +38,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       {subredditName}
       <div className='flex flex-col gap-y-0'>
         {postDetails?.map(post => (
-          <Link href={`/r/${post.subreddit}/comments/${post._id}`}>
-            <PostCard {...post} />
-          </Link>
+          <PostCard {...post} />
         ))}
       </div>
     </div>

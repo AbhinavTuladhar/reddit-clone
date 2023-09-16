@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
-import { PiArrowFatUpBold, PiArrowFatDownBold } from 'react-icons/pi'
-import { PostType as PostProps } from '@/types/types'
+import React, { useState } from 'react'
+import Link from 'next/link';
+import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
+import { PostType as PostProps, voteStatus } from '@/types/types'
 
 const PostCard: React.FC<PostProps> = ({
   _id,
@@ -15,16 +16,29 @@ const PostCard: React.FC<PostProps> = ({
   downvotedBy,
   comments,
 }) => {
-  const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+
+  const [voteStatus, setVoteStatus] = useState<voteStatus>('nonvoted')
+
+  const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+
+  const handleVoteChange = (targetStatus: voteStatus) => {
+    if (voteStatus === targetStatus) {
+      setVoteStatus('nonvoted')
+    } else {
+      setVoteStatus(targetStatus)
+    }
+  }
+
+  const iconBaseClassName = 'w-5 h-5 text-reddit-placeholder-gray hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
     <main className='flex flex-row items-center gap-x-4 bg-reddit-dark border border-reddit-border px-4 py-2 hover:cursor-poiner hover:border-white'>
       <div className='flex flex-col items-center'>
-        <PiArrowFatUpBold className='hover:bg-red-600' />
+        <PiArrowFatUpFill className={`${iconBaseClassName} ${voteStatus === 'upvoted' && 'text-red-500'} hover:text-red-500`} onClick={() => handleVoteChange('upvoted')} />
         <span> {effectiveKarma} </span>
-        <PiArrowFatDownBold className='hover:bg-blue-600' />
+        <PiArrowFatDownFill className={`${iconBaseClassName} ${voteStatus === 'downvoted' && 'text-blue-500'} hover:text-blue-500`} onClick={() => handleVoteChange('downvoted')} />
       </div>
-      <section className='flex flex-col gap-y-4'>
+      <Link href={`/r/${subreddit}/${_id}`} className='flex flex-col gap-y-4'>
         <div className='flex flex-col gap-y-1'>
           <h1 className='text-lg'>
             {title}
@@ -34,7 +48,7 @@ const PostCard: React.FC<PostProps> = ({
             <span className='text-gray-400'> {`Posted by u/${author}`} </span>
           </div>
         </div>
-      </section>
+      </Link>
     </main>
   )
 }

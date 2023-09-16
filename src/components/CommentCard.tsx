@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Profile from '../images/reddit_default_pp.png'
-import { CommentType } from '@/types/types'
+import { CommentType, voteStatus } from '@/types/types'
 import axios from 'axios'
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import useSWR from 'swr'
@@ -16,7 +16,6 @@ interface CommentProps {
 const CommentCard: React.FC<CommentProps> = ({
   id,
 }) => {
-  type voteStatus = 'upvoted' | 'nonvoted' | 'downvoted'
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
   const { data, mutate } = useSWR<CommentType>(`/api/comment/${id}`, fetcher)

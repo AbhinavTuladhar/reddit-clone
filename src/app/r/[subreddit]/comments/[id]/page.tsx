@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { PiArrowFatUpBold, PiArrowFatDownBold } from 'react-icons/pi'
+import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import useFetch from '@/utils/useFetch';
-import { SubredditType, PostType, CommentType as CommentProps } from '@/types/types'
+import { SubredditType, PostType, CommentType as CommentProps, voteStatus } from '@/types/types'
 import PostCard from '@/components/PostCard';
 import axios from 'axios'
 import Link from 'next/link';
@@ -32,6 +32,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const session = useSession()
   const [comment, setComment] = useState<string>('')
   const [commentData, setCommentData] = useState<string[]>([])
+  const [voteStatus, setVoteStatus] = useState<voteStatus>('nonvoted')
 
   const authStatus = session?.status
   const userName = session?.data?.user?.name
@@ -61,6 +62,15 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
   const paragraphs = body?.split('\n')
+
+
+  const handleVoteChange = (targetStatus: voteStatus) => {
+    if (voteStatus === targetStatus) {
+      setVoteStatus('nonvoted')
+    } else {
+      setVoteStatus(targetStatus)
+    }
+  }
 
   // For fethcing the comments
   useEffect(() => {
@@ -96,6 +106,10 @@ const Page: React.FC<SubredditCommentParams> = ({
     mutate()
   }
 
+  useEffect(() => {
+    console.log(voteStatus)
+  }, [voteStatus])
+
   const commentForm = (
     <form className='flex flex-col gap-y-2 flex-1' onSubmit={handleSubmit}>
       <span className='text-sm'>
@@ -121,13 +135,21 @@ const Page: React.FC<SubredditCommentParams> = ({
     </form>
   )
 
+  const baseIconClassName = 'flex flex-row items-center w-5 h-5 text-reddit-placeholder-gray hover:cursor-pointer hover:bg-reddit-hover-gray'
+
   return (
     <main className='flex flex-col gap-y-6 bg-reddit-dark w-full lg:w-3/4 mx-auto border border-reddit-border px-8 py-4 mt-4'>
       <div className='flex flex-row gap-x-4'>
         <section className='flex flex-col items-center gap-y-1'>
-          <PiArrowFatUpBold className='hover:bg-red-600' />
+          <PiArrowFatUpFill
+            className={`${baseIconClassName} ${voteStatus === 'upvoted' && 'text-reddit-orange'} hover:text-red-500`}
+            onClick={() => handleVoteChange('upvoted')}
+          />
           <span> {effectiveKarma}</span>
-          <PiArrowFatDownBold className='hover:bg-blue-600' />
+          <PiArrowFatDownFill
+            className={`${baseIconClassName} ${voteStatus === 'downvoted' && 'text-blue-700'} hover:text-blue-500`}
+            onClick={() => handleVoteChange('downvoted')}
+          />
         </section>
         <section className='flex flex-col flex-1 gap-y-2'>
 
