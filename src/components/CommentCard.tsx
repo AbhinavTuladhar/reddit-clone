@@ -8,6 +8,7 @@ import { CommentType, voteStatus } from '@/types/types'
 import axios from 'axios'
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import useSWR from 'swr'
+import classnames from 'classnames'
 
 interface CommentProps {
   id: string
@@ -44,7 +45,7 @@ const CommentCard: React.FC<CommentProps> = ({
     }
   }
 
-  const baseIconClassName = 'flex flex-row items-center w-5 h-5 text-reddit-placeholder-gray hover:cursor-pointer hover:bg-reddit-hover-gray'
+  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
     <main className='flex flex-row gap-x-4'>
@@ -60,14 +61,24 @@ const CommentCard: React.FC<CommentProps> = ({
         </section>
         <div className='flex flex-row gap-x-2'>
           <PiArrowFatUpFill
-            className={`${baseIconClassName} ${voteStatus === 'upvoted' && 'text-red-400'} hover:text-red-500`}
+            className={classnames(
+              baseIconClassName,
+              { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
+              { 'text-reddit-orange': voteStatus === 'upvoted' },
+              'hover:text-orange-500'
+            )}
             onClick={() => handleVoteChange('upvoted')}
           />
           <span className='text-sm'>
             {effectiveKarma}
           </span>
           <PiArrowFatDownFill
-            className={`${baseIconClassName} ${voteStatus === 'downvoted' && 'text-blue-400'} hover:text-blue-500`}
+            className={classnames(
+              baseIconClassName,
+              { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
+              { 'text-indigo-400': voteStatus === 'downvoted' },
+              'hover:text-indigo-500'
+            )}
             onClick={() => handleVoteChange('downvoted')}
           />
         </div>

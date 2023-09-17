@@ -38,7 +38,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       {subredditName}
       <div className='flex flex-col gap-y-0'>
         {postDetails?.map(post => (
-          <PostCard {...post} />
+          <PostCard id={post._id} />
         ))}
       </div>
     </div>

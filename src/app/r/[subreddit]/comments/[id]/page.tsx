@@ -13,6 +13,7 @@ import { PiShareFatBold } from 'react-icons/pi'
 import { useSession } from 'next-auth/react';
 import CommentCard from '@/components/CommentCard';
 import useSWR from 'swr'
+import classnames from 'classnames';
 // import { PostType } from '@/types/types'
 
 interface SubredditCommentParams {
@@ -135,20 +136,30 @@ const Page: React.FC<SubredditCommentParams> = ({
     </form>
   )
 
-  const baseIconClassName = 'flex flex-row items-center w-5 h-5 text-reddit-placeholder-gray hover:cursor-pointer hover:bg-reddit-hover-gray'
+  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
     <main className='flex flex-col gap-y-6 bg-reddit-dark w-full lg:w-3/4 mx-auto border border-reddit-border px-8 py-4 mt-4'>
       <div className='flex flex-row gap-x-4'>
         <section className='flex flex-col items-center gap-y-1'>
           <PiArrowFatUpFill
-            className={`${baseIconClassName} ${voteStatus === 'upvoted' && 'text-reddit-orange'} hover:text-red-500`}
-            onClick={() => handleVoteChange('upvoted')}
+            className={classnames(
+              baseIconClassName,
+              { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
+              { 'text-reddit-orange': voteStatus === 'downvoted' },
+              'hover:text-orange-500'
+            )}
+            onClick={() => handleVoteChange('downvoted')}
           />
           <span> {effectiveKarma}</span>
           <PiArrowFatDownFill
-            className={`${baseIconClassName} ${voteStatus === 'downvoted' && 'text-blue-700'} hover:text-blue-500`}
-            onClick={() => handleVoteChange('downvoted')}
+            className={classnames(
+              baseIconClassName,
+              { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
+              { 'text-indigo-400': voteStatus === 'upvoted' },
+              'hover:text-indigo-500'
+            )}
+            onClick={() => handleVoteChange('upvoted')}
           />
         </section>
         <section className='flex flex-col flex-1 gap-y-2'>
