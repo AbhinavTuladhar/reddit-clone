@@ -50,10 +50,6 @@ const CommentCard: React.FC<CommentProps> = ({
     initialVoteStatus = 'nonvoted'
   }
 
-  console.log(`The initial vote status for ${content} is ${initialVoteStatus}`)
-  console.log('The upvoted list is ', upvotedBy)
-  console.log('The downvoted list is ', downvotedBy)
-
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
@@ -64,54 +60,33 @@ const CommentCard: React.FC<CommentProps> = ({
       return
     }
 
+    let newVoteStatus: voteStatus = 'nonvoted'
+
     if (voteStatus === targetStatus && targetStatus === 'upvoted') {      // Upvoted, click upvote again, case 2
-      const UpvoteRemoveRequestBody: VotingRequestBody = {
-        user: userName, voteTarget: 'nonvoted'
-      }
-      await axios.patch(`/api/comment/${id}`, UpvoteRemoveRequestBody)
-      mutate()
+      newVoteStatus = 'nonvoted'
       setVoteStatus('nonvoted')
     } else if (voteStatus === targetStatus && targetStatus === 'downvoted') { // Downvoted, click downvote again, case 3
-      const DownvoteRemoveRequestBody: VotingRequestBody = {
-        user: userName, voteTarget: 'nonvoted'
-      }
-      await axios.patch(`/api/comment/${id}`, DownvoteRemoveRequestBody)
-      mutate()
+      newVoteStatus = 'nonvoted'
       setVoteStatus('nonvoted')
     } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') { // Case 1
-      const upvoteRequestBody: VotingRequestBody = {
-        user: userName, voteTarget: 'upvoted'
-      }
-      await axios.patch(`/api/comment/${id}`, upvoteRequestBody)
-      mutate()
+      newVoteStatus = 'upvoted'
       setVoteStatus('upvoted')
     } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') { // Case 1
-      const downvoteRequestBody: VotingRequestBody = {
-        user: userName, voteTarget: 'downvoted'
-      }
-      await axios.patch(`/api/comment/${id}`, downvoteRequestBody)
-      mutate()
+      newVoteStatus = 'downvoted'
       setVoteStatus('downvoted')
     } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {  // Case 4
-      const downvoteRequestBody: VotingRequestBody = {
-        user: userName, voteTarget: 'downvoted'
-      }
-      await axios.patch(`/api/comment/${id}`, downvoteRequestBody)
-      mutate()
+      newVoteStatus = 'downvoted'
       setVoteStatus('downvoted')
     } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {  // Case 5
-      const upvoteRequestBody: VotingRequestBody = {
-        user: userName, voteTarget: 'upvoted'
-      }
-      await axios.patch(`/api/comment/${id}`, upvoteRequestBody)
-      mutate()
+      newVoteStatus = 'upvoted'
       setVoteStatus('upvoted')
     }
-  }
 
-  useEffect(() => {
-    console.log(`The status for comment with content of ${content} is ${voteStatus}`)
-  }, [content, voteStatus])
+    const requestBody = { user: userName, voteTarget: newVoteStatus }
+
+    await axios.patch(`/api/comment/${id}`, requestBody)
+    mutate()
+  }
 
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
@@ -137,7 +112,7 @@ const CommentCard: React.FC<CommentProps> = ({
             )}
             onClick={() => handleVoteChange('upvoted')}
           />
-          <span className='text-sm'>
+          <span className='text-sm w-3 text-center'>
             {effectiveKarma}
           </span>
           <PiArrowFatDownFill

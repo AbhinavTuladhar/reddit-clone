@@ -44,7 +44,6 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       return new NextResponse(JSON.stringify({ message: 'Comment not found!' }), { status: 501 })
     }
 
-
     // Case 2: Upvoted, click upvote again.
     if (foundComment.upvotedBy.includes(user) && voteTarget === 'nonvoted') {
       foundComment.upvotedBy = foundComment.upvotedBy.filter((value: string) => value !== user)
@@ -76,7 +75,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       }
     }
 
-    foundComment.save()
+    await foundComment.save()
 
     return new NextResponse(JSON.stringify(foundComment), { status: 201 })
   } catch (error) {
