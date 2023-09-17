@@ -41,3 +41,8 @@ export interface CommentType {
   downvotedBy: string[],
   comments: string[]
 }
+
+export interface VotingRequestBody {
+  user: string,
+  voteTarget: voteStatus
+}
