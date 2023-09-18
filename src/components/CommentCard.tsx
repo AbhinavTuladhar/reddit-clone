@@ -10,6 +10,7 @@ import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import useSWR from 'swr'
 import classnames from 'classnames'
 import { useSession } from 'next-auth/react'
+import calculateDateString from '@/utils/calculateDateString'
 
 interface CommentProps {
   id: string
@@ -31,7 +32,7 @@ const CommentCard: React.FC<CommentProps> = ({
     author,
     comments,
     content,
-    createdAt,
+    createdAt = '',
     downvotedBy = [],
     parentComment,
     post,
@@ -53,6 +54,7 @@ const CommentCard: React.FC<CommentProps> = ({
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
+  const dateString = calculateDateString(new Date(createdAt), new Date())
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
     if (status !== 'authenticated') {
@@ -62,22 +64,22 @@ const CommentCard: React.FC<CommentProps> = ({
 
     let newVoteStatus: voteStatus = 'nonvoted'
 
-    if (voteStatus === targetStatus && targetStatus === 'upvoted') {      // Upvoted, click upvote again, case 2
+    if (voteStatus === targetStatus && targetStatus === 'upvoted') {
       newVoteStatus = 'nonvoted'
       setVoteStatus('nonvoted')
-    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') { // Downvoted, click downvote again, case 3
+    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') {
       newVoteStatus = 'nonvoted'
       setVoteStatus('nonvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') { // Case 1
+    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') {
       newVoteStatus = 'upvoted'
       setVoteStatus('upvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') { // Case 1
+    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') {
       newVoteStatus = 'downvoted'
       setVoteStatus('downvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {  // Case 4
+    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {
       newVoteStatus = 'downvoted'
       setVoteStatus('downvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {  // Case 5
+    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {
       newVoteStatus = 'upvoted'
       setVoteStatus('upvoted')
     }
@@ -98,7 +100,10 @@ const CommentCard: React.FC<CommentProps> = ({
         className='rounded-full h-8 w-8'
       />
       <section className='flex flex-col gap-y-1'>
-        <Link href={`/u/${author}`} className='text-sm hover:underline tracking-tight'> {author} </Link>
+        <div className='flex flex-row items-center gap-x-2'>
+          <Link href={`/u/${author}`} className='text-sm hover:underline tracking-tight'> {author} </Link>
+          <span className='text-reddit-placeholder-gray text-sm'> {dateString} </span>
+        </div>
         <section>
           {content}
         </section>

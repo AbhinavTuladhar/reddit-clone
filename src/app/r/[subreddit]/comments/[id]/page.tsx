@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 import CommentCard from '@/components/CommentCard';
 import useSWR from 'swr'
 import classnames from 'classnames';
+import calculateDateString from '@/utils/calculateDateString';
 // import { PostType } from '@/types/types'
 
 interface SubredditCommentParams {
@@ -47,7 +48,7 @@ const Page: React.FC<SubredditCommentParams> = ({
     subreddit,
     title,
     body,
-    createdAt,
+    createdAt = '',
     upvotedBy = [],
     downvotedBy = [],
     comments
@@ -62,8 +63,8 @@ const Page: React.FC<SubredditCommentParams> = ({
   ]
 
   const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+  const dateString = calculateDateString(new Date(createdAt), new Date())
   const paragraphs = body?.split('\n')
-
 
   const handleVoteChange = (targetStatus: voteStatus) => {
     if (voteStatus === targetStatus) {
@@ -164,9 +165,10 @@ const Page: React.FC<SubredditCommentParams> = ({
         </section>
         <section className='flex flex-col flex-1 gap-y-2'>
 
-          <small className='text-gray-400 text-xs'>
-            {`Posted by u/${author}`}
-          </small>
+          <div className='text-gray-400 text-xs flex flex-row items-center gap-x-1'>
+            <span> {`Posted by u/${author}`} </span>
+            <span> {dateString} </span>
+          </div>
           <h1 className='text-xl font-bold'>
             {title}
           </h1>

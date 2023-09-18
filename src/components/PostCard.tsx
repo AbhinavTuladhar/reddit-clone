@@ -6,6 +6,7 @@ import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import { PostType, voteStatus } from '@/types/types'
 import useSWR from 'swr';
 import classnames from 'classnames';
+import calculateDateString from '@/utils/calculateDateString';
 
 interface PostProps {
   id: string
@@ -24,13 +25,14 @@ const PostCard: React.FC<PostProps> = ({
     subreddit,
     title,
     body = '',
-    createdAt,
+    createdAt = '',
     upvotedBy = [],
     downvotedBy = [],
     comments
   } = data || {}
 
   const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+  const dateString = calculateDateString(new Date(createdAt), new Date())
 
   const handleVoteChange = (targetStatus: voteStatus) => {
     if (voteStatus === targetStatus) {
@@ -70,9 +72,10 @@ const PostCard: React.FC<PostProps> = ({
           <h1 className='text-lg'>
             {title}
           </h1>
-          <div className='flex flex-row gap-x-1 text-sm'>
+          <div className='flex flex-row items-center gap-x-1 text-sm'>
             <span className='font-bold'> {`r/${subreddit}`} </span>
             <span className='text-gray-400'> {`Posted by u/${author}`} </span>
+            <span className='text-reddit-placeholder-gray'> {dateString} </span>
           </div>
         </div>
       </Link>
