@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <SessionProvider>
-            <div className='min-h-screen flex flex-col justify-between'>
+            <div className='flex flex-col justify-between min-h-screen'>
               <NavBar />
               <main className='px-4 py-12'> {/* py-12 is for the height of the fixed navbar. */}
                 {children}

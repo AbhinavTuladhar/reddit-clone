@@ -27,16 +27,16 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
     <section
       className='z-50 relative h-10 w-16 lg:w-64 px-1 flex flex-row gap-x-2 lg:justify-between items-center border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'
       onClick={toggleMenu}>
-      <div className='flex flex-row items-center justify-between gap-x-2 w-16 lg:w-64'>
+      <div className='flex flex-row items-center justify-between w-16 gap-x-2 lg:w-64'>
         <div className='flex flex-row items-center gap-x-2'>
-          <AiFillHome className='text-white w-6 h-6' height={60} width={60} />
-          <span className='text-sm hidden lg:block'>
+          <AiFillHome className='w-6 h-6 text-white' height={60} width={60} />
+          <span className='hidden text-sm lg:block'>
             Home
           </span>
         </div>
         <PiCaretDown />
         {isOpen && (
-          <ul className='flex flex-col list-none z-40 absolute top-9 left-0 mt-2 w-64 bg-reddit-dark rounded-lg border border-slate-300 max-h-64 overflow-y-auto'>
+          <ul className='absolute left-0 z-40 flex flex-col w-64 mt-2 overflow-y-auto list-none border rounded-lg top-9 bg-reddit-dark border-slate-300 max-h-64'>
             {subredditList?.map((sub, index) => (
               <li
                 className='z-50 p-2 text-sm border border-slate-300 hover:brightness-110 hover:cursor-pointer'
@@ -48,7 +48,7 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
             ))}
           </ul>
         )}
-        {/* <span className='text-sm hidden lg:block'>
+        {/* <span className='hidden text-sm lg:block'>
           Home
         </span> */}
       </div>

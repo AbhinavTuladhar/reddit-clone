@@ -12,7 +12,7 @@ const PostingRules = () => {
   const rowClassName = 'border-b-[1px] border-reddit-border text-sm py-3 px-3 flex items-center'
 
   return (
-    <section className='bg-reddit-dark mt-10 px-2 pt-4 pb-2 hidden lg:flex lg:self-start rounded-lg'>
+    <section className='hidden px-2 pt-4 pb-2 mt-10 rounded-lg bg-reddit-dark lg:flex lg:self-start'>
       <div className='flex flex-col'>
         <h1 className={`${rowClassName} text-xl font-bold px-3`}>
           Posting to reddit

@@ -97,12 +97,12 @@ const CommentCard: React.FC<CommentProps> = ({
       <Image
         src={Profile}
         alt='profile pic'
-        className='rounded-full h-8 w-8'
+        className='w-8 h-8 rounded-full'
       />
       <section className='flex flex-col gap-y-1'>
         <div className='flex flex-row items-center gap-x-2'>
-          <Link href={`/u/${author}`} className='text-sm hover:underline tracking-tight'> {author} </Link>
-          <span className='text-reddit-placeholder-gray text-sm'> {dateString} </span>
+          <Link href={`/u/${author}`} className='text-sm tracking-tight hover:underline'> {author} </Link>
+          <span className='text-sm text-reddit-placeholder-gray'> {dateString} </span>
         </div>
         <section>
           {content}
@@ -117,7 +117,7 @@ const CommentCard: React.FC<CommentProps> = ({
             )}
             onClick={() => handleVoteChange('upvoted')}
           />
-          <span className='text-sm w-3 text-center'>
+          <span className='w-3 text-sm text-center'>
             {effectiveKarma}
           </span>
           <PiArrowFatDownFill

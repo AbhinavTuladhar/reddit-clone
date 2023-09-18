@@ -49,8 +49,8 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
   }
 
   return (
-    <div className='flex flex-col gap-y-4 py-4'>
-      <RxCross2 onClick={handleClose} className='hover:cursor-pointer top-0 right-0 absolute mr-4 mt-4' />
+    <div className='flex flex-col py-4 gap-y-4'>
+      <RxCross2 onClick={handleClose} className='absolute top-0 right-0 mt-4 mr-4 hover:cursor-pointer' />
       <div className='flex flex-row justify-between items-center border-b-[1px] border-reddit-border pb-4'>
         <h3 className='text-lg'>
           Create a community
@@ -66,7 +66,7 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
       </div>
       <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
         <input
-          className='border-reddit-border border bg-reddit-dark p-2 text-white'
+          className='p-2 text-white border border-reddit-border bg-reddit-dark'
           type='text'
           value={subredditName}
           onChange={handleChange}
@@ -74,7 +74,7 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
         <span className='text-sm'>
           {charactersRemaining} characters remaining.
         </span>
-        <button className='rounded-full bg-white text-black p-2'>
+        <button className='p-2 text-black bg-white rounded-full'>
           Create community
         </button>
       </form>

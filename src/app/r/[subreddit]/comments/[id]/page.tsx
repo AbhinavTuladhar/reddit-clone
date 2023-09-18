@@ -113,7 +113,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   }, [voteStatus])
 
   const commentForm = (
-    <form className='flex flex-col gap-y-2 flex-1' onSubmit={handleSubmit}>
+    <form className='flex flex-col flex-1 gap-y-2' onSubmit={handleSubmit}>
       <span className='text-sm'>
         Comment as&nbsp;
         <Link href={`/u/${userName}`} className='text-blue-500 hover:underline hover:text-red-500'>
@@ -128,7 +128,7 @@ const Page: React.FC<SubredditCommentParams> = ({
       />
       <div className='bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row justify-end'>
         <button
-          className='bg-white disabled:text-gray-400 enabled:text-black text-sm rounded-full py-1 px-2'
+          className='px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black'
           disabled={comment === ''}
         >
           Comment
@@ -140,7 +140,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-col gap-y-6 bg-reddit-dark w-full lg:w-3/4 mx-auto border border-reddit-border px-8 py-4 mt-4'>
+    <main className='flex flex-col w-full px-8 py-4 mx-auto mt-4 border gap-y-6 bg-reddit-dark lg:w-3/4 border-reddit-border'>
       <div className='flex flex-row gap-x-4'>
         <section className='flex flex-col items-center gap-y-1'>
           <PiArrowFatUpFill
@@ -165,7 +165,7 @@ const Page: React.FC<SubredditCommentParams> = ({
         </section>
         <section className='flex flex-col flex-1 gap-y-2'>
 
-          <div className='text-gray-400 text-xs flex flex-row items-center gap-x-1'>
+          <div className='flex flex-row items-center text-xs text-gray-400 gap-x-1'>
             <span> {`Posted by u/${author}`} </span>
             <span> {dateString} </span>
           </div>
@@ -180,7 +180,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
           <section className='flex flex-row gap-x-4'>
             {iconBarData.map((row, index) => (
-              <div className='p-2 flex flex-row gap-x-2 items-center hover:cursor-pointer hover:bg-reddit-hover-gray' key={index}>
+              <div className='flex flex-row items-center p-2 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray' key={index}>
                 <span> {row.icon} </span>
                 <span className='text-reddit-placeholder-gray'> {row.label} </span>
               </div>
@@ -191,7 +191,7 @@ const Page: React.FC<SubredditCommentParams> = ({
             {authStatus === 'authenticated' && commentForm}
           </>
 
-          <div className="relative flex py-5 items-center">
+          <div className="relative flex items-center py-5">
             <div className="flex-grow border-t border-gray-100"></div>
             <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
           </div>

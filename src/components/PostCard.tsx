@@ -45,7 +45,7 @@ const PostCard: React.FC<PostProps> = ({
   const iconBaseClassName = 'w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-row items-center gap-x-4 bg-reddit-dark border border-reddit-border px-4 py-2 hover:cursor-poiner hover:border-white'>
+    <main className='flex flex-row items-center px-4 py-2 border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white'>
       <div className='flex flex-col items-center'>
         <PiArrowFatUpFill
           className={classnames(
@@ -72,7 +72,7 @@ const PostCard: React.FC<PostProps> = ({
           <h1 className='text-lg'>
             {title}
           </h1>
-          <div className='flex flex-row items-center gap-x-1 text-sm'>
+          <div className='flex flex-row items-center text-sm gap-x-1'>
             <span className='font-bold'> {`r/${subreddit}`} </span>
             <span className='text-gray-400'> {`Posted by u/${author}`} </span>
             <span className='text-reddit-placeholder-gray'> {dateString} </span>

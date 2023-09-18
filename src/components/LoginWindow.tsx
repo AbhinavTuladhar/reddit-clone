@@ -39,7 +39,7 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   return (
     <>
       <RxCross2
-        className='hover:cursor-pointer top-0 right-0 absolute mr-4 mt-4'
+        className='absolute top-0 right-0 mt-4 mr-4 hover:cursor-pointer'
         onClick={() => setModalState('closed')}
       />
       <div className='flex flex-col gap-y-2'>
@@ -53,7 +53,7 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         Continue with Google
       </div>
       <BorderDivider />
-      <form className='w-full flex flex-col gap-y-4' onSubmit={handleSubmit}>
+      <form className='flex flex-col w-full gap-y-4' onSubmit={handleSubmit}>
         <input
           type='text'
           className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
@@ -70,11 +70,11 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
           placeholder='Password'
           onChange={handleFormChange}
         />
-        <button className='w-full bg-reddit-orange text-white rounded-full text-sm py-3 hover:brightness-110'> Log In </button>
+        <button className='w-full py-3 text-sm text-white rounded-full bg-reddit-orange hover:brightness-110'> Log In </button>
       </form>
       <div className='my-2'>
         <span> New to Reddit? </span>
-        <span className='text-blue-500 underline font-bold hover:text-red-500 hover:cursor-pointer' onClick={() => setModalState('signup')}>Sign up!</span>
+        <span className='font-bold text-blue-500 underline hover:text-red-500 hover:cursor-pointer' onClick={() => setModalState('signup')}>Sign up!</span>
       </div>
     </>
   )

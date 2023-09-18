@@ -25,7 +25,7 @@ const PostSubredditSelector: React.FC<SubSelectorProps> = ({
       {selectedSubreddit}
       <PiCaretDown className='hover:cursor-pointer' />
       {isOpen && (
-        <div className='z-0 absolute top-9 right-0 mt-2 w-72 bg-reddit-dark rounded-lg border border-slate-300 max-h-64 overflow-y-auto'>
+        <div className='absolute right-0 z-0 mt-2 overflow-y-auto border rounded-lg top-9 w-72 bg-reddit-dark border-slate-300 max-h-64'>
           {subredditList?.map((sub, index) => (
             <div
               className='z-20 p-2 text-sm border border-slate-300 hover:brightness-110 hover:cursor-pointer'

@@ -31,12 +31,12 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
 
   return (
     <section className='h-10 w-20 min-w-fit lg:w-52 flex flex-row justify-between items-center text-xs border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'>
-      <div className='h-10 flex flex-row items-center gap-x-2 px-1'>
-        <Image src={Profile} className='h-6 w-6' alt='profile' />
+      <div className='flex flex-row items-center h-10 px-1 gap-x-2'>
+        <Image src={Profile} className='w-6 h-6' alt='profile' />
         <div className='hidden lg:flex lg:flex-col gap-y-0.5 '>
           <span> {userName} </span>
           <div className='flex flex-row items-center text-gray-300'>
-            <Image src={KarmaIcon} className='h-4 w-4' alt='karma' />
+            <Image src={KarmaIcon} className='w-4 h-4' alt='karma' />
             <span> {totalKarma} karma </span>
           </div>
         </div>

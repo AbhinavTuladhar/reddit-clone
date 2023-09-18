@@ -10,12 +10,12 @@ export default function Home() {
   const { status } = useSession()
 
   return (
-    <main className='mt-4 flex flex-col gap-y-4'>
+    <main className='flex flex-col mt-4 gap-y-4'>
       {status === 'authenticated' && (
-        <section className='bg-reddit-dark p-4 flex flex-row flex-1 items-center gap-x-4 h-12'>
-          <Image src={Profile} alt='profile' className='h-9 w-9 rounded-full' />
+        <section className='flex flex-row items-center flex-1 h-12 p-4 bg-reddit-dark gap-x-4'>
+          <Image src={Profile} alt='profile' className='rounded-full h-9 w-9' />
           <Link href='/submit' className='w-full'>
-            <div className='bg-reddit-gray text-reddit-placeholder-gray border border-reddit-border p-2 hover:cursor-text flex flex-1 w-full hover:bg-reddit-dark hover:border-white'>
+            <div className='flex flex-1 w-full p-2 border bg-reddit-gray text-reddit-placeholder-gray border-reddit-border hover:cursor-text hover:bg-reddit-dark hover:border-white'>
               Create post...
             </div>
           </Link>

@@ -66,8 +66,8 @@ const page = () => {
   const buttonDisableFlag = postData.title === '' || selectedSubreddit === placeholderSub
 
   return (
-    <main className='flex flex-row justify-between gap-x-6 mx-2 md:mx-10 lg:mx-20'>
-      <section className='flex flex-col flex-1 gap-y-4 h-full'>
+    <main className='flex flex-row justify-between mx-2 gap-x-6 md:mx-10 lg:mx-20'>
+      <section className='flex flex-col flex-1 h-full gap-y-4'>
         <h1 className='mt-6 pb-4 text-xl border-b-[1px] border-reddit-border'>
           Create a post
         </h1>
@@ -83,7 +83,7 @@ const page = () => {
               onChange={handleFormChange}
               required
             />
-            <span className='absolute mr-3 my-3 top-0 right-0 text-sm text-gray-600'>
+            <span className='absolute top-0 right-0 my-3 mr-3 text-sm text-gray-600'>
               {titleLength}/300
             </span>
           </div>
@@ -96,7 +96,7 @@ const page = () => {
           />
           <div className='flex justify-end w-full'>
             <button
-              className='bg-white disabled:text-gray-400 enabled:text-black text-lg rounded-full py-2 px-5'
+              className='px-5 py-2 text-lg bg-white rounded-full disabled:text-gray-400 enabled:text-black'
               disabled={buttonDisableFlag}
             >
               Post

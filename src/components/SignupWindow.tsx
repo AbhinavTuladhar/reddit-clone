@@ -65,7 +65,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   const firstPage = (
     <>
       <RxCross2
-        className='hover:cursor-pointer top-0 right-0 absolute mr-4 mt-4'
+        className='absolute top-0 right-0 mt-4 mr-4 hover:cursor-pointer'
         onClick={() => setModalState('closed')}
       />
       <div className='flex flex-col gap-y-2'>
@@ -90,13 +90,13 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         onChange={handleFormChange}
       />
       <button
-        className='bg-reddit-orange py-2 my-4 text-white w-full rounded-full disabled:bg-red-100'
+        className='w-full py-2 my-4 text-white rounded-full bg-reddit-orange disabled:bg-red-100'
         disabled={buttonDisabledFlag}
         onClick={() => setCurrentPage('Page 2')}
       > Continue </button>
       <div className='my-2'>
         <span> Already a Redditor? </span>
-        <span className='text-blue-500 underline font-bold hover:text-red-500 hover:cursor-pointer' onClick={() => setModalState('login')}>Log in!</span>
+        <span className='font-bold text-blue-500 underline hover:text-red-500 hover:cursor-pointer' onClick={() => setModalState('login')}>Log in!</span>
       </div>
     </>
   )
@@ -104,7 +104,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   const secondPage = (
     <>
       <AiOutlineArrowLeft
-        className='hover:cursor-pointer top-0 left-0 absolute ml-4 mt-4'
+        className='absolute top-0 left-0 mt-4 ml-4 hover:cursor-pointer'
         onClick={() => setCurrentPage('Page 1')}
       />
       <div className='flex flex-col gap-y-2'>
@@ -115,7 +115,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
           Reddit is anonymous, so your username is what you’ll go by here. Choose wisely—because once you get a name, you can’t change it.
         </span>
       </div>
-      <form className='w-full flex flex-col gap-y-4 mt-4' onSubmit={handleSubmit}>
+      <form className='flex flex-col w-full mt-4 gap-y-4' onSubmit={handleSubmit}>
         <input
           type='text'
           className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
@@ -140,7 +140,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
           placeholder='Confirm Password'
           onChange={handleFormChange}
         />
-        <button className='w-full bg-reddit-orange text-white rounded-full text-sm py-3 hover:brightness-110'> Sign up </button>
+        <button className='w-full py-3 text-sm text-white rounded-full bg-reddit-orange hover:brightness-110'> Sign up </button>
       </form>
     </>
   )

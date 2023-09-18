@@ -47,8 +47,8 @@ const NavBar = () => {
   return (
     <nav className='bg-reddit-dark px-5 h-12 flex flex-row justify-between gap-x-2 items-center border-b-[1px] border-reddit-border top-0 fixed w-full'>
       <Link className='flex flex-row items-center gap-x-2' href='/'>
-        <SiReddit className='bg-white text-reddit-orange h-8 w-8 rounded-full' />
-        <h1 className='text-white text-xl hidden lg:block'> reddit </h1>
+        <SiReddit className='w-8 h-8 bg-white rounded-full text-reddit-orange' />
+        <h1 className='hidden text-xl text-white lg:block'> reddit </h1>
       </Link>
       <Subreddit subredditList={subredditList} />
       <Searchbar />
@@ -60,11 +60,11 @@ const NavBar = () => {
         ? (
           <div className='flex flex-row gap-x-4'>
             <button
-              className='bg-reddit-orange p-2 rounded-3xl hover:brightness-50 text-white whitespace-nowrap'
+              className='p-2 text-white bg-reddit-orange rounded-3xl hover:brightness-50 whitespace-nowrap'
               onClick={() => setModalState('login')}
             > Log In </button>
             <button
-              className='text-reddit-orange p-2 rounded-3xl hover:brightness-50 bg-white whitespace-nowrap'
+              className='p-2 bg-white text-reddit-orange rounded-3xl hover:brightness-50 whitespace-nowrap'
               onClick={() => setModalState('signup')}
             > Sign up </button>
           </div>
@@ -72,7 +72,7 @@ const NavBar = () => {
           ? (
             <button
               onClick={handleLogOut}
-              className='bg-reddit-orange p-2'
+              className='p-2 bg-reddit-orange'
             > Logout </button>
           ) : (
             <div> Loading... </div>

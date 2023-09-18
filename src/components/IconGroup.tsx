@@ -22,7 +22,7 @@ const IconGroup: React.FC<IconProps> = ({ mutateData }) => {
     setSubCreationFlag(prevState => !prevState)
   }
 
-  const className = 'h-8 w-8 hover:cursor-pointer hover:bg-reddit-hover-gray p-1'
+  const className = 'w-8 h-8 p-1 hover:cursor-pointer hover:bg-reddit-hover-gray'
   return (
     <>
       <ModalContainer visibilityFlag={subCreationFlag} containerClassName='w-5/6 mx-auto'>
