@@ -7,6 +7,8 @@ import { PostType, voteStatus } from '@/types/types'
 import useSWR from 'swr';
 import classnames from 'classnames';
 import calculateDateString from '@/utils/calculateDateString';
+import { useSession } from 'next-auth/react';
+import axios from 'axios'
 
 interface PostProps {
   id: string
@@ -15,13 +17,15 @@ interface PostProps {
 const PostCard: React.FC<PostProps> = ({
   id,
 }) => {
-  const [voteStatus, setVoteStatus] = useState<voteStatus>('nonvoted')
+  const session = useSession()
+  const { status, data: sessionData } = session
+  const userName = sessionData?.user?.name || ''
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
   const { data, mutate } = useSWR<PostType>(`/api/post/${id}`, fetcher)
 
   const {
-    author,
+    author = '',
     subreddit,
     title,
     body = '',
@@ -31,15 +35,54 @@ const PostCard: React.FC<PostProps> = ({
     comments
   } = data || {}
 
-  const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+  // Check if the user is in the upvote or downvotedby list in the comment
+  let initialVoteStatus: voteStatus
+
+  if (upvotedBy.includes(userName)) {
+    initialVoteStatus = 'upvoted'
+  } else if (downvotedBy.includes(userName)) {
+    initialVoteStatus = 'downvoted'
+  } else {
+    initialVoteStatus = 'nonvoted'
+  }
+
+  const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+
+  const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
 
-  const handleVoteChange = (targetStatus: voteStatus) => {
-    if (voteStatus === targetStatus) {
-      setVoteStatus('nonvoted')
-    } else {
-      setVoteStatus(targetStatus)
+  const handleVoteChange = async (targetStatus: voteStatus) => {
+    if (status !== 'authenticated') {
+      alert('Please login to vote.')
+      return
     }
+
+    let newVoteStatus: voteStatus = 'nonvoted'
+
+    if (voteStatus === targetStatus && targetStatus === 'upvoted') {
+      newVoteStatus = 'nonvoted'
+      setVoteStatus('nonvoted')
+    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') {
+      newVoteStatus = 'nonvoted'
+      setVoteStatus('nonvoted')
+    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') {
+      newVoteStatus = 'upvoted'
+      setVoteStatus('upvoted')
+    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') {
+      newVoteStatus = 'downvoted'
+      setVoteStatus('downvoted')
+    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {
+      newVoteStatus = 'downvoted'
+      setVoteStatus('downvoted')
+    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {
+      newVoteStatus = 'upvoted'
+      setVoteStatus('upvoted')
+    }
+
+    const requestBody = { user: userName, voteTarget: newVoteStatus }
+
+    await axios.patch(`/api/post/${id}`, requestBody)
+    mutate()
   }
 
   const iconBaseClassName = 'w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'

@@ -32,12 +32,12 @@ const Page: React.FC<SubredditCommentParams> = ({
   const postId = params.id
 
   const session = useSession()
+
   const [comment, setComment] = useState<string>('')
   const [commentData, setCommentData] = useState<string[]>([])
-  const [voteStatus, setVoteStatus] = useState<voteStatus>('nonvoted')
 
   const authStatus = session?.status
-  const userName = session?.data?.user?.name
+  const userName = session?.data?.user?.name || ''
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
   const { data, mutate } = useSWR<PostType | null>(`/api/post/${postId}`, fetcher)
@@ -62,16 +62,55 @@ const Page: React.FC<SubredditCommentParams> = ({
     { icon: <PiShareFatBold className={iconClassName} />, label: 'Share' },
   ]
 
-  const effectiveKarma = upvotedBy?.length + downvotedBy.length === 0 ? 1 : (upvotedBy.length < downvotedBy.length ? 0 : upvotedBy.length - downvotedBy.length)
+  // Check if the user is in the upvote or downvotedby list in the comment
+  let initialVoteStatus: voteStatus
+
+  if (upvotedBy.includes(userName)) {
+    initialVoteStatus = 'upvoted'
+  } else if (downvotedBy.includes(userName)) {
+    initialVoteStatus = 'downvoted'
+  } else {
+    initialVoteStatus = 'nonvoted'
+  }
+
+  const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+
+  const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const paragraphs = body?.split('\n')
 
-  const handleVoteChange = (targetStatus: voteStatus) => {
-    if (voteStatus === targetStatus) {
-      setVoteStatus('nonvoted')
-    } else {
-      setVoteStatus(targetStatus)
+  const handleVoteChange = async (targetStatus: voteStatus) => {
+    if (authStatus !== 'authenticated') {
+      alert('Please login to vote.')
+      return
     }
+
+    let newVoteStatus: voteStatus = 'nonvoted'
+
+    if (voteStatus === targetStatus && targetStatus === 'upvoted') {
+      newVoteStatus = 'nonvoted'
+      setVoteStatus('nonvoted')
+    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') {
+      newVoteStatus = 'nonvoted'
+      setVoteStatus('nonvoted')
+    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') {
+      newVoteStatus = 'upvoted'
+      setVoteStatus('upvoted')
+    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') {
+      newVoteStatus = 'downvoted'
+      setVoteStatus('downvoted')
+    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {
+      newVoteStatus = 'downvoted'
+      setVoteStatus('downvoted')
+    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {
+      newVoteStatus = 'upvoted'
+      setVoteStatus('upvoted')
+    }
+
+    const requestBody = { user: userName, voteTarget: newVoteStatus }
+
+    await axios.patch(`/api/post/${_id}`, requestBody)
+    mutate()
   }
 
   // For fethcing the comments
