@@ -185,21 +185,21 @@ const Page: React.FC<SubredditCommentParams> = ({
           <PiArrowFatUpFill
             className={classnames(
               baseIconClassName,
-              { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
-              { 'text-reddit-orange': voteStatus === 'downvoted' },
-              'hover:text-orange-500'
+              { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
+              { 'text-reddit-orange': voteStatus === 'upvoted' },
+              'hover:text-reddit-orange'
             )}
-            onClick={() => handleVoteChange('downvoted')}
+            onClick={() => handleVoteChange('upvoted')}
           />
           <span> {effectiveKarma}</span>
           <PiArrowFatDownFill
             className={classnames(
               baseIconClassName,
-              { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
-              { 'text-indigo-400': voteStatus === 'upvoted' },
-              'hover:text-indigo-500'
+              { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
+              { 'text-indigo-400': voteStatus === 'downvoted' },
+              'hover:text-indigo-400'
             )}
-            onClick={() => handleVoteChange('upvoted')}
+            onClick={() => handleVoteChange('downvoted')}
           />
         </section>
         <section className='flex flex-col flex-1 gap-y-2'>

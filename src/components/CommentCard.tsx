@@ -113,7 +113,7 @@ const CommentCard: React.FC<CommentProps> = ({
               baseIconClassName,
               { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
               { 'text-reddit-orange': voteStatus === 'upvoted' },
-              'hover:text-orange-500'
+              'hover:text-reddit-orange'
             )}
             onClick={() => handleVoteChange('upvoted')}
           />
@@ -125,7 +125,7 @@ const CommentCard: React.FC<CommentProps> = ({
               baseIconClassName,
               { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
               { 'text-indigo-400': voteStatus === 'downvoted' },
-              'hover:text-indigo-500'
+              'hover:text-indigo-400'
             )}
             onClick={() => handleVoteChange('downvoted')}
           />
