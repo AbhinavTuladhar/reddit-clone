@@ -117,7 +117,14 @@ const CommentCard: React.FC<CommentProps> = ({
             )}
             onClick={() => handleVoteChange('upvoted')}
           />
-          <span className='w-3 text-sm text-center'>
+          <span
+            className={classnames(
+              'w-3 text-sm text-center',
+              { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
+              { 'text-reddit-orange': voteStatus === 'upvoted' },
+              { 'text-indigo-400': voteStatus === 'downvoted' },
+            )}
+          >
             {effectiveKarma}
           </span>
           <PiArrowFatDownFill

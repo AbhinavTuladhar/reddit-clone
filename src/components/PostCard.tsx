@@ -99,7 +99,15 @@ const PostCard: React.FC<PostProps> = ({
           )}
           onClick={() => handleVoteChange('upvoted')}
         />
-        <span> {effectiveKarma} </span>
+        <span
+          className={classnames(
+            { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
+            { 'text-reddit-orange': voteStatus === 'upvoted' },
+            { 'text-indigo-400': voteStatus === 'downvoted' },
+          )}
+        >
+          {effectiveKarma}
+        </span>
         <PiArrowFatDownFill
           className={classnames(
             iconBaseClassName,
