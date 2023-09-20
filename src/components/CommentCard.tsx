@@ -53,11 +53,12 @@ const CommentCard: React.FC<CommentProps> = ({
   }
 
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
-  const [comment, setComment] = useState('')
+  const [reply, setReply] = useState('')
   const [replyFlag, setReplyFlag] = useState(false)
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
+  const paragraphs = content?.split('\n')
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
     if (status !== 'authenticated') {
@@ -96,7 +97,8 @@ const CommentCard: React.FC<CommentProps> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
+    const { target: { value } } = event
+    setReply(value)
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -109,7 +111,7 @@ const CommentCard: React.FC<CommentProps> = ({
         className='w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray'
         placeholder='What are your thoughts?'
         onChange={handleChange}
-        value={comment}
+        value={reply}
       />
       <div className='bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row gap-x-3 justify-end'>
         <button
@@ -120,7 +122,7 @@ const CommentCard: React.FC<CommentProps> = ({
         </button>
         <button
           className='px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black disabled:hover:cursor-not-allowed'
-          disabled={comment === ''}
+          disabled={reply === ''}
           type='submit'
         >
           Comment
@@ -142,7 +144,11 @@ const CommentCard: React.FC<CommentProps> = ({
           <span className='text-sm text-reddit-placeholder-gray'> {dateString} </span>
         </div>
         <section>
-          {content}
+          {paragraphs?.map((row) => (
+            <>
+              {row} <br />
+            </>
+          ))}
         </section>
         <div className='flex flex-row gap-x-2 items-center'>
           <PiArrowFatUpFill
