@@ -51,22 +51,8 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       return new NextResponse(JSON.stringify({ message: 'Comment not found!' }), { status: 501 })
     }
 
-    // Case 2: Upvoted, click upvote again.
-    if (foundComment.upvotedBy.includes(user) && voteTarget === 'nonvoted') {
-      foundComment.upvotedBy = foundComment.upvotedBy.filter((value: string) => value !== user)
-      foundUser.upvotedComments = foundUser.upvotedComments.filter((value: Schema.Types.ObjectId) => value.toString() !== commentId)
-      commentAuthor.commentKarma -= 1
-    }
-
-    // Case 3: Downvoted, click downvote again.
-    else if (foundComment.downvotedBy.includes(user) && voteTarget === 'nonvoted') {
-      foundComment.downvotedBy = foundComment.downvotedBy.filter((value: string) => value !== user)
-      foundUser.downvotedComments = foundUser.downvotedComments.filter((value: Schema.Types.ObjectId) => value.toString() !== commentId)
-      commentAuthor.commentKarma += 1
-    }
-
     // Case 4: Upvoted, click on downvote
-    else if ((foundComment.upvotedBy.includes(user)) && voteTarget === 'downvoted') {
+    if ((foundComment.upvotedBy.includes(user)) && voteTarget === 'downvoted') {
       foundComment.upvotedBy = foundComment.upvotedBy.filter((value: string) => value !== user)
       foundComment.downvotedBy.push(user)
 
@@ -85,6 +71,20 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       foundUser.upvotedComments.push(commentId)
 
       commentAuthor.commentKarma += 2
+    }
+
+    // Case 2: Upvoted, click upvote again.
+    else if (foundComment.upvotedBy.includes(user)) {
+      foundComment.upvotedBy = foundComment.upvotedBy.filter((value: string) => value !== user)
+      foundUser.upvotedComments = foundUser.upvotedComments.filter((value: Schema.Types.ObjectId) => value.toString() !== commentId)
+      commentAuthor.commentKarma -= 1
+    }
+
+    // Case 3: Downvoted, click downvote again.
+    else if (foundComment.downvotedBy.includes(user)) {
+      foundComment.downvotedBy = foundComment.downvotedBy.filter((value: string) => value !== user)
+      foundUser.downvotedComments = foundUser.downvotedComments.filter((value: Schema.Types.ObjectId) => value.toString() !== commentId)
+      commentAuthor.commentKarma += 1
     }
 
     // Case 1: not voted, change to up or down vote.

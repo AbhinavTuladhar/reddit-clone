@@ -167,7 +167,7 @@ const Page: React.FC<SubredditCommentParams> = ({
       />
       <div className='bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row justify-end'>
         <button
-          className='px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black'
+          className='px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black disabled:hover:cursor-not-allowed'
           disabled={comment === ''}
         >
           Comment

@@ -7,6 +7,7 @@ import Profile from '../images/reddit_default_pp.png'
 import { CommentType, voteStatus, VotingRequestBody } from '@/types/types'
 import axios from 'axios'
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
+import { FaRegCommentAlt } from 'react-icons/fa'
 import useSWR from 'swr'
 import classnames from 'classnames'
 import { useSession } from 'next-auth/react'
@@ -43,15 +44,17 @@ const CommentCard: React.FC<CommentProps> = ({
   // Check if the user is in the upvote or downvotedby list in the comment
   let initialVoteStatus: voteStatus
 
-  if (upvotedBy.includes(userName)) {
+  if (upvotedBy?.includes(userName)) {
     initialVoteStatus = 'upvoted'
-  } else if (downvotedBy.includes(userName)) {
+  } else if (downvotedBy?.includes(userName)) {
     initialVoteStatus = 'downvoted'
   } else {
     initialVoteStatus = 'nonvoted'
   }
 
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+  const [comment, setComment] = useState('')
+  const [replyFlag, setReplyFlag] = useState(false)
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
@@ -92,6 +95,40 @@ const CommentCard: React.FC<CommentProps> = ({
 
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  }
+
+  const commentForm = (
+    <form className='flex flex-col flex-1 gap-y-2' onSubmit={handleSubmit}>
+      <textarea
+        className='w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray'
+        placeholder='What are your thoughts?'
+        onChange={handleChange}
+        value={comment}
+      />
+      <div className='bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row gap-x-3 justify-end'>
+        <button
+          className='px-2 py-1 text-sm text-white rounded-full hover:bg-reddit-hover-gray'
+          onClick={() => setReplyFlag(prevFlag => !prevFlag)}
+        >
+          Cancel
+        </button>
+        <button
+          className='px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black disabled:hover:cursor-not-allowed'
+          disabled={comment === ''}
+          type='submit'
+        >
+          Comment
+        </button>
+      </div>
+    </form>
+  )
+
   return (
     <main className='flex flex-row gap-x-4'>
       <Image
@@ -99,7 +136,7 @@ const CommentCard: React.FC<CommentProps> = ({
         alt='profile pic'
         className='w-8 h-8 rounded-full'
       />
-      <section className='flex flex-col gap-y-1'>
+      <section className='flex flex-col flex-1 gap-y-1'>
         <div className='flex flex-row items-center gap-x-2'>
           <Link href={`/u/${author}`} className='text-sm tracking-tight hover:underline'> {author} </Link>
           <span className='text-sm text-reddit-placeholder-gray'> {dateString} </span>
@@ -107,7 +144,7 @@ const CommentCard: React.FC<CommentProps> = ({
         <section>
           {content}
         </section>
-        <div className='flex flex-row gap-x-2'>
+        <div className='flex flex-row gap-x-2 items-center'>
           <PiArrowFatUpFill
             className={classnames(
               baseIconClassName,
@@ -136,7 +173,23 @@ const CommentCard: React.FC<CommentProps> = ({
             )}
             onClick={() => handleVoteChange('downvoted')}
           />
+          <div
+            className={`${baseIconClassName} w-fit px-2 py-4 flex flex-row items-center gap-x-2 text-reddit-placeholder-gray`}
+            onClick={() => setReplyFlag(prevFlag => !prevFlag)}
+          >
+            <FaRegCommentAlt className='w-4 h-4' />
+            <span className='text-sm'> Reply </span>
+          </div>
         </div>
+
+        <>
+          {replyFlag && (
+            <div className='m-2 w-full'>
+              {commentForm}
+            </div>
+          )}
+        </>
+
       </section>
     </main>
   )
