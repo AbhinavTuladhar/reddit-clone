@@ -26,7 +26,8 @@ export interface PostType {
   createdAt: string,
   upvotedBy: string[],
   downvotedBy: string[],
-  comments: string[]
+  comments: string[],
+  topLevelComments?: string[]
 }
 
 export interface CommentType {

@@ -51,7 +51,8 @@ const Page: React.FC<SubredditCommentParams> = ({
     createdAt = '',
     upvotedBy = [],
     downvotedBy = [],
-    comments
+    comments,
+    topLevelComments = []
   } = data || {}
 
   const iconClassName = 'text-reddit-placeholder-gray font-bold'
@@ -126,8 +127,8 @@ const Page: React.FC<SubredditCommentParams> = ({
     //   setCommentData(responses)
     // }
     // fetchData()
-    setCommentData(comments)
-  }, [comments])
+    setCommentData(topLevelComments)
+  }, [topLevelComments])
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { target: { value } } = event

@@ -146,72 +146,79 @@ const CommentCard: React.FC<CommentProps> = ({
   )
 
   return (
-    <main className='flex flex-row gap-x-4'>
-      <Image
-        src={Profile}
-        alt='profile pic'
-        className='w-8 h-8 rounded-full'
-      />
-      <section className='flex flex-col flex-1 gap-y-1'>
-        <div className='flex flex-row items-center gap-x-2'>
-          <Link href={`/u/${author}`} className='text-sm tracking-tight hover:underline'> {author} </Link>
-          <span className='text-sm text-reddit-placeholder-gray'> {dateString} </span>
-        </div>
-        <section>
-          {paragraphs?.map((row) => (
-            <>
-              {row} <br />
-            </>
-          ))}
-        </section>
-        <div className='flex flex-row gap-x-2 items-center'>
-          <PiArrowFatUpFill
-            className={classnames(
-              baseIconClassName,
-              { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
-              { 'text-reddit-orange': voteStatus === 'upvoted' },
-              'hover:text-reddit-orange'
-            )}
-            onClick={() => handleVoteChange('upvoted')}
-          />
-          <span
-            className={classnames(
-              'w-3 text-sm text-center',
-              { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
-              { 'text-reddit-orange': voteStatus === 'upvoted' },
-              { 'text-indigo-400': voteStatus === 'downvoted' },
-            )}
-          >
-            {effectiveKarma}
-          </span>
-          <PiArrowFatDownFill
-            className={classnames(
-              baseIconClassName,
-              { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
-              { 'text-indigo-400': voteStatus === 'downvoted' },
-              'hover:text-indigo-400'
-            )}
-            onClick={() => handleVoteChange('downvoted')}
-          />
-          <div
-            className={`${baseIconClassName} w-fit px-2 py-4 flex flex-row items-center gap-x-2 text-reddit-placeholder-gray`}
-            onClick={() => toggleReplyVisibility()}
-          >
-            <FaRegCommentAlt className='w-4 h-4' />
-            <span className='text-sm'> Reply </span>
+    <div className='flex flex-col gap-y-2'>
+      <main className='flex flex-row gap-x-4'>
+        <Image
+          src={Profile}
+          alt='profile pic'
+          className='w-8 h-8 rounded-full'
+        />
+        <section className='flex flex-col flex-1 gap-y-1'>
+          <div className='flex flex-row items-center gap-x-2'>
+            <Link href={`/u/${author}`} className='text-sm tracking-tight hover:underline'> {author} </Link>
+            <span className='text-sm text-reddit-placeholder-gray'> {dateString} </span>
           </div>
-        </div>
-
-        <>
-          {replyFlag && (
-            <div className='m-2 w-full'>
-              {commentForm}
+          <section>
+            {paragraphs?.map((row) => (
+              <>
+                {row} <br />
+              </>
+            ))}
+          </section>
+          <div className='flex flex-row gap-x-2 items-center'>
+            <PiArrowFatUpFill
+              className={classnames(
+                baseIconClassName,
+                { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
+                { 'text-reddit-orange': voteStatus === 'upvoted' },
+                'hover:text-reddit-orange'
+              )}
+              onClick={() => handleVoteChange('upvoted')}
+            />
+            <span
+              className={classnames(
+                'w-3 text-sm text-center',
+                { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
+                { 'text-reddit-orange': voteStatus === 'upvoted' },
+                { 'text-indigo-400': voteStatus === 'downvoted' },
+              )}
+            >
+              {effectiveKarma}
+            </span>
+            <PiArrowFatDownFill
+              className={classnames(
+                baseIconClassName,
+                { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
+                { 'text-indigo-400': voteStatus === 'downvoted' },
+                'hover:text-indigo-400'
+              )}
+              onClick={() => handleVoteChange('downvoted')}
+            />
+            <div
+              className={`${baseIconClassName} w-fit px-2 py-4 flex flex-row items-center gap-x-2 text-reddit-placeholder-gray`}
+              onClick={() => toggleReplyVisibility()}
+            >
+              <FaRegCommentAlt className='w-4 h-4' />
+              <span className='text-sm'> Reply </span>
             </div>
-          )}
-        </>
+          </div>
 
-      </section>
-    </main>
+          <>
+            {replyFlag && (
+              <div className='m-2 w-full'>
+                {commentForm}
+              </div>
+            )}
+          </>
+
+        </section>
+      </main>
+      {replies?.map(reply => (
+        <section className='ml-5'>
+          <CommentCard id={reply} />
+        </section>
+      ))}
+    </div>
   )
 }
 

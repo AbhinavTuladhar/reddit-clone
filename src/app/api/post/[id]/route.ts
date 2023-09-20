@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { connectDatabase } from "@/utils/db"
 import Post from "@/models/Post"
 import Subreddit from "@/models/Subreddit"
+import Comment from "@/models/Comment"
 import User from "@/models/User"
 import { VotingRequestBody } from "@/types/types"
 import { Schema } from "mongoose";
@@ -20,7 +21,22 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
 
     const foundPost = await Post.findOne({ _id: id })
 
-    return new NextResponse(JSON.stringify(foundPost), { status: 201 })
+    // Fetch the top-level comment IDs for the post
+    const topLevelCommentsList = await Comment.find(
+      { post: id, parentComment: null },
+      { '_id': 1 }
+    )
+
+    // Extract IDs from the query result
+    const topLevelComments = topLevelCommentsList.map((comment) => comment._id)
+
+    // Include the IDs in the post data
+    const postWithTopLevelCommentIds = {
+      ...foundPost.toJSON(),
+      topLevelComments
+    }
+
+    return new NextResponse(JSON.stringify(postWithTopLevelCommentIds), { status: 201 })
   } catch (error) {
     console.error('new error')
     return new NextResponse(JSON.stringify({ error: 'error!' }), { status: 501 })
