@@ -10,18 +10,26 @@ interface RequestBody {
   content: string,
   author: string,
   post: string,
+  parentComment?: string
 }
 
 export const POST = async (request: NextRequest) => {
   const body: RequestBody = await request.json()
 
-  const { author, content, post } = body
+  const { author, content, post, parentComment } = body
 
   try {
     await connectDatabase()
 
-    const newComment = new Comment({ author, content, post })
+    const newComment = new Comment({ author, content, post, parentComment })
     await newComment.save()
+
+    // Update the parent comment - push the id of the reply into the replies array
+    await Comment.findOneAndUpdate(
+      { _id: parentComment },
+      { $push: { replies: newComment._id } },
+      { new: false }
+    )
 
     // Update array in the Post schema.
     await Post.findOneAndUpdate(

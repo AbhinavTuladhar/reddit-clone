@@ -96,13 +96,27 @@ const CommentCard: React.FC<CommentProps> = ({
 
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
+  const toggleReplyVisibility = () => {
+    setReplyFlag(prevFlag => !prevFlag)
+  }
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { target: { value } } = event
     setReply(value)
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const requestBody = {
+      content: reply,
+      author: userName,
+      post,
+      parentComment: id     // This is the id of the current comment
+    }
+    await axios.post('/api/comment', requestBody)
+    setReply('')
+    mutate()
+    toggleReplyVisibility()
   }
 
   const commentForm = (
@@ -116,7 +130,7 @@ const CommentCard: React.FC<CommentProps> = ({
       <div className='bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row gap-x-3 justify-end'>
         <button
           className='px-2 py-1 text-sm text-white rounded-full hover:bg-reddit-hover-gray'
-          onClick={() => setReplyFlag(prevFlag => !prevFlag)}
+          onClick={() => toggleReplyVisibility()}
         >
           Cancel
         </button>
@@ -181,7 +195,7 @@ const CommentCard: React.FC<CommentProps> = ({
           />
           <div
             className={`${baseIconClassName} w-fit px-2 py-4 flex flex-row items-center gap-x-2 text-reddit-placeholder-gray`}
-            onClick={() => setReplyFlag(prevFlag => !prevFlag)}
+            onClick={() => toggleReplyVisibility()}
           >
             <FaRegCommentAlt className='w-4 h-4' />
             <span className='text-sm'> Reply </span>
