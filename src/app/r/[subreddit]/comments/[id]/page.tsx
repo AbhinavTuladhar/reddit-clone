@@ -153,7 +153,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   }, [voteStatus])
 
   const commentForm = (
-    <form className='flex flex-col flex-1 gap-y-2' onSubmit={handleSubmit}>
+    <form className='flex flex-col flex-1 my-2 gap-y-2' onSubmit={handleSubmit}>
       <span className='text-sm'>
         Comment as&nbsp;
         <Link href={`/u/${userName}`} className='text-blue-500 hover:underline hover:text-red-500'>
@@ -239,7 +239,7 @@ const Page: React.FC<SubredditCommentParams> = ({
             {authStatus === 'authenticated' && commentForm}
           </>
 
-          <div className="relative flex items-center py-5">
+          <div className="z-0 flex items-center py-5">
             <div className="flex-grow border-t border-gray-100"></div>
             <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
           </div>

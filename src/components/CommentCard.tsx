@@ -148,11 +148,14 @@ const CommentCard: React.FC<CommentProps> = ({
   return (
     <div className='flex flex-col gap-y-2'>
       <main className='flex flex-row gap-x-4'>
-        <Image
-          src={Profile}
-          alt='profile pic'
-          className='w-8 h-8 rounded-full'
-        />
+        <div className='flex flex-col items-center justify-center gap-y-1'>
+          <Image
+            src={Profile}
+            alt='profile pic'
+            className='w-8 h-8 rounded-full'
+          />
+          <div className='h-full mt-1 text-xs text-transparent border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div>
+        </div>
         <section className='flex flex-col flex-1 gap-y-1'>
           <div className='flex flex-row items-center gap-x-2'>
             <Link href={`/u/${author}`} className='text-sm tracking-tight hover:underline'> {author} </Link>
@@ -165,7 +168,7 @@ const CommentCard: React.FC<CommentProps> = ({
               </>
             ))}
           </section>
-          <div className='flex flex-row gap-x-2 items-center'>
+          <div className='flex flex-row items-center gap-x-2'>
             <PiArrowFatUpFill
               className={classnames(
                 baseIconClassName,
@@ -205,7 +208,7 @@ const CommentCard: React.FC<CommentProps> = ({
 
           <>
             {replyFlag && (
-              <div className='m-2 w-full'>
+              <div className='w-full m-2'>
                 {commentForm}
               </div>
             )}
@@ -213,11 +216,13 @@ const CommentCard: React.FC<CommentProps> = ({
 
         </section>
       </main>
+
       {replies?.map(reply => (
         <section className='ml-5'>
           <CommentCard id={reply} />
         </section>
       ))}
+
     </div>
   )
 }
