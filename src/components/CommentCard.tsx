@@ -92,7 +92,7 @@ const CommentCard: React.FC<CommentProps> = ({
       setVoteStatus('upvoted')
     }
 
-    const requestBody = { user: userName, voteTarget: newVoteStatus }
+    const requestBody = { user: userName, voteTarget: newVoteStatus, author: author }
 
     await axios.patch(`/api/comment/${id}`, requestBody)
     mutate()

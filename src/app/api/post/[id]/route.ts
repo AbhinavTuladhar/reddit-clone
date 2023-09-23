@@ -47,7 +47,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
   const { params: { id: postId } } = params
   const body: VotingRequestBody = await request.json()
 
-  const { user, voteTarget } = body
+  const { user, voteTarget, author } = body
 
   try {
     await connectDatabase()
@@ -66,8 +66,11 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       return new NextResponse(JSON.stringify({ message: 'Post not found!' }), { status: 501 })
     }
 
+    // Disable changing the vote count if the up/downvoer and the author of the post are the same,
+    if (user === author) { }
+
     // Case 2: Upvoted, click upvote again.
-    if (foundPost.upvotedBy.includes(user) && voteTarget === 'nonvoted') {
+    else if (foundPost.upvotedBy.includes(user) && voteTarget === 'nonvoted') {
       foundPost.upvotedBy = foundPost.upvotedBy.filter((value: string) => value !== user)
       foundUser.upvotedPosts = foundUser.upvotedPosts.filter((value: Schema.Types.ObjectId) => value.toString() !== postId)
       postAuthor.postKarma -= 1

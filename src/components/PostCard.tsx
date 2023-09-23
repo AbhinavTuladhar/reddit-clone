@@ -82,7 +82,7 @@ const PostCard: React.FC<PostProps> = ({
       setVoteStatus('upvoted')
     }
 
-    const requestBody = { user: userName, voteTarget: newVoteStatus }
+    const requestBody = { user: userName, voteTarget: newVoteStatus, author: author }
 
     await axios.patch(`/api/post/${id}`, requestBody)
     mutate()

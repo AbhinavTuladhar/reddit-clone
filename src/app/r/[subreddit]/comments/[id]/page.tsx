@@ -112,7 +112,7 @@ const Page: React.FC<SubredditCommentParams> = ({
       setVoteStatus('upvoted')
     }
 
-    const requestBody = { user: userName, voteTarget: newVoteStatus }
+    const requestBody = { user: userName, voteTarget: newVoteStatus, author: author }
 
     await axios.patch(`/api/post/${_id}`, requestBody)
     mutate()

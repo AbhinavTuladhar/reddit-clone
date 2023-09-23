@@ -45,5 +45,6 @@ export interface CommentType {
 
 export interface VotingRequestBody {
   user: string,
+  author: string
   voteTarget: voteStatus
 }

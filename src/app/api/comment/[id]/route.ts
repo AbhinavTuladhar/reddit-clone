@@ -32,7 +32,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
   const { params: { id: commentId } } = params
   const body: VotingRequestBody = await request.json()
 
-  const { user, voteTarget } = body
+  const { user, voteTarget, author } = body
 
   try {
     await connectDatabase()
@@ -51,8 +51,11 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       return new NextResponse(JSON.stringify({ message: 'Comment not found!' }), { status: 501 })
     }
 
+    // Do nothing if the comment author and the up/down voter is the same
+    if (user === author) { }
+
     // Case 4: Upvoted, click on downvote
-    if ((foundComment.upvotedBy.includes(user)) && voteTarget === 'downvoted') {
+    else if ((foundComment.upvotedBy.includes(user)) && voteTarget === 'downvoted') {
       foundComment.upvotedBy = foundComment.upvotedBy.filter((value: string) => value !== user)
       foundComment.downvotedBy.push(user)
 
