@@ -5,6 +5,10 @@ import useFetch from '@/utils/useFetch';
 import { SubredditType, PostType } from '@/types/types'
 import PostCard from '@/components/PostCard';
 import axios from 'axios'
+import SubIcon from '../../../images/subreddit_icon.png'
+import Image from 'next/image';
+import formatSubName from '@/utils/formatSubName';
+import CreatePostCard from '@/components/CreatePostCard';
 
 interface SubredditParams {
   params: {
@@ -14,7 +18,7 @@ interface SubredditParams {
 
 const Page: React.FC<SubredditParams> = ({ params }) => {
   const subredditName = params.subreddit;
-
+  const formattedSubredditName = formatSubName(subredditName)
 
   const [postDetails, setPostDetails] = useState<PostType[]>([]);
 
@@ -34,14 +38,33 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   }, [])
 
   return (
-    <div>
-      {subredditName}
+    <>
+      <div className='bg-blue-500 w-screen h-20 -ml-4'> </div>
+      <section className='flex flex-row gap-x-2'>
+        <Image
+          src={SubIcon}
+          className='h-24 w-24 border-4 rounded-full -mt-4'
+          alt='sub icon'
+        />
+        <div className='flex flex-col gap-y-0.5'>
+          <h1 className='text-4xl font-bold'>
+            {formattedSubredditName}
+          </h1>
+          <h3 className='text-lg text-reddit-placeholder-gray'>
+            {`r/${subredditName}`}
+          </h3>
+        </div>
+      </section>
+
+      <div className='my-4 flex flex-col gap-y-4'>
+        <CreatePostCard />
+      </div>
       <div className='flex flex-col gap-y-0'>
         {postDetails?.map(post => (
           <PostCard id={post._id} />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
