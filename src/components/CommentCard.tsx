@@ -44,7 +44,7 @@ const CommentCard: React.FC<CommentProps> = ({
   // Check if the user is in the upvote or downvotedby list in the comment
   let initialVoteStatus: voteStatus
 
-  if (upvotedBy?.includes(userName)) {
+  if (upvotedBy?.includes(userName) || userName === author) {
     initialVoteStatus = 'upvoted'
   } else if (downvotedBy?.includes(userName)) {
     initialVoteStatus = 'downvoted'
@@ -55,6 +55,10 @@ const CommentCard: React.FC<CommentProps> = ({
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
   const [reply, setReply] = useState('')
   const [replyFlag, setReplyFlag] = useState(false)
+
+  useEffect(() => {
+    setVoteStatus(initialVoteStatus)
+  }, [initialVoteStatus])
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
@@ -94,7 +98,6 @@ const CommentCard: React.FC<CommentProps> = ({
     mutate()
   }
 
-  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   const toggleReplyVisibility = () => {
     setReplyFlag(prevFlag => !prevFlag)
@@ -118,6 +121,8 @@ const CommentCard: React.FC<CommentProps> = ({
     mutate()
     toggleReplyVisibility()
   }
+
+  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   const commentForm = (
     <form className='flex flex-col flex-1 gap-y-2' onSubmit={handleSubmit}>
@@ -152,7 +157,7 @@ const CommentCard: React.FC<CommentProps> = ({
           <Image
             src={Profile}
             alt='profile pic'
-            className='w-8 h-8 rounded-full'
+            className='w-6 h-6 rounded-full'
           />
           <div className='h-full mt-1 text-xs text-transparent border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div>
         </div>
@@ -218,9 +223,12 @@ const CommentCard: React.FC<CommentProps> = ({
       </main>
 
       {replies?.map(reply => (
-        <section className='ml-5'>
-          <CommentCard id={reply} />
-        </section>
+        <>
+          {/* <div className='h-full mt-1 text-xs text-transparent border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div> */}
+          <section className='ml-5'>
+            <CommentCard id={reply} />
+          </section>
+        </>
       ))}
 
     </div>

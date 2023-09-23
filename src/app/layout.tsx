@@ -24,7 +24,7 @@ export default function RootLayout({
           <SessionProvider>
             <div className='flex flex-col justify-between min-h-screen'>
               <NavBar />
-              <main className='px-4 py-12'> {/* py-12 is for the height of the fixed navbar. */}
+              <main className='px-4 py-12 text-sm'> {/* py-12 is for the height of the fixed navbar. */}
                 {children}
               </main>
             </div>

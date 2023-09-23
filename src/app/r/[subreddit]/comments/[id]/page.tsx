@@ -64,9 +64,9 @@ const Page: React.FC<SubredditCommentParams> = ({
   ]
 
   // Check if the user is in the upvote or downvotedby list in the comment
-  let initialVoteStatus: voteStatus
+  let initialVoteStatus: voteStatus = 'nonvoted'
 
-  if (upvotedBy.includes(userName)) {
+  if (upvotedBy.includes(userName) || author === userName) {
     initialVoteStatus = 'upvoted'
   } else if (downvotedBy.includes(userName)) {
     initialVoteStatus = 'downvoted'
@@ -79,6 +79,10 @@ const Page: React.FC<SubredditCommentParams> = ({
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const paragraphs = body?.split('\n')
+
+  useEffect(() => {
+    setVoteStatus(initialVoteStatus)
+  }, [initialVoteStatus])
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
     if (authStatus !== 'authenticated') {
@@ -147,10 +151,6 @@ const Page: React.FC<SubredditCommentParams> = ({
     setComment('')
     mutate()
   }
-
-  useEffect(() => {
-    console.log(voteStatus)
-  }, [voteStatus])
 
   const commentForm = (
     <form className='flex flex-col flex-1 my-2 gap-y-2' onSubmit={handleSubmit}>

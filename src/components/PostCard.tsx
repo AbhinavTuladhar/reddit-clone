@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import { PostType, voteStatus } from '@/types/types'
@@ -38,7 +38,7 @@ const PostCard: React.FC<PostProps> = ({
   // Check if the user is in the upvote or downvotedby list in the comment
   let initialVoteStatus: voteStatus
 
-  if (upvotedBy.includes(userName)) {
+  if (upvotedBy.includes(userName) || author === userName) {
     initialVoteStatus = 'upvoted'
   } else if (downvotedBy.includes(userName)) {
     initialVoteStatus = 'downvoted'
@@ -47,9 +47,12 @@ const PostCard: React.FC<PostProps> = ({
   }
 
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
-
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
+
+  useEffect(() => {
+    setVoteStatus(initialVoteStatus)
+  }, [initialVoteStatus])
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
     if (status !== 'authenticated') {
