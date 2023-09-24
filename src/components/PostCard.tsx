@@ -16,12 +16,13 @@ import { AiOutlineEyeInvisible } from 'react-icons/ai'
 import { BsFlag } from 'react-icons/bs'
 
 interface PostProps {
-  id: string
+  /** The id of the post. */
+  id: string,
+  /** Whether to view the name of the subreddit on the post card. */
+  subViewFlag: boolean
 }
 
-const PostCard: React.FC<PostProps> = ({
-  id,
-}) => {
+const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   const session = useSession()
   const { status, data: sessionData } = session
   const userName = sessionData?.user?.name || ''
@@ -163,6 +164,7 @@ const PostCard: React.FC<PostProps> = ({
           </div>
         )
       })}
+      <Link href={postLink} className='flex flex-grow'> </Link>
     </div>
   )
 
@@ -177,7 +179,9 @@ const PostCard: React.FC<PostProps> = ({
             {title}
           </h1>
           <div className='flex flex-row items-center text-xs gap-x-1'>
-            <Link href={`/r/${subreddit}`} className='font-bold hover:underline'> {`r/${subreddit}`} </Link>
+            {subViewFlag && (
+              <Link href={`/r/${subreddit}`} className='font-bold hover:underline'> {`r/${subreddit}`} </Link>
+            )}
             <span className='flex flex-row text-gray-400'>
               <span> Posted by&nbsp; </span>
               <Link href={`/u/${author}`} className='hover:underline'> {`u/${author}`}</Link>

@@ -9,6 +9,7 @@ import SubIcon from '../../../images/subreddit_icon.png'
 import Image from 'next/image';
 import formatSubName from '@/utils/formatSubName';
 import CreatePostCard from '@/components/CreatePostCard';
+import AboutCommunity from '@/components/AboutCommunity';
 
 interface SubredditParams {
   params: {
@@ -39,7 +40,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
 
   return (
     <>
-      <div className='bg-blue-500 w-screen h-20 -ml-4'> </div>
+      <div className='bg-blue-500 h-20 -ml-4 flex-1 flex'> </div>
       <section className='flex flex-row gap-x-2'>
         <Image
           src={SubIcon}
@@ -59,11 +60,17 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       <div className='my-4 flex flex-col gap-y-4'>
         <CreatePostCard />
       </div>
-      <div className='flex flex-col gap-y-0'>
-        {postDetails?.map(post => (
-          <PostCard id={post._id} />
-        ))}
+      <div className='flex flex-row gap-x-6'>
+        <div className='flex flex-col flex-1 gap-y-0'>
+          {postDetails?.map(post => (
+            <PostCard id={post._id} subViewFlag={false} />
+          ))}
+        </div>
+        <section className='w-80 hidden lg:block'>
+          <AboutCommunity subName={subredditName} />
+        </section>
       </div>
+
     </>
   );
 };
