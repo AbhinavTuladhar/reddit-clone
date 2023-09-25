@@ -169,7 +169,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   )
 
   return (
-    <main className='flex flex-row items-center border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer'>
+    <main className='flex flex-row items-center border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer duration-150'>
 
       <> {votingDiv} </>
 

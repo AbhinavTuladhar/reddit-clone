@@ -48,3 +48,8 @@ export interface VotingRequestBody {
   author: string
   voteTarget: voteStatus
 }
+
+export interface SubDescChangeBody {
+  name: string,
+  description: string
+}

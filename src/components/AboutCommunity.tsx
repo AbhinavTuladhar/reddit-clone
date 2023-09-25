@@ -6,6 +6,8 @@ import useSWR from 'swr'
 import { SubredditType } from '@/types/types'
 import { LuCake } from 'react-icons/lu'
 import { SlPencil } from 'react-icons/sl'
+import { SubDescChangeBody } from '@/types/types'
+import axios from 'axios'
 
 interface CommunityProps {
   subName: string
@@ -31,6 +33,7 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
   } = data || {}
 
   const [desc, setDesc] = useState<string>(description)
+  const [charactersRemaining, setCharactersRemaining] = useState(500)
   const [isEditing, setIsEditing] = useState(false)
 
   useEffect(() => {
@@ -42,46 +45,61 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
 
   const toggleEditing = () => {
     setIsEditing(prevState => !prevState)
-    setDesc('')
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { target: { value } } = event
-    setDesc(value)
+    if (desc.length <= 500) {
+      setDesc(value)
+    }
   }
 
-  /**
-   * Storing the editable text if the sub author wants to edit the description
-   */
+  useEffect(() => {
+    const descLength = desc.length
+    setCharactersRemaining(500 - descLength)
+  }, [desc])
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const DescChangeBody: SubDescChangeBody = {
+      description: desc,
+      name: subName
+    }
+
+    await axios.patch(`/api/r/${subName}`, DescChangeBody)
+    toggleEditing()
+    mutate()
+  }
+
   const editableDescription = (
     <>
-      {description === '' ? (
-        isEditing ? (
-          <form className='flex flex-col'>
-            <textarea
-              className='p-1 border border-transparent resize-none focus:border-slate-100 bg-reddit-gray placeholder:text-reddit-placeholder-gray'
-              placeholder='Tell us about your community'
-              value={desc}
-              onChange={handleChange}
-            />
-            <div className='flex justify-between p-1 bg-reddit-gray'>
-              <span> 500 characters remaining </span>
-              <div className='flex flex-row text-xs gap-x-2'>
-                <button className='text-red-600' onClick={toggleEditing} type='button'> Cancel </button>
-                <button className='text-slate-100' type='submit'> Save </button>
-              </div>
-            </div>
-          </form>
-        ) : (
+      {!isEditing ? (
+        description === '' ? (
           <div className='flex flex-row px-2 py-1 duration-300 border border-black bg-reddit-gray hover:border-slate-100 hover:cursor-pointer' onClick={toggleEditing}>
             <span className='tracking-tight'> Add a description</span>
           </div>
+        ) : (
+          <div className='flex flex-row gap-x-2'>
+            <span> {description} </span>
+            <SlPencil onClick={toggleEditing} className='hover:cursor-pointer' />
+          </div>
         )
       ) : (
-        <>
-          <span> {description} </span>
-          <SlPencil onClick={toggleEditing} />
-        </>
+        <form className='flex flex-col peer' onSubmit={handleSubmit}>
+          <textarea
+            className='p-1 border border-reddit-gray resize-none bg-reddit-gray placeholder:text-reddit-placeholder-gray peer-focus:border-slate-100 peer-focus:border'
+            placeholder='Tell us about your community'
+            value={desc}
+            onChange={handleChange}
+          />
+          <div className='flex justify-between p-1 mt-[1px] bg-reddit-gray peer-focus:border-slate-100'>
+            <span className='text-reddit-placeholder-gray'> {`${charactersRemaining} characters remaining`} </span>
+            <div className='flex flex-row text-xs gap-x-2'>
+              <button className='text-red-600' onClick={toggleEditing} type='button'> Cancel </button>
+              <button className='text-slate-100' type='submit'> Save </button>
+            </div>
+          </div>
+        </form>
       )}
     </>
   )
