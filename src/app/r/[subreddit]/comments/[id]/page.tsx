@@ -15,6 +15,7 @@ import CommentCard from '@/components/CommentCard';
 import useSWR from 'swr'
 import classnames from 'classnames';
 import calculateDateString from '@/utils/calculateDateString';
+import AboutCommunity from '@/components/AboutCommunity';
 // import { PostType } from '@/types/types'
 
 interface SubredditCommentParams {
@@ -180,78 +181,86 @@ const Page: React.FC<SubredditCommentParams> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-col w-full px-8 py-4 mx-auto mt-4 border gap-y-6 bg-reddit-dark lg:w-3/4 border-reddit-border'>
-      <div className='flex flex-row gap-x-4'>
-        <section className='flex flex-col items-center gap-y-1'>
-          <PiArrowFatUpFill
-            className={classnames(
-              baseIconClassName,
-              { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
-              { 'text-reddit-orange': voteStatus === 'upvoted' },
-              'hover:text-reddit-orange'
-            )}
-            onClick={() => handleVoteChange('upvoted')}
-          />
-          <span
-            className={classnames(
-              { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
-              { 'text-reddit-orange': voteStatus === 'upvoted' },
-              { 'text-indigo-400': voteStatus === 'downvoted' },
-            )}
-          >
-            {effectiveKarma}
-          </span>
-          <PiArrowFatDownFill
-            className={classnames(
-              baseIconClassName,
-              { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
-              { 'text-indigo-400': voteStatus === 'downvoted' },
-              'hover:text-indigo-400'
-            )}
-            onClick={() => handleVoteChange('downvoted')}
-          />
-        </section>
-        <section className='flex flex-col flex-1 gap-y-2'>
-
-          <div className='flex flex-row items-center text-xs text-gray-400 gap-x-1'>
-            <span> {`Posted by u/${author}`} </span>
-            <span> {dateString} </span>
-          </div>
-          <h1 className='text-xl font-bold'>
-            {title}
-          </h1>
-          {paragraphs?.map((row) => (
-            <>
-              {row} <br />
-            </>
-          ))}
-
-          <section className='flex flex-row gap-x-4'>
-            {iconBarData.map((row, index) => (
-              <div className='flex flex-row items-center p-2 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray' key={index}>
-                <span> {row.icon} </span>
-                <span className='text-reddit-placeholder-gray'> {row.label} </span>
-              </div>
-            ))}
+    <main className='flex flex-row gap-x-4 mt-4'>
+      <section className='flex flex-col flex-1 w-full px-8 py-4 mx-auto border gap-y-6 bg-reddit-dark border-reddit-border'>
+        <div className='flex flex-row gap-x-4'>
+          <section className='flex flex-col items-center gap-y-1'>
+            <PiArrowFatUpFill
+              className={classnames(
+                baseIconClassName,
+                { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
+                { 'text-reddit-orange': voteStatus === 'upvoted' },
+                'hover:text-reddit-orange'
+              )}
+              onClick={() => handleVoteChange('upvoted')}
+            />
+            <span
+              className={classnames(
+                { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
+                { 'text-reddit-orange': voteStatus === 'upvoted' },
+                { 'text-indigo-400': voteStatus === 'downvoted' },
+              )}
+            >
+              {effectiveKarma}
+            </span>
+            <PiArrowFatDownFill
+              className={classnames(
+                baseIconClassName,
+                { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
+                { 'text-indigo-400': voteStatus === 'downvoted' },
+                'hover:text-indigo-400'
+              )}
+              onClick={() => handleVoteChange('downvoted')}
+            />
           </section>
+          <section className='flex flex-col flex-1 gap-y-2'>
 
-          <>
-            {authStatus === 'authenticated' && commentForm}
-          </>
-
-          <div className="z-0 flex items-center py-5">
-            <div className="flex-grow border-t border-gray-100"></div>
-            <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
-          </div>
-
-          <>
-            {commentData?.map(comment => (
-              <CommentCard id={comment} />
+            <div className='flex flex-row items-center text-xs text-gray-400 gap-x-1'>
+              <Link className='font-bold text-white hover:underline duration-300' href={`/r/${subreddit}`}> {`r/${subreddit}`}</Link>
+              <span> {`Posted by u/${author}`} </span>
+              <span> {dateString} </span>
+            </div>
+            <h1 className='text-xl font-bold'>
+              {title}
+            </h1>
+            {paragraphs?.map((row) => (
+              <>
+                {row} <br />
+              </>
             ))}
-          </>
 
-        </section>
-      </div>
+            <section className='flex flex-row gap-x-4'>
+              {iconBarData.map((row, index) => (
+                <div className='flex flex-row items-center p-2 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray' key={index}>
+                  <span> {row.icon} </span>
+                  <span className='text-reddit-placeholder-gray'> {row.label} </span>
+                </div>
+              ))}
+            </section>
+
+            <>
+              {authStatus === 'authenticated' && commentForm}
+            </>
+
+            <div className="z-0 flex items-center py-5">
+              <div className="flex-grow border-t border-gray-100"></div>
+              <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
+            </div>
+
+            <>
+              {commentData?.map(comment => (
+                <CommentCard id={comment} />
+              ))}
+            </>
+
+          </section>
+        </div>
+      </section>
+
+      <section className='w-80 hidden lg:block'>
+        <AboutCommunity subName={subredditName} />
+      </section>
+
     </main>
   );
 };
