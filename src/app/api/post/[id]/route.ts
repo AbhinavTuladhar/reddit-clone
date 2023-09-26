@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { connectDatabase } from "@/utils/db"
 import Post from "@/models/Post"
-import Subreddit from "@/models/Subreddit"
 import Comment from "@/models/Comment"
 import User from "@/models/User"
 import { VotingRequestBody } from "@/types/types"

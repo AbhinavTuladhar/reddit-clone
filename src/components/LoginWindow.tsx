@@ -6,11 +6,6 @@ import { ModalProps } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
 import BorderDivider from './BorderDivider'
 
-// interface SignInFormType {
-//   name: string,
-//   password: string
-// }
-
 const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   const [formData, setFormData] = useState({
     name: '',

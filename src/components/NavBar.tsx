@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SiReddit } from 'react-icons/si'

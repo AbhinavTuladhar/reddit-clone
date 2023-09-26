@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Profile from '../images/reddit_default_pp.png'
-import KarmaIcon from '../images/karma_icon.png'
 import { PiCaretDown } from 'react-icons/pi'
 import axios from 'axios'
+import Profile from '../images/reddit_default_pp.png'
+import KarmaIcon from '../images/karma_icon.png'
 
 interface UserOptionsProps {
   userName: string | null | undefined

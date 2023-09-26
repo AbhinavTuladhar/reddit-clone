@@ -8,7 +8,7 @@ interface RequestParams {
   }
 }
 
-export const GET = async (request: NextRequest, params: RequestParams) => {
+export const GET = async (_request: NextRequest, params: RequestParams) => {
   const { params: { name } } = params
 
   try {

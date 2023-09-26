@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Profile from '../images/reddit_default_pp.png'
-import { CommentType, voteStatus, VotingRequestBody } from '@/types/types'
+import { useSession } from 'next-auth/react'
 import axios from 'axios'
-import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import useSWR from 'swr'
+import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import classnames from 'classnames'
-import { useSession } from 'next-auth/react'
+import Profile from '../images/reddit_default_pp.png'
+import { CommentType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString'
 
 interface CommentProps {
@@ -162,10 +162,10 @@ const CommentCard: React.FC<CommentProps> = ({
           <div className='h-full mt-1 text-xs text-transparent border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div>
         </div>
         <section className='flex flex-col flex-1 gap-y-1'>
-          <div className='flex flex-row items-center gap-x-2 text-xs'>
+          <div className='flex flex-row items-center text-xs gap-x-2'>
             <Link href={`/u/${author}`} className='tracking-tight hover:underline'> {author} </Link>
             {author === userName && (
-              <span className='text-blue-600 font-bold'> OP </span>
+              <span className='font-bold text-blue-600'> OP </span>
             )}
             <span className='text-reddit-placeholder-gray'> {dateString} </span>
           </div>

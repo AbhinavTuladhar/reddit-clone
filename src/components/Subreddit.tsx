@@ -2,16 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { AiFillHome } from 'react-icons/ai'
 import { PiCaretDown } from 'react-icons/pi'
-import useSWR from 'swr'
-import Select from 'react-select'
-import { usePathname } from 'next/navigation'
-
-interface SubListResponse {
-  name: string,
-  creatorName: string
-}
 
 interface SubredditProps {
   subredditList: string[] | undefined

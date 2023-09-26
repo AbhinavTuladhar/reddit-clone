@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
-import { ModalProps } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import BorderDivider from './BorderDivider'
+import { ModalProps } from '@/types/types'
 import axios from 'axios'
 
 const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {

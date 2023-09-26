@@ -3,17 +3,17 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
-import { PostType, voteStatus } from '@/types/types'
-import useSWR from 'swr';
-import classnames from 'classnames';
-import calculateDateString from '@/utils/calculateDateString';
-import { useSession } from 'next-auth/react';
-import axios from 'axios'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { PiShareFatBold } from 'react-icons/pi'
 import { FiBookmark } from 'react-icons/fi'
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
+import useSWR from 'swr';
+import classnames from 'classnames';
+import { useSession } from 'next-auth/react';
+import axios from 'axios'
 import { BsFlag } from 'react-icons/bs'
+import { PostType, voteStatus } from '@/types/types'
+import calculateDateString from '@/utils/calculateDateString';
 
 interface PostProps {
   /** The id of the post. */
@@ -169,12 +169,12 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   )
 
   return (
-    <main className='flex flex-row items-center border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer duration-150'>
+    <main className='flex flex-row items-center duration-150 border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer'>
 
       <> {votingDiv} </>
 
-      <div className='flex flex-col justify-between py-1 gap-y-1 flex-grow flex-1'>
-        <Link href={postLink} className='flex flex-col justify-between gap-y-0  w-full flex-grow'>
+      <div className='flex flex-col justify-between flex-1 flex-grow py-1 gap-y-1'>
+        <Link href={postLink} className='flex flex-col justify-between flex-grow w-full gap-y-0'>
           <h1 className='text-lg'>
             {title}
           </h1>

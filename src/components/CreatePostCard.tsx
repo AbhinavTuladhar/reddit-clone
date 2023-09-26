@@ -8,7 +8,7 @@ const CreatePostCard = () => {
     <section className='flex flex-row items-center flex-1 h-12 p-4 bg-reddit-dark gap-x-4'>
       <Image src={Profile} alt='profile' className='rounded-full h-9 w-9' />
       <Link href='/submit' className='w-full'>
-        <div className='flex flex-1 w-full p-2 border bg-reddit-gray text-reddit-placeholder-gray border-reddit-border hover:cursor-text hover:bg-reddit-dark hover:border-white duration-150'>
+        <div className='flex flex-1 w-full p-2 duration-150 border bg-reddit-gray text-reddit-placeholder-gray border-reddit-border hover:cursor-text hover:bg-reddit-dark hover:border-white'>
           Create post...
         </div>
       </Link>

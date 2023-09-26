@@ -1,10 +1,8 @@
 import { NextResponse, NextRequest } from "next/server"
 import { connectDatabase } from "@/utils/db"
-import Subreddit from "@/models/Subreddit"
 import User from "@/models/User"
 import Comment from "@/models/Comment"
 import Post from "@/models/Post"
-import { Document } from "mongodb"
 
 interface RequestBody {
   content: string,

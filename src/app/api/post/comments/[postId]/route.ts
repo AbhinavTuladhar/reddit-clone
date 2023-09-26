@@ -2,9 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { connectDatabase } from "@/utils/db";
-import Subreddit from "@/models/Subreddit";
 import Comment from "@/models/Comment";
-import Post from "@/models/Post";
 
 interface RequestParams {
   params: {

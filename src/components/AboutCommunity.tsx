@@ -87,7 +87,7 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
       ) : (
         <form className='flex flex-col peer' onSubmit={handleSubmit}>
           <textarea
-            className='p-1 border border-reddit-gray resize-none bg-reddit-gray placeholder:text-reddit-placeholder-gray peer-focus:border-slate-100 peer-focus:border'
+            className='p-1 border resize-none border-reddit-gray bg-reddit-gray placeholder:text-reddit-placeholder-gray peer-focus:border-slate-100 peer-focus:border'
             placeholder='Tell us about your community'
             value={desc}
             onChange={handleChange}

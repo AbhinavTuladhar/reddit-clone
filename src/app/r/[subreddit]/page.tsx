@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import useFetch from '@/utils/useFetch';
 import { SubredditType, PostType } from '@/types/types'
 import PostCard from '@/components/PostCard';
 import axios from 'axios'
@@ -43,11 +42,11 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
 
   return (
     <>
-      <div className='bg-blue-500 w-screen h-20 -ml-4 flex-1 flex'> </div>
-      <section className='flex flex-row gap-x-2 w-screen -ml-4 pl-6 bg-reddit-gray'>
+      <div className='flex flex-1 w-screen h-20 -ml-4 bg-blue-500'> </div>
+      <section className='flex flex-row w-screen pl-6 -ml-4 gap-x-2 bg-reddit-gray'>
         <Image
           src={SubIcon}
-          className='h-24 w-24 border-4 rounded-full -mt-4'
+          className='w-24 h-24 -mt-4 border-4 rounded-full'
           alt='sub icon'
         />
         <div className='flex flex-col justify-center gap-y-0.5'>
@@ -61,7 +60,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       </section>
 
       {status === 'authenticated' && (
-        <div className='my-4 flex flex-col gap-y-4'>
+        <div className='flex flex-col my-4 gap-y-4'>
           <CreatePostCard />
         </div>
       )}
@@ -71,7 +70,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
             <PostCard id={post._id} subViewFlag={false} />
           ))}
         </div>
-        <section className='w-80 hidden lg:block'>
+        <section className='hidden w-80 lg:block'>
           <AboutCommunity subName={subredditName} />
         </section>
       </div>

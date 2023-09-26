@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
-import useFetch from '@/utils/useFetch';
-import { SubredditType, PostType, CommentType as CommentProps, voteStatus } from '@/types/types'
-import PostCard from '@/components/PostCard';
+import { PostType, voteStatus } from '@/types/types'
 import axios from 'axios'
 import Link from 'next/link';
 import { FaRegCommentAlt } from 'react-icons/fa'
@@ -16,7 +14,6 @@ import useSWR from 'swr'
 import classnames from 'classnames';
 import calculateDateString from '@/utils/calculateDateString';
 import AboutCommunity from '@/components/AboutCommunity';
-// import { PostType } from '@/types/types'
 
 interface SubredditCommentParams {
   params: {
@@ -181,7 +178,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-row gap-x-4 mt-4'>
+    <main className='flex flex-row mt-4 gap-x-4'>
       <section className='flex flex-col flex-1 w-full px-8 py-4 mx-auto border gap-y-6 bg-reddit-dark border-reddit-border'>
         <div className='flex flex-row gap-x-4'>
           <section className='flex flex-col items-center gap-y-1'>
@@ -216,7 +213,7 @@ const Page: React.FC<SubredditCommentParams> = ({
           <section className='flex flex-col flex-1 gap-y-2'>
 
             <div className='flex flex-row items-center text-xs text-gray-400 gap-x-1'>
-              <Link className='font-bold text-white hover:underline duration-300' href={`/r/${subreddit}`}> {`r/${subreddit}`}</Link>
+              <Link className='font-bold text-white duration-300 hover:underline' href={`/r/${subreddit}`}> {`r/${subreddit}`}</Link>
               <span> {`Posted by u/${author}`} </span>
               <span> {dateString} </span>
             </div>
@@ -257,7 +254,7 @@ const Page: React.FC<SubredditCommentParams> = ({
         </div>
       </section>
 
-      <section className='w-80 hidden lg:block'>
+      <section className='hidden w-80 lg:block'>
         <AboutCommunity subName={subredditName} />
       </section>
 
