@@ -162,9 +162,12 @@ const CommentCard: React.FC<CommentProps> = ({
           <div className='h-full mt-1 text-xs text-transparent border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div>
         </div>
         <section className='flex flex-col flex-1 gap-y-1'>
-          <div className='flex flex-row items-center gap-x-2'>
-            <Link href={`/u/${author}`} className='text-sm tracking-tight hover:underline'> {author} </Link>
-            <span className='text-sm text-reddit-placeholder-gray'> {dateString} </span>
+          <div className='flex flex-row items-center gap-x-2 text-xs'>
+            <Link href={`/u/${author}`} className='tracking-tight hover:underline'> {author} </Link>
+            {author === userName && (
+              <span className='text-blue-600 font-bold'> OP </span>
+            )}
+            <span className='text-reddit-placeholder-gray'> {dateString} </span>
           </div>
           <section>
             {paragraphs?.map((row) => (

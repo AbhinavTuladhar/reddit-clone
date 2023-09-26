@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { AiFillHome } from 'react-icons/ai'
 import { PiCaretDown } from 'react-icons/pi'
 import useSWR from 'swr'
 import Select from 'react-select'
+import { usePathname } from 'next/navigation'
 
 interface SubListResponse {
   name: string,
@@ -18,10 +19,23 @@ interface SubredditProps {
 
 const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedSub, setSelectedSub] = useState('Home')
+  const currentPath = usePathname()
 
   const toggleMenu = () => {
     setIsOpen(prevState => !prevState)
   }
+
+  // For finding out what to display in the div
+  useEffect(() => {
+    // Converts '/r/politics' and '/r/politics/comments/sdfjjskldjf to ['r', 'politics'] and '/' to ['']
+    const elements = currentPath.split('/').slice(1, 3)
+    if (elements[0] === '') {
+      setSelectedSub('Home')
+    } else {
+      setSelectedSub(elements.join('/'))
+    }
+  }, [currentPath])
 
   return (
     <section
@@ -29,12 +43,19 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
       onClick={toggleMenu}>
       <div className='flex flex-row items-center justify-between w-16 gap-x-2 lg:w-64'>
         <div className='flex flex-row items-center gap-x-2'>
-          <AiFillHome className='w-6 h-6 text-white' height={60} width={60} />
-          <span className='hidden text-sm lg:block'>
-            Home
-          </span>
+          {selectedSub === 'Home' ? (
+            <>
+              <AiFillHome className='w-6 h-6 text-white' height={60} width={60} />
+              <span className='hidden text-sm lg:block'>
+                Home
+              </span>
+            </>
+          ) : (
+            <span className='hidden text-sm lg:block'> {selectedSub}</span>
+          )}
         </div>
         <PiCaretDown />
+
         {isOpen && (
           <ul className='absolute left-0 z-40 flex flex-col w-64 mt-2 overflow-y-auto list-none border rounded-lg top-9 bg-reddit-dark border-slate-300 max-h-64'>
             {subredditList?.map((sub, index) => (
@@ -48,6 +69,7 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
             ))}
           </ul>
         )}
+
         {/* <span className='hidden text-sm lg:block'>
           Home
         </span> */}
