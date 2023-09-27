@@ -246,7 +246,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
             <>
               {commentData?.map(comment => (
-                <CommentCard id={comment} />
+                <CommentCard id={comment} postAuthor={author || ''} />
               ))}
             </>
 
