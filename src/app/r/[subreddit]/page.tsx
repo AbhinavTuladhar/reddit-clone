@@ -43,14 +43,19 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
           className='w-24 h-24 -mt-4 border-4 rounded-full'
           alt='sub icon'
         />
-        <div className='flex flex-col justify-center gap-y-0.5'>
-          <h1 className='text-4xl font-bold'>
-            {formattedSubredditName}
-          </h1>
+        <section className='flex flex-col justify-center gap-y-0.5'>
+          <div className='flex flex-row gap-x-4'>
+            <h1 className='text-4xl font-bold'>
+              {formattedSubredditName}
+            </h1>
+            <div className='bg-reddit-white font-bold text-black text-base px-10 py-1 rounded-full hover:cursor-pointer flex items-center'>
+              Join
+            </div>
+          </div>
           <h3 className='text-lg text-reddit-placeholder-gray'>
             {`r/${subredditName}`}
           </h3>
-        </div>
+        </section>
       </section>
 
       <div className={`flex flex-row gap-x-6 my-4`}>

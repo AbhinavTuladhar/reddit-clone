@@ -15,7 +15,8 @@ const config: Config = {
         'reddit-gray': '#272729',
         'reddit-placeholder-gray': '#757575',
         'reddit-hover-gray': '#2d2d2e',
-        'reddit-comment-line': '#343536'
+        'reddit-comment-line': '#343536',
+        'reddit-white': '#d7dadc'
       }
     },
   },

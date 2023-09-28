@@ -30,6 +30,7 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
     createdAt,
     creator,
     description = '',
+    subscribers = []
   } = data || {}
 
   const [desc, setDesc] = useState<string>(description)
@@ -118,11 +119,15 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
           {editableDescription}
         </>
       )}
-      <div className='flex flex-row items-center gap-x-2'>
+      <div className='flex flex-row items-center gap-x-2 pb-2 border-b border-reddit-border'>
         <LuCake className='w-6 h-6 text-white' />
         <span className='text-reddit-placeholder-gray'>
           {`Created on ${datePartFormatted}`}
         </span>
+      </div>
+      <div className='flex flex-col gap-y-0'>
+        <h1 className='text-lg font-bold'> {subscribers.length} </h1>
+        <small className='text-xs text-reddit-placeholder-gray'> members </small>
       </div>
     </main>
   )
