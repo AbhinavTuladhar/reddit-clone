@@ -44,6 +44,9 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
   const datePart = createdAt?.split('T')[0]
   const datePartFormatted = datePart ? formatDate(datePart) : ''
 
+  // This is for rendering paragraphs in the descritpion
+  const descriptionParts = description.split('\n')
+
   const toggleEditing = () => {
     setIsEditing(prevState => !prevState)
   }
@@ -81,7 +84,14 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
           </div>
         ) : (
           <div className='flex flex-row gap-x-2'>
-            <span> {description} </span>
+            <p>
+              {descriptionParts.map((part: string) => (
+                <>
+                  <span> {part}  </span>
+                  <br />
+                </>
+              ))}
+            </p>
             <SlPencil onClick={toggleEditing} className='hover:cursor-pointer' />
           </div>
         )
@@ -112,14 +122,19 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
       </h3>
       {creator !== userName ? (
         <p>
-          {description}
+          {descriptionParts.map((part: string) => (
+            <>
+              <span> {part}  </span>
+              <br />
+            </>
+          ))}
         </p>
       ) : (
         <>
           {editableDescription}
         </>
       )}
-      <div className='flex flex-row items-center gap-x-2 pb-2 border-b border-reddit-border'>
+      <div className='flex flex-row items-center pb-2 border-b gap-x-2 border-reddit-border'>
         <LuCake className='w-6 h-6 text-white' />
         <span className='text-reddit-placeholder-gray'>
           {`Created on ${datePartFormatted}`}
