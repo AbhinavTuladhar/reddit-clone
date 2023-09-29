@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SubredditType, PostType } from '@/types/types'
 import PostCard from '@/components/PostCard';
 import SubIcon from '../../../images/subreddit_icon.png'
@@ -10,6 +10,9 @@ import CreatePostCard from '@/components/CreatePostCard';
 import AboutCommunity from '@/components/AboutCommunity';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
+import axios from 'axios'
+import { JoinSubBody } from '@/types/types';
+import classnames from 'classnames';
 
 interface SubredditParams {
   params: {
@@ -17,22 +20,44 @@ interface SubredditParams {
   }
 }
 
+type JoinStatusType = 'Join' | 'Joined'
+
 const Page: React.FC<SubredditParams> = ({ params }) => {
   const subredditName = params.subreddit;
   const formattedSubredditName = formatSubName(subredditName)
   const session = useSession()
   const { status } = session
+  const userName = session?.data?.user?.name || ' '
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
   const multiFetcher = (urls: string[]) => {
     return Promise.all(urls.map(url => fetcher(url)))
   }
 
-  const { data: subInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
+  const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
   const { data: postDetails } = useSWR<PostType[]>(
     subInfo ? subInfo.posts.map((post: string) => `/api/post/${post}`) : [],
     multiFetcher
   )
+
+  // Check if the user has jointed the sub
+  const initialJoinStatus: JoinStatusType = subInfo?.subscribers?.includes(userName) ? 'Joined' : 'Join'
+  const [joinStatus, setJoinStatus] = useState<JoinStatusType>(initialJoinStatus)
+
+  useEffect(() => {
+    setJoinStatus(initialJoinStatus)
+  }, [initialJoinStatus])
+
+  const handleJoin = async () => {
+    const patchRequestBody: JoinSubBody = {
+      subreddit: subredditName, userName: userName
+    }
+    await axios.patch('/api/r/join', patchRequestBody)
+    setJoinStatus(prevStatus => (
+      prevStatus === 'Join' ? 'Joined' : 'Join'
+    ))
+    mutateSubInfo()
+  }
 
   return (
     <>
@@ -40,21 +65,27 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
       <section className='flex flex-row w-screen pl-6 -ml-4 gap-x-2 bg-reddit-gray'>
         <Image
           src={SubIcon}
-          className='w-24 h-24 -mt-4 border-4 rounded-full'
+          className='w-24 h-24 -mt-6 border-4 rounded-full'
           alt='sub icon'
         />
-        <section className='flex flex-col justify-center gap-y-0.5'>
-          <div className='flex flex-row gap-x-4'>
+        <section className='flex flex-col my-2 justify-center gap-y-0.5'>
+          <div className='flex flex-row gap-x-4 items-between'>
             <h1 className='text-4xl font-bold'>
               {formattedSubredditName}
             </h1>
-            <div className='bg-reddit-white font-bold text-black text-base px-10 py-1 rounded-full hover:cursor-pointer flex items-center'>
-              Join
+            <div
+              className={classnames(
+                'flex items-center px-10 py-1 text-base font-bold rounded-full hover:cursor-pointer',
+                { 'text-black bg-reddit-white hover:brightness-90 duration-300': joinStatus === 'Join' },
+                { 'text-reddit-white bg-transparent border border-reddit-white': joinStatus === 'Joined' }
+              )}
+              onClick={handleJoin}>
+              {joinStatus}
             </div>
           </div>
-          <h3 className='text-lg text-reddit-placeholder-gray'>
+          <small className='text-sm text-reddit-placeholder-gray'>
             {`r/${subredditName}`}
-          </h3>
+          </small>
         </section>
       </section>
 
