@@ -179,7 +179,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   return (
     <main className='flex flex-row mt-4 gap-x-4'>
-      <section className='flex flex-col flex-1 w-full px-8 py-4 mx-auto border gap-y-6 bg-reddit-dark border-reddit-border'>
+      <section className='flex flex-col flex-1 w-full px-2 md:px-4 py-4 mx-auto border gap-y-6 bg-reddit-dark border-reddit-border'>
         <div className='flex flex-row gap-x-4'>
           <section className='flex flex-col items-center gap-y-1'>
             <PiArrowFatUpFill
@@ -238,20 +238,19 @@ const Page: React.FC<SubredditCommentParams> = ({
             <>
               {authStatus === 'authenticated' && commentForm}
             </>
-
-            <div className="z-0 flex items-center py-5">
-              <div className="flex-grow border-t border-gray-100"></div>
-              <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
-            </div>
-
-            <>
-              {commentData?.map(comment => (
-                <CommentCard id={comment} postAuthor={author || ''} />
-              ))}
-            </>
-
           </section>
         </div>
+
+        <div className="flex items-center py-5">
+          <div className="flex-grow border-t border-gray-100"></div>
+          <span className="flex-shrink mx-4 text-white"> {comments?.length} comments </span>
+        </div>
+
+        <>
+          {commentData?.map(comment => (
+            <CommentCard id={comment} postAuthor={author || ''} />
+          ))}
+        </>
       </section>
 
       <section className='hidden w-80 lg:block'>
