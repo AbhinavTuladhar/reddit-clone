@@ -27,16 +27,18 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   const formattedSubredditName = formatSubName(subredditName)
   const session = useSession()
   const { status } = session
-  const userName = session?.data?.user?.name || ' '
+  const userName = session?.data?.user?.name || ''
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  const fetcher = (url: string) => axios.get(url).then((response) => response.data)
   const multiFetcher = (urls: string[]) => {
     return Promise.all(urls.map(url => fetcher(url)))
   }
 
+  // For some reason multifethcer function all of a sudden started showing an error (:|
   const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
   const { data: postDetails } = useSWR<PostType[]>(
     subInfo ? subInfo.posts.map((post: string) => `/api/post/${post}`) : [],
+    // @ts-ignore
     multiFetcher
   )
 
