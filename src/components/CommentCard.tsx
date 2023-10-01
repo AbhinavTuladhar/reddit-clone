@@ -175,7 +175,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor }) => {
             )}
             <span className='text-reddit-placeholder-gray'> {dateString} </span>
           </div>
-          <section className='border-l-2 border-reddit-comment-line pl-[1.6rem] ml-4 flex flex-col gap-y-1'>
+          <section className='border-l-2 border-reddit-comment-line pl-6 ml-4 flex flex-col gap-y-1'>
             <div>
               {paragraphs?.map((row) => (
                 <>
