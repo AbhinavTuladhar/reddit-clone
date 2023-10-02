@@ -1,9 +1,9 @@
 /**
  * Calculates a date string for displaying the best possible time difference units.
  * The order of the first and second dates do not matter, since an abs() function is used fo the subtraction.
- * @param {Date} first  The first date.
- * @param {Date} second The second date. 
- * @returns {string} The required date string.
+ * @param   {Date}   first  The first date.
+ * @param   {Date}   second The second date. 
+ * @returns {string}        The required date string.
  */
 
 const calculateDateString = (first: Date, second: Date): string => {
@@ -37,7 +37,7 @@ const calculateDateString = (first: Date, second: Date): string => {
     return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`
   }
 
-  return `${dateDifference} seconds ago`
+  return `${Math.floor(dateDifference)} seconds ago`
 }
 
 export default calculateDateString

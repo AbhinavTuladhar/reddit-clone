@@ -63,21 +63,21 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
 
   return (
     <>
-      <div className='flex flex-1 w-screen h-20 -ml-4 bg-blue-500'> </div>
-      <section className='flex flex-row w-screen pl-6 -ml-4 gap-x-2 bg-reddit-gray'>
+      <div className='flex flex-1 w-full h-20 -ml-0 bg-blue-500'> </div>
+      <section className='flex flex-row w-full pl-6 -ml-0 gap-x-2 bg-reddit-gray'>
         <Image
           src={SubIcon}
           className='w-24 h-24 -mt-6 border-4 rounded-full'
           alt='sub icon'
         />
         <section className='flex flex-col my-2 justify-center gap-y-0.5'>
-          <div className='flex flex-row gap-x-4 items-between'>
+          <div className='flex flex-row gap-x-4 items-center'>
             <h1 className='text-4xl font-bold'>
               {formattedSubredditName}
             </h1>
             <div
               className={classnames(
-                'flex items-center px-10 py-1 text-base font-bold rounded-full hover:cursor-pointer',
+                'flex items-center px-6 py-1 text-base font-bold rounded-full hover:cursor-pointer',
                 { 'text-black bg-reddit-white hover:brightness-90 duration-300': joinStatus === 'Join' },
                 { 'text-reddit-white bg-transparent border border-reddit-white': joinStatus === 'Joined' }
               )}

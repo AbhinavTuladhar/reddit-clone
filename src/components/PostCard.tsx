@@ -7,6 +7,7 @@ import { FaRegCommentAlt } from 'react-icons/fa'
 import { PiShareFatBold } from 'react-icons/pi'
 import { FiBookmark } from 'react-icons/fi'
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
+import { BsThreeDots } from 'react-icons/bs'
 import useSWR from 'swr';
 import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
@@ -14,6 +15,21 @@ import axios from 'axios'
 import { BsFlag } from 'react-icons/bs'
 import { PostType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString';
+
+interface IconProps {
+  icon: React.ReactNode,
+  extraClassName?: string,
+  text: string | React.ReactNode
+}
+
+const IconWithText: React.FC<IconProps> = ({ icon, extraClassName, text }) => {
+  return (
+    <div className='flex flex-row items-center px-1 py-2 duration-200 gap-x-1 text-reddit-placeholder-gray hover:bg-reddit-hover-gray hover:cursor-pointer'>
+      {icon}
+      <span> {text} </span>
+    </div>
+  )
+}
 
 interface PostProps {
   /** The id of the post. */
@@ -34,7 +50,6 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
     author = '',
     subreddit,
     title,
-    body = '',
     createdAt = '',
     upvotedBy = [],
     downvotedBy = [],
@@ -53,6 +68,11 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   }
 
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(prevState => !prevState)
+  }
 
   useEffect(() => {
     setVoteStatus(initialVoteStatus)
@@ -61,7 +81,6 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const postLink = `/r/${subreddit}/comments/${id}`
-
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
     if (status !== 'authenticated') {
@@ -131,42 +150,21 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   )
 
   const rowIconClassName = 'w-5 h-5'
-  const iconData = [
-    { icon: <FaRegCommentAlt className={rowIconClassName} />, text: `${comments?.length} comments`, key: 'comment' },
-    { icon: <PiShareFatBold className={rowIconClassName} />, text: 'Share', key: 'share' },
-    { icon: <FiBookmark className={rowIconClassName} />, text: 'Save', key: 'save' },
-    { icon: <AiOutlineEyeInvisible className={rowIconClassName} />, text: 'Hide', key: 'hide' },
-    { icon: <BsFlag className={rowIconClassName} />, text: 'Report', key: 'report' },
+
+  const extraRowIcons = [
+    <IconWithText
+      icon={<FiBookmark className={rowIconClassName} />}
+      text='Save'
+    />,
+    <IconWithText
+      icon={<AiOutlineEyeInvisible className={rowIconClassName} />}
+      text='Hide'
+    />,
+    <IconWithText
+      icon={<BsFlag className={rowIconClassName} />}
+      text='Report'
+    />
   ]
-  const handleClick = (event: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
-    event.stopPropagation()
-    // event.preventDefault()
-  }
-  const rowIconDiv = (
-    <div className='flex flex-row flex-wrap gap-x-1 lg:gap-x-2'>
-      {iconData?.map(iconRow => {
-        const { icon, text, key } = iconRow
-        const iconDataClassName = 'flex flex-row items-center px-1 py-2 gap-x-1 text-reddit-placeholder-gray hover:bg-reddit-hover-gray hover:cursor-pointer'
-
-        if (key === 'comment') {
-          return (
-            <Link href={postLink} className={iconDataClassName}>
-              <> {icon} </>
-              <span> {text} </span>
-            </Link>
-          )
-        }
-
-        return (
-          <div className={iconDataClassName} onClick={(e) => e.stopPropagation()}>
-            <> {icon} </>
-            <span> {text} </span>
-          </div>
-        )
-      })}
-      <Link href={postLink} className='flex flex-grow'> </Link>
-    </div>
-  )
 
   return (
     <main className='flex flex-row items-center duration-150 border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer'>
@@ -190,7 +188,42 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
           </div>
         </Link>
 
-        <>{rowIconDiv} </>
+        <div className='flex flex-row flex-wrap items-center gap-x-1 lg:gap-x-2'>
+          <IconWithText
+            icon={<FaRegCommentAlt className={rowIconClassName} />}
+            text={
+              <Link href={postLink}>
+                {`${comments?.length} comments`}
+              </Link>
+            }
+          />
+          <IconWithText
+            icon={<PiShareFatBold className={rowIconClassName} />}
+            text='Share'
+          />
+          <div className='hidden md:flex md:flex-row md:gap-x-1'>
+            {
+              extraRowIcons.map(icon => icon)
+            }
+          </div>
+          <div className='relative'>
+            <div
+              className='block px-1 duration-200 md:hidden text-reddit-placeholder-gray hover:bg-reddit-hover-gray hover:cursor-pointer'
+              onClick={toggleMenu}
+            >
+              <BsThreeDots className={rowIconClassName} />
+            </div>
+            {isMenuOpen && (
+              <div className='absolute left-0 z-10 flex flex-col w-32 border shadow border-reddit-border shadow-reddit-white'>
+                {extraRowIcons.map(icon => (
+                  <div className='border border-reddit-border bg-reddit-dark'>
+                    {icon}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
 
       </div>
     </main>
