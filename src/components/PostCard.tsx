@@ -117,6 +117,36 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   }
 
   const iconBaseClassName = 'w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
+  const votingDivComponents = [
+    <PiArrowFatUpFill
+      className={classnames(
+        iconBaseClassName,
+        { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
+        { 'text-reddit-orange': voteStatus === 'upvoted' },
+        'hover:text-reddit-orange'
+      )}
+      onClick={() => handleVoteChange('upvoted')}
+    />,
+    <span
+      className={classnames(
+        { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
+        { 'text-reddit-orange': voteStatus === 'upvoted' },
+        { 'text-indigo-400': voteStatus === 'downvoted' },
+      )}
+    >
+      {effectiveKarma}
+    </span>,
+    <PiArrowFatDownFill
+      className={classnames(
+        iconBaseClassName,
+        { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
+        { 'text-indigo-400': voteStatus === 'downvoted' },
+        'hover:text-indigo-400'
+      )}
+      onClick={() => handleVoteChange('downvoted')}
+    />
+  ]
+
   const votingDiv = (
     <div className='flex flex-col items-center bg-[#161617] px-4 py-4 h-full gap-y-1'>
       <PiArrowFatUpFill
@@ -169,9 +199,11 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   return (
     <main className='flex flex-row items-center duration-150 border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer'>
 
-      <> {votingDiv} </>
+      <div className='hidden sm:flex flex-col items-center bg-[#161617] px-4 py-4 h-full gap-y-1'>
+        {votingDivComponents.map(component => component)}
+      </div>
 
-      <div className='flex flex-col justify-between flex-1 flex-grow py-1 gap-y-1'>
+      <div className='flex flex-col justify-between flex-1 flex-grow py-1 pl-4 gap-y-1 sm:pl-0'>
         <Link href={postLink} className='flex flex-col justify-between flex-grow w-full gap-y-0'>
           <h1 className='text-lg'>
             {title}
@@ -188,7 +220,10 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
           </div>
         </Link>
 
-        <div className='flex flex-row flex-wrap items-center gap-x-1 lg:gap-x-2'>
+        <div className='flex flex-row flex-wrap items-center gap-x-1'>
+          <div className='flex flex-row gap-x-2 sm:hidden'>
+            {votingDivComponents.map(component => component)}
+          </div>
           <IconWithText
             icon={<FaRegCommentAlt className={rowIconClassName} />}
             text={
@@ -201,14 +236,14 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
             icon={<PiShareFatBold className={rowIconClassName} />}
             text='Share'
           />
-          <div className='hidden md:flex md:flex-row md:gap-x-1'>
+          <div className='hidden sm:flex sm:flex-row sm:gap-x-1'>
             {
               extraRowIcons.map(icon => icon)
             }
           </div>
           <div className='relative'>
             <div
-              className='block px-1 duration-200 md:hidden text-reddit-placeholder-gray hover:bg-reddit-hover-gray hover:cursor-pointer'
+              className='block px-1 duration-200 sm:hidden text-reddit-placeholder-gray hover:bg-reddit-hover-gray hover:cursor-pointer'
               onClick={toggleMenu}
             >
               <BsThreeDots className={rowIconClassName} />
