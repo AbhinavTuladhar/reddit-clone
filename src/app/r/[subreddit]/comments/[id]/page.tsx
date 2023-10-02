@@ -254,7 +254,9 @@ const Page: React.FC<SubredditCommentParams> = ({
       </section>
 
       <section className='hidden w-80 lg:block'>
-        <AboutCommunity subName={subredditName} />
+        <div className='sticky top-16'>
+          <AboutCommunity subName={subredditName} />
+        </div>
       </section>
 
     </main>

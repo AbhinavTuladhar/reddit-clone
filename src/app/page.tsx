@@ -16,18 +16,22 @@ export default function Home() {
   return (
     <div className='flex flex-row gap-x-4 mt-4'>
       <div className='flex flex-col flex-1'>
-        <section>
-          {status === 'authenticated' && <CreatePostCard />}
-        </section>
-        <main className='flex flex-col mt-4 gap-y-0'>
+        {status === 'authenticated' && (
+          <section className='mb-4'>
+            <CreatePostCard />
+          </section>
+        )}
+        <main className='flex flex-col gap-y-0'>
           {postIdList?.map((postId: string) => (
             <PostCard id={postId} subViewFlag={true} />
           ))}
         </main>
       </div>
       <section className='w-80 hidden lg:flex lg:flex-col lg:gap-y-4'>
-        <HomeSidebar />
-        <PopularCommunities />
+        {status === 'authenticated' && <HomeSidebar />}
+        <div className='sticky top-16'>
+          <PopularCommunities />
+        </div>
       </section>
     </div>
   )
