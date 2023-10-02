@@ -5,6 +5,7 @@ import CreatePostCard from '@/components/CreatePostCard'
 import useSWR from 'swr'
 import PostCard from '@/components/PostCard'
 import HomeSidebar from '@/components/HomeSidebar'
+import PopularCommunities from '@/components/PopularCommunities'
 
 export default function Home() {
   const { status } = useSession()
@@ -24,8 +25,9 @@ export default function Home() {
           ))}
         </main>
       </div>
-      <section className='w-80 hidden lg:block'>
+      <section className='w-80 hidden lg:flex lg:flex-col lg:gap-y-4'>
         <HomeSidebar />
+        <PopularCommunities />
       </section>
     </div>
   )
