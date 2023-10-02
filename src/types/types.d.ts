@@ -7,6 +7,23 @@ export interface ModalProps {
   setModalState: (state: ModalStateType) => void
 }
 
+export interface UserType {
+  name: string,
+  email: string,
+  password: string,
+  createdAt: string,
+  bio: string,
+  postKarma: number,
+  commentKarma: number,
+  subscribedSubs: string[],
+  posts: string[],
+  comments: string[],
+  upvotedPosts: string[],
+  downvotedPosts: string[],
+  upvotedComments: string[],
+  downvotedComments: string[]
+}
+
 export interface SubredditType {
   name: string,
   description: string,

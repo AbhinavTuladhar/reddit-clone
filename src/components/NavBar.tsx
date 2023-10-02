@@ -15,6 +15,7 @@ import SignupWindow from './SignupWindow'
 import UserOptions from './UserOptions'
 import { ModalStateType } from '@/types/types'
 import { SessionContext } from './SessionContext'
+import { GiMegaphone } from 'react-icons/gi'
 
 interface SubListResponse {
   name: string,
@@ -52,10 +53,6 @@ const NavBar = () => {
       </Link>
       <Subreddit subredditList={subredditList} />
       <Searchbar />
-      {status === 'authenticated' && <IconGroup mutateData={mutateSubredditList} />}
-      {status === 'authenticated' && (
-        <UserOptions userName={session?.data?.user?.name} />
-      )}
       {status === 'unauthenticated'
         ? (
           <div className='flex flex-row gap-x-4'>
@@ -68,15 +65,23 @@ const NavBar = () => {
               onClick={() => setModalState('signup')}
             > Sign up </button>
           </div>
-        ) : status === 'authenticated'
-          ? (
-            <button
-              onClick={handleLogOut}
-              className='p-2 bg-reddit-orange'
-            > Logout </button>
-          ) : (
-            <div> Loading... </div>
-          )
+        ) : (
+          status === 'authenticated'
+            ? (
+              <>
+                <IconGroup mutateData={mutateSubredditList} />
+                <div className='hidden lg:flex hover:cursor-pointer text-sm duration-300 bg-[#303030] hover:brightness-110 flex-row items-center pl-1 pr-2 py-1 border rounded-full border-reddit-border gap-x-0.5'>
+                  <GiMegaphone className='w-10 h-6' />
+                  <span> Advertise </span>
+                </div>
+                <UserOptions userName={session?.data?.user?.name} />
+              </>
+            ) : (
+              <div>
+                Loading...
+              </div>
+            )
+        )
       }
       <ModalContainer visibilityFlag={modalState === 'login'}>
         <LoginWindow modalState={modalState} setModalState={setModalState} />
