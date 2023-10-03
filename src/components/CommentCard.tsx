@@ -25,8 +25,6 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
   const { status, data: sessionData } = session
   const userName = sessionData?.user?.name || ''
 
-  console.log({ postAuthor, userName })
-
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
   const { data, mutate } = useSWR<CommentType>(`/api/comment/${id}`, fetcher)

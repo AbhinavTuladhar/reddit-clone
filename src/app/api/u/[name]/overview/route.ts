@@ -25,20 +25,43 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
     ).sort({ createdAt: -1 })
     const foundComments = await Comment.find(
       { _id: { $in: foundUser.comments } },
-      { _id: 1, createdAt: 1 }
+      { _id: 1, createdAt: 1, post: 1 }
     ).sort({ createdAt: -1 })
+
+    const postIdsOfCommentedPosts = foundComments.map(comment => comment.post)
+
+    const postsCommentedIn = await Post.find(
+      { _id: { $in: postIdsOfCommentedPosts } },
+      { author: 1, subreddit: 1, title: 1, _id: 1 }
+    )
+
+    // This array of objects contains the comment id, and some details of the post.
+    const properCommentData = foundComments.map(comment => {
+      const obj1 = comment.toObject()
+      const matchingObj = postsCommentedIn.find(post => {
+        const obj = post.toObject()
+        return obj1.post.toString() === obj._id.toString()
+      })
+      return {
+        postAuthor: matchingObj.author, postSubreddit: matchingObj.author, postTitle: matchingObj.title, postId: matchingObj._id,
+        _id: obj1._id, createdAt: obj1.createdAt
+      }
+    })
 
     // Sort the posts AND comments by the creation date.
     const combinedArray = [
       ...foundPosts.map(post => ({ type: 'post', _id: post._id, createdAt: post.createdAt })),
-      ...foundComments.map(comment => ({ type: 'comment', _id: comment._id, createdAt: comment.createdAt }))
+      ...properCommentData.map(comment => ({
+        type: 'comment', _id: comment._id, createdAt: comment.createdAt,
+        postAuthor: comment.postAuthor, postSubreddit: comment.postSubreddit, postTitle: comment.postTitle, postId: comment.postId
+      }))
     ]
     combinedArray.sort((a, b) => b.createdAt - a.createdAt);
 
     // Construct an object for overview, posts and comments, separately.
     const apiResponse = {
       posts: foundPosts,
-      comments: foundComments,
+      comments: properCommentData,
       overview: combinedArray
     }
 

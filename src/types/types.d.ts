@@ -82,7 +82,11 @@ interface ContentId {
 }
 
 interface SpecificContentId extends ContentId {
-  type: 'post' | 'comment'
+  type: 'post' | 'comment',
+  postAuthor?: string
+  postSubreddit?: string
+  postTitle?: string
+  postId?: string
 }
 
 export interface UserOverviewResponse {
