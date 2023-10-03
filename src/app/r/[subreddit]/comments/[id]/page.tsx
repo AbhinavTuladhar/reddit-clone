@@ -179,7 +179,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   return (
     <main className='flex flex-row mt-4 gap-x-4'>
-      <section className='flex flex-col flex-1 w-full px-2 md:px-4 py-4 mx-auto border gap-y-6 bg-reddit-dark border-reddit-border'>
+      <section className='flex flex-col flex-1 w-full px-2 py-4 mx-auto border md:px-4 gap-y-6 bg-reddit-dark border-reddit-border'>
         <div className='flex flex-row gap-x-4'>
           <section className='flex flex-col items-center gap-y-1'>
             <PiArrowFatUpFill
@@ -248,7 +248,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
         <>
           {commentData?.map(comment => (
-            <CommentCard id={comment} postAuthor={author || ''} />
+            <CommentCard id={comment} postAuthor={author || ''} showReply={true} />
           ))}
         </>
       </section>

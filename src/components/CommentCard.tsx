@@ -15,10 +15,11 @@ import calculateDateString from '@/utils/calculateDateString'
 
 interface CommentProps {
   id: string,
-  postAuthor?: string
+  postAuthor?: string,
+  showReply: boolean
 }
 
-const CommentCard: React.FC<CommentProps> = ({ id, postAuthor }) => {
+const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
   const session = useSession()
 
   const { status, data: sessionData } = session
@@ -153,8 +154,8 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor }) => {
 
   return (
     <div className={`${parentComment !== null && 'pl-4'} flex flex-col`}>
-      <main className='flex flex-row gap-x-4 mt-2'>
-        {/* <div className='h-full mt-1 text-xs text-transparent border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer duration-300 mx-2' /> */}
+      <main className='flex flex-row mt-2 gap-x-4'>
+        {/* <div className='h-full mx-2 mt-1 text-xs text-transparent duration-300 border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer' /> */}
         {/* <div className='flex flex-col items-center justify-start gap-y-1'>
           <Image
             src={Profile}
@@ -175,7 +176,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor }) => {
             )}
             <span className='text-reddit-placeholder-gray'> {dateString} </span>
           </div>
-          <section className='border-l-2 border-reddit-comment-line pl-6 ml-4 flex flex-col gap-y-1'>
+          <section className='flex flex-col pl-6 ml-4 border-l-2 border-reddit-comment-line gap-y-1'>
             <div>
               {paragraphs?.map((row) => (
                 <>
@@ -232,11 +233,11 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor }) => {
         </section>
       </main>
 
-      {replies?.map(reply => (
+      {showReply && replies?.map(reply => (
         <>
           {/* <div className='h-full mt-1 text-xs text-transparent border-l-2-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div> */}
           <section className='pl-0 ml-4 border-l-2 border-reddit-comment-line'>
-            <CommentCard id={reply} postAuthor={postAuthor} />
+            <CommentCard id={reply} postAuthor={postAuthor} showReply={true} />
           </section>
         </>
       ))}

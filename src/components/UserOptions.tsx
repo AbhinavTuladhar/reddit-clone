@@ -47,8 +47,8 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
         <PiCaretDown />
       </section>
       <div className={`${isMenuOpen ? 'opacity-100' : 'opacity-0  pointer-events-none'} transition-opacity duration-300 absolute right-0 z-10 flex flex-col mt-1 border min-w-fit w-52 bg-reddit-dark border-reddit-border`}>
-        <Link className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' href={`/u/${userName}`}> Profile </Link>
-        <div className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' onClick={() => signOut()}> Sign out </div>
+        <Link className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' href={`/u/${userName}`} onClick={toggleMenu}> Profile </Link>
+        <div className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' onClick={() => { signOut(); toggleMenu() }}> Sign out </div>
       </div>
     </div>
   )

@@ -75,3 +75,18 @@ export interface JoinSubBody {
   userName: string,
   subreddit: string
 }
+
+interface ContentId {
+  _id: string,
+  createdAt: string,
+}
+
+interface SpecificContentId extends ContentId {
+  type: 'post' | 'comment'
+}
+
+export interface UserOverviewResponse {
+  posts: ContentId[],
+  comments: ContentId[],
+  overview: SpecificContentId[]
+}
