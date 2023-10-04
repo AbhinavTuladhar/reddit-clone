@@ -4,7 +4,6 @@ import { UserOverviewResponse } from '@/types/types'
 import CommentCard from '@/components/CommentCard'
 import PostCard from '@/components/PostCard'
 import CommentHeader from '@/components/CommentHeader'
-import UserProfileSideBar from '@/components/UserProfileSideBar'
 
 interface UserParams {
   params: {
@@ -34,32 +33,26 @@ const page: React.FC<UserParams> = async ({ params }) => {
   const userData = await getUserContent(userName)
 
   return (
-    <div className='flex flex-row gap-x-10'>
-      <main className='flex flex-col flex-1 gap-y-2'>
-        {userData?.overview.map((content, index) => {
-          const { _id, type, postAuthor, postSubreddit = '', postTitle = '', postId = '' } = content
+    <main className='flex flex-col flex-1 gap-y-2'>
+      {userData?.overview.map((content, index) => {
+        const { _id, type, postAuthor, postSubreddit = '', postTitle = '', postId = '' } = content
 
-          if (type === 'post') {
-            return <PostCard id={_id} subViewFlag={true} key={index} />
-          }
+        if (type === 'post') {
+          return <PostCard id={_id} subViewFlag={true} key={index} />
+        }
 
-          return (
-            <div key={index}>
-              <CommentHeader postAuthor={postAuthor} postSubreddit={postSubreddit} postTitle={postTitle} postId={postId} userName={userName} />
-              <section className={`${type === 'comment' && 'pl-2 pb-2'} bg-reddit-dark border border-transparent hover:border-white hover:cursor-pointer duration-300`} key={index}>
-                <Link href={`/r/${postSubreddit}/comments/${postId}`}>
-                  <CommentCard id={_id} showReply={false} />
-                </Link>
-              </section>
-            </div>
-          )
-        })}
-      </main>
-
-      <section className='hidden w-80 lg:block'>
-        <UserProfileSideBar userName={userName} />
-      </section>
-    </div>
+        return (
+          <div key={index} className='duration-300 border border-transparent hover:border-white'>
+            <CommentHeader postAuthor={postAuthor} postSubreddit={postSubreddit} postTitle={postTitle} postId={postId} userName={userName} />
+            <section className={`${type === 'comment' && 'pl-2 pb-2'} bg-reddit-dark border border-transparent hover:border-white hover:cursor-pointer duration-300`} key={index}>
+              <Link href={`/r/${postSubreddit}/comments/${postId}`}>
+                <CommentCard id={_id} showReply={false} />
+              </Link>
+            </section>
+          </div>
+        )
+      })}
+    </main>
   )
 }
 

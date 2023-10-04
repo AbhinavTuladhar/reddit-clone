@@ -1,6 +1,5 @@
 import React from 'react'
 import { UserOverviewResponse } from '@/types/types'
-import UserProfileSideBar from '@/components/UserProfileSideBar'
 import PostCard from '@/components/PostCard'
 
 interface UserParams {
@@ -31,16 +30,11 @@ const page: React.FC<UserParams> = async ({ params }) => {
   const userPosts = await getUserPosts(userName)
 
   return (
-    <div className='flex flex-row gap-x-10'>
-      <section className='flex flex-col flex-1 gap-y-2'>
-        {userPosts?.map((post, index) => (
-          <PostCard id={post._id} subViewFlag={true} key={index} />
-        ))}
-      </section>
-      <section className='hidden w-80 lg:block'>
-        <UserProfileSideBar userName={userName} />
-      </section>
-    </div>
+    <main className='flex flex-col flex-1 gap-y-2'>
+      {userPosts?.map((post, index) => (
+        <PostCard id={post._id} subViewFlag={true} key={index} />
+      ))}
+    </main>
   )
 }
 

@@ -3,7 +3,6 @@ import Link from 'next/link'
 import CommentHeader from '@/components/CommentHeader'
 import CommentCard from '@/components/CommentCard'
 import { UserOverviewResponse } from '@/types/types'
-import UserProfileSideBar from '@/components/UserProfileSideBar'
 
 interface UserParams {
   params: {
@@ -33,26 +32,21 @@ const page: React.FC<UserParams> = async ({ params }) => {
   const userComments = await getUserComments(userName)
 
   return (
-    <div className='flex flex-row gap-x-10'>
-      <section className='flex flex-col flex-1 gap-y-2'>
-        {userComments?.map((comment, index) => {
-          const { _id, postAuthor, postId, postSubreddit, postTitle } = comment
-          return (
-            <div key={index}>
-              <CommentHeader postAuthor={postAuthor} postSubreddit={postSubreddit} postTitle={postTitle} postId={postId} userName={userName} />
-              <section className='pb-2 pl-2 duration-300 border border-transparent bg-reddit-dark hover:border-white hover:cursor-pointer' key={index}>
-                <Link href={`/r/${postSubreddit}/comments/${postId}`}>
-                  <CommentCard id={_id} showReply={false} />
-                </Link>
-              </section>
-            </div>
-          )
-        })}
-      </section>
-      <section className='hidden w-80 lg:block'>
-        <UserProfileSideBar userName={userName} />
-      </section>
-    </div>
+    <main className='flex flex-col flex-1 gap-y-2'>
+      {userComments?.map((comment, index) => {
+        const { _id, postAuthor, postId, postSubreddit, postTitle } = comment
+        return (
+          <div key={index} className='duration-300 border border-transparent hover:border-white'>
+            <CommentHeader postAuthor={postAuthor} postSubreddit={postSubreddit} postTitle={postTitle} postId={postId} userName={userName} />
+            <section className='pb-2 pl-2 duration-300 border border-transparent bg-reddit-dark hover:border-white hover:cursor-pointer' key={index}>
+              <Link href={`/r/${postSubreddit}/comments/${postId}`}>
+                <CommentCard id={_id} showReply={false} />
+              </Link>
+            </section>
+          </div>
+        )
+      })}
+    </main>
   )
 }
 
