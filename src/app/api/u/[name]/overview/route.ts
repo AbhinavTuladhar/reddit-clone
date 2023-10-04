@@ -43,7 +43,7 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
         return obj1.post.toString() === obj._id.toString()
       })
       return {
-        postAuthor: matchingObj.author, postSubreddit: matchingObj.author, postTitle: matchingObj.title, postId: matchingObj._id,
+        postAuthor: matchingObj.author, postSubreddit: matchingObj.subreddit, postTitle: matchingObj.title, postId: matchingObj._id,
         _id: obj1._id, createdAt: obj1.createdAt
       }
     })

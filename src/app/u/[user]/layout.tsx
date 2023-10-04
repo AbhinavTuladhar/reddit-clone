@@ -9,7 +9,9 @@ export default function RootLayout({
   return (
     <>
       <ProfileNavigation />
-      {children}
+      <div className='mx-0 md:mx-8 lg:mx-20'>
+        {children}
+      </div>
     </>
   )
 }
