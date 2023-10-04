@@ -10,13 +10,27 @@ interface RequestParams {
   }
 }
 
-export const GET = async (_request: NextRequest, params: RequestParams) => {
+export const GET = async (request: NextRequest, params: RequestParams) => {
   const { params: { name } } = params
+  const searchParams = request.nextUrl.searchParams
 
   try {
     await connectDatabase()
 
-    const foundUser = await User.findOne({ name }, { name: 1, posts: 1, comments: 1 })
+    const foundUser = await User.findOne({ name }, { name: 1, posts: 1, comments: 1, upvotedPosts: 1, downvotedPosts: 1 })
+
+    // This is the case for finding out the up and downvoted posts
+    if (searchParams.get('voted') === 'yes') {
+      const upvotedPostIds = foundUser.upvotedPosts.map((post: any) => post)
+      const downvotedPostIds = foundUser.downvotedPosts.map((post: any) => post)
+
+      const votedResponse = {
+        upvotedIds: upvotedPostIds,
+        downvotedIds: downvotedPostIds
+      }
+
+      return new NextResponse(JSON.stringify(votedResponse, null, 2), { status: 201 })
+    }
 
     // Find all the posts and comments made by the user.
     const foundPosts = await Post.find(
