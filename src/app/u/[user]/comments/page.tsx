@@ -1,9 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import { UserOverviewResponse } from '@/types/types'
-import CommentCard from '@/components/CommentCard'
-import PostCard from '@/components/PostCard'
 import CommentHeader from '@/components/CommentHeader'
+import CommentCard from '@/components/CommentCard'
+import { UserOverviewResponse } from '@/types/types'
 import UserProfileSideBar from '@/components/UserProfileSideBar'
 
 interface UserParams {
@@ -12,7 +11,7 @@ interface UserParams {
   }
 }
 
-const getUserContent = async (userName: string) => {
+const getUserComments = async (userName: string) => {
   const siteUrl = process.env.SITE_URL
 
   if (!siteUrl) {
@@ -23,7 +22,7 @@ const getUserContent = async (userName: string) => {
     const url = `${siteUrl}/api/u/${userName}/overview`
     const apiResponse = await fetch(url, { cache: 'force-cache' })
     const userData: UserOverviewResponse = await apiResponse.json()
-    return userData
+    return userData.overview.filter(content => content.type === 'comment')
   } catch (error) {
     console.error('Error.')
   }
@@ -31,22 +30,17 @@ const getUserContent = async (userName: string) => {
 
 const page: React.FC<UserParams> = async ({ params }) => {
   const userName = params.user
-  const userData = await getUserContent(userName)
+  const userComments = await getUserComments(userName)
 
   return (
     <div className='flex flex-row gap-x-10'>
-      <main className='flex flex-col flex-1 gap-y-2'>
-        {userData?.overview.map((content, index) => {
-          const { _id, type, postAuthor, postSubreddit = '', postTitle = '', postId = '' } = content
-
-          if (type === 'post') {
-            return <PostCard id={_id} subViewFlag={true} key={index} />
-          }
-
+      <section className='flex flex-col flex-1 gap-y-2'>
+        {userComments?.map((comment, index) => {
+          const { _id, postAuthor, postId, postSubreddit, postTitle } = comment
           return (
             <div key={index}>
               <CommentHeader postAuthor={postAuthor} postSubreddit={postSubreddit} postTitle={postTitle} postId={postId} userName={userName} />
-              <section className={`${type === 'comment' && 'pl-2 pb-2'} bg-reddit-dark border border-transparent hover:border-white hover:cursor-pointer duration-300`} key={index}>
+              <section className='pb-2 pl-2 duration-300 border border-transparent bg-reddit-dark hover:border-white hover:cursor-pointer' key={index}>
                 <Link href={`/r/${postSubreddit}/comments/${postId}`}>
                   <CommentCard id={_id} showReply={false} />
                 </Link>
@@ -54,8 +48,7 @@ const page: React.FC<UserParams> = async ({ params }) => {
             </div>
           )
         })}
-      </main>
-
+      </section>
       <section className='hidden w-80 lg:block'>
         <UserProfileSideBar userName={userName} />
       </section>
