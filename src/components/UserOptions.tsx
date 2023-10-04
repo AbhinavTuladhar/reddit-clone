@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { PiCaretDown } from 'react-icons/pi'
+import Link from 'next/link'
 import axios from 'axios'
-import Profile from '../images/reddit_default_pp.png'
-import KarmaIcon from '../images/karma_icon.png'
 import useSWR from 'swr';
 import { UserType } from '@/types/types'
 import { signOut } from 'next-auth/react'
-import Link from 'next/link'
+import { PiCaretDown } from 'react-icons/pi'
+import { PiFlowerFill } from 'react-icons/pi'
+import Profile from '../images/reddit_default_pp.png'
 
 interface UserOptionsProps {
   userName: string | null | undefined
@@ -31,7 +31,7 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
   return (
     <div className='relative'>
       <section
-        className='h-10 w-20 min-w-fit lg:w-52 flex flex-row justify-between items-center text-xs border-[1px] hover:cursor-pointer border-reddit-border duration-300 px-1'
+        className='h-10 w-16 lg:w-52 flex flex-row justify-between items-center text-xs border-[1px] hover:cursor-pointer border-reddit-border duration-300 px-1'
         onClick={toggleMenu}
       >
         <div className='flex flex-row items-center h-10 px-1 gap-x-2'>
@@ -39,7 +39,7 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
           <div className='hidden lg:flex lg:flex-col gap-y-0.5 '>
             <span> {userName} </span>
             <div className='flex flex-row items-center text-gray-300'>
-              <Image src={KarmaIcon} className='w-4 h-4' alt='karma' />
+              <PiFlowerFill className='w-3 h-3 text-red-500' />
               <span> {totalKarma} karma </span>
             </div>
           </div>

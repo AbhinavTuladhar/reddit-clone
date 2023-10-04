@@ -32,7 +32,7 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
 
   return (
     <section
-      className='z-50 relative h-10 w-16 lg:w-64 px-1 flex flex-row gap-x-2 lg:justify-between items-center border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'
+      className='z-50 relative h-10 w-10 lg:w-64 px-1 flex flex-row gap-x-2 lg:justify-between items-center border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'
       onClick={toggleMenu}>
       <div className='flex flex-row items-center justify-between w-16 gap-x-2 lg:w-64'>
         <div className='flex flex-row items-center gap-x-2'>

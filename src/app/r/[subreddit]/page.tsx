@@ -63,7 +63,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
 
   return (
     <>
-      <div className='flex flex-1 w-full h-20 -ml-0 bg-blue-500'> </div>
+      <div className='flex flex-1 w-full h-20 -ml-0 bg-reddit-blue'> </div>
       <section className='flex flex-row w-full pl-6 -ml-0 gap-x-2 bg-reddit-gray'>
         <Image
           src={SubIcon}
@@ -71,7 +71,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
           alt='sub icon'
         />
         <section className='flex flex-col my-2 justify-center gap-y-0.5'>
-          <div className='flex flex-row gap-x-4 items-center'>
+          <div className='flex flex-row items-center gap-x-4'>
             <h1 className='text-4xl font-bold'>
               {formattedSubredditName}
             </h1>

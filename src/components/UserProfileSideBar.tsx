@@ -35,7 +35,7 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
 
   return (
     <div className='flex flex-col border rounded border-reddit-border'>
-      <div className='w-full h-24 bg-blue-500' />
+      <div className='w-full h-24 border rounded bg-reddit-blue border-reddit-border' />
       <main className='flex flex-col p-4 bg-reddit-dark gap-y-2'>
         <Image src={ProfilePic} alt='profile picture' className='w-24 -mt-20 border-4 aspect-square border-reddit-dark' />
         <span> {`u/${userName}`} </span>
@@ -45,7 +45,7 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
           <div className='flex flex-col gap-y-0.5'>
             <h1 className='text-sm font-bold'> Karma </h1>
             <div className='flex flex-row items-center gap-x-1'>
-              <PiFlowerFill className='w-4 h-4 text-blue-500' />
+              <PiFlowerFill className='w-4 h-4 text-reddit-blue' />
               <span className='text-reddit-placeholder-gray'> {effectiveKarma} </span>
             </div>
           </div>
@@ -53,7 +53,7 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
           <div className='flex flex-col gap-y-0.5'>
             <h1 className='text-sm font-bold'> Cake day </h1>
             <div className='flex flex-row items-center gap-x-1'>
-              <LuCake className='w-4 h-4 text-blue-500' />
+              <LuCake className='w-4 h-4 text-reddit-blue' />
               <span className='text-reddit-placeholder-gray'> {datePartFormatted} </span>
             </div>
           </div>

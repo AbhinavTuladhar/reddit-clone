@@ -22,7 +22,7 @@ const ProfileNavigation = () => {
   ]
 
   return (
-    <div className='flex flex-row w-[98.5dvw] pl-20 -ml-4 text-xl bg-reddit-dark gap-x-2'>
+    <div className='flex flex-row w-[98.5dvw] pl-4 md:pl-12 lg:pl-24 -ml-4 text-xl bg-reddit-dark gap-x-2'>
       {navElements.map((row, index) => (
         <div className={`px-2 py-2 text-sm tracking-tighter text-center text-white border-b-2 border-transparent ${row.condition && 'border-white'} `} key={index}>
           <Link href={row.href}> {row.text} </Link>
