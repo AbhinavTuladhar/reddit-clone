@@ -71,6 +71,11 @@ export interface SubDescChangeBody {
   description: string
 }
 
+export interface UserBioChangeBody {
+  name: string,
+  bio: string
+}
+
 export interface JoinSubBody {
   userName: string,
   subreddit: string
