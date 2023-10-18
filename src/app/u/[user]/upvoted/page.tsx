@@ -23,7 +23,7 @@ const page: React.FC<UserParams> = ({ params }) => {
   const currentUser = session.data?.user?.name
 
   const fetcher = (url: string) => axios.get(url).then(response => response.data)
-  const { data: votedPosts } = useSWR<ResponseType>(`/api/u/${userName}?voted=yes`, fetcher)
+  const { data: votedPosts } = useSWR<ResponseType>(`/api/u/${userName}/overview?voted=yes`, fetcher)
 
   if (userName !== currentUser) {
     return (
@@ -34,7 +34,7 @@ const page: React.FC<UserParams> = ({ params }) => {
   }
 
   return (
-    <main className='flex flex-col gap-y-2'>
+    <main className='flex flex-col flex-1 gap-y-2'>
       {votedPosts?.upvotedIds?.map((post, index) => (
         <PostCard id={post} subViewFlag={true} key={index} />
       ))}
