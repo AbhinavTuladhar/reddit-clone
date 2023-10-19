@@ -11,7 +11,7 @@ export default function Home() {
   const { status } = useSession()
 
   const fetcher = (url: string) => fetch(url).then((response) => response.json())
-  const { data: postIdList } = useSWR<string[]>('/api/post/latest', fetcher)
+  const { data: postIdList } = useSWR<string[]>('/api/home', fetcher)
 
   return (
     <div className='flex flex-row gap-x-4 mt-4'>
