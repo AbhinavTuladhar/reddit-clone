@@ -154,7 +154,7 @@ const Page: React.FC<SubredditCommentParams> = ({
     <form className='flex flex-col flex-1 my-2 gap-y-2' onSubmit={handleSubmit}>
       <span className='text-sm'>
         Comment as&nbsp;
-        <Link href={`/u/${userName}`} className='text-blue-500 hover:underline hover:text-red-500'>
+        <Link href={`/u/${userName}`} className='text-blue-500 duration-300 hover:underline hover:text-red-500'>
           {userName}
         </Link>
       </span>
@@ -212,9 +212,10 @@ const Page: React.FC<SubredditCommentParams> = ({
           </section>
           <section className='flex flex-col flex-1 gap-y-2'>
 
-            <div className='flex flex-row items-center text-xs text-gray-400 gap-x-1'>
+            <div className='flex flex-row flex-wrap items-center text-xs text-gray-400 gap-x-1'>
               <Link className='font-bold text-white duration-300 hover:underline' href={`/r/${subreddit}`}> {`r/${subreddit}`}</Link>
-              <span> {`Posted by u/${author}`} </span>
+              <span> Posted by </span>
+              <Link href={`/u/${author}`} className='duration-300 hover:underline'> {`u/${author}`} </Link>
               <span> {dateString} </span>
             </div>
             <h1 className='text-xl font-bold'>

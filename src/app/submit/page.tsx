@@ -75,7 +75,7 @@ const page = () => {
         <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
           <div className='relative w-full'>
             <input
-              className='relative w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark z-0'
+              className='relative w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark'
               placeholder='Title'
               type='text'
               value={postData.title}
