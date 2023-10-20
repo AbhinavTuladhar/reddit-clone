@@ -11,10 +11,10 @@ export default function Home() {
   const { status } = useSession()
 
   const fetcher = (url: string) => fetch(url).then((response) => response.json())
-  const { data: postIdList } = useSWR<string[]>('/api/home', fetcher)
+  const { data: postIdList } = useSWR<string[]>('/api/home?posts=10', fetcher)
 
   return (
-    <div className='flex flex-row gap-x-4 mt-4'>
+    <div className='flex flex-row mt-4 gap-x-4'>
       <div className='flex flex-col flex-1'>
         {status === 'authenticated' && (
           <section className='mb-4'>
@@ -27,7 +27,7 @@ export default function Home() {
           ))}
         </main>
       </div>
-      <section className='w-80 hidden lg:flex lg:flex-col lg:gap-y-4'>
+      <section className='hidden w-80 lg:flex lg:flex-col lg:gap-y-4'>
         {status === 'authenticated' && <HomeSidebar />}
         <div className='sticky top-16'>
           <PopularCommunities />
