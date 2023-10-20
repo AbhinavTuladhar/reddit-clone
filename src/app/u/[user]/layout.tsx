@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import ProfileNavigation from '@/components/ProfileNavigation'
 import UserProfileSideBar from '@/components/UserProfileSideBar'
 
@@ -6,6 +7,12 @@ interface LayoutProps {
   children: React.ReactNode,
   params: {
     user: string
+  }
+}
+
+export const generateMetadata = ({ params }: LayoutProps) => {
+  return {
+    title: `u/${params.user} - Reddit`
   }
 }
 
