@@ -14,6 +14,7 @@ import useSWR from 'swr'
 import classnames from 'classnames';
 import calculateDateString from '@/utils/calculateDateString';
 import AboutCommunity from '@/components/AboutCommunity';
+import { BsThreeDots } from 'react-icons/bs'
 
 interface SubredditCommentParams {
   params: {
@@ -53,7 +54,7 @@ const Page: React.FC<SubredditCommentParams> = ({
     topLevelComments = []
   } = data || {}
 
-  const iconClassName = 'text-reddit-placeholder-gray font-bold'
+  const iconClassName = 'text-reddit-placeholder-gray font-bold w-5 h-5'
 
   const iconBarData = [
     { icon: <FaRegCommentAlt className={iconClassName} />, label: `${comments?.length || 0} comments` },
@@ -227,9 +228,9 @@ const Page: React.FC<SubredditCommentParams> = ({
               </>
             ))}
 
-            <section className='flex flex-row gap-x-4'>
+            <section className='flex flex-row gap-x-2'>
               {iconBarData.map((row, index) => (
-                <div className='flex flex-row items-center p-2 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray' key={index}>
+                <div className='flex flex-row items-center p-2 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray duration-300' key={index}>
                   <span> {row.icon} </span>
                   <span className='text-reddit-placeholder-gray'> {row.label} </span>
                 </div>

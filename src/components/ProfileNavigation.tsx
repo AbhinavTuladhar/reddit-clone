@@ -42,7 +42,7 @@ const ProfileNavigation = () => {
   ]
 
   return (
-    <div className='flex flex-row w-[98.5dvw] pl-4 md:pl-12 lg:pl-24 -ml-4 text-xl bg-reddit-dark gap-x-2'>
+    <div className='overflow-x-auto flex flex-row w-[98.5dvw] pl-4 md:pl-12 lg:pl-24 -ml-4 text-xl bg-reddit-dark gap-x-2'>
       {currentUser === userName ? (
         <>
           {navElements.map((row, index) =>

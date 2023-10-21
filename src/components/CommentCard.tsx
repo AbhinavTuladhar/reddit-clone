@@ -12,6 +12,9 @@ import classnames from 'classnames'
 import Profile from '../images/reddit_default_pp.png'
 import { CommentType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString'
+import { BsThreeDots, BsTrash } from 'react-icons/bs'
+import { SlPencil } from 'react-icons/sl'
+
 
 interface CommentProps {
   id: string,
@@ -53,6 +56,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
   }
 
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [reply, setReply] = useState('')
   const [replyFlag, setReplyFlag] = useState(false)
 
@@ -63,6 +67,15 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const paragraphs = content?.split('\n')
+
+  const userOptionData = [
+    { icon: <SlPencil />, text: 'Edit' },
+    { icon: <BsTrash />, text: 'Delete comment' },
+  ]
+
+  const toggleMenu = () => {
+    setIsMenuOpen(prevState => !prevState)
+  }
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
     if (status !== 'authenticated') {
@@ -122,7 +135,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
     toggleReplyVisibility()
   }
 
-  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
+  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray duration-300'
 
   const commentForm = (
     <form className='flex flex-col flex-1 gap-y-2' onSubmit={handleSubmit}>
@@ -153,14 +166,6 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
   return (
     <div className={`${parentComment !== null && 'pl-4'} flex flex-col`}>
       <main className='flex flex-row mt-2 gap-x-4'>
-        {/* <div className='h-full mx-2 mt-1 text-xs text-transparent duration-300 border-l-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer' /> */}
-        {/* <div className='flex flex-col items-center justify-start gap-y-1'>
-          <Image
-            src={Profile}
-            alt='profile pic'
-            className='w-6 h-6 rounded-full'
-          />
-        </div> */}
         <section className='flex flex-col flex-1 gap-y-1'>
           <div className='flex flex-row items-center text-xs gap-x-2'>
             <Image
@@ -218,6 +223,22 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
                 <FaRegCommentAlt className='w-4 h-4' />
                 <span className='text-sm'> Reply </span>
               </div>
+              <div className='relative'>
+                <div
+                  className={`${baseIconClassName} w-fit px-2 py-4 flex flex-row items-center gap-x-2 text-reddit-placeholder-gray`}
+                  onClick={toggleMenu}
+                >
+                  <BsThreeDots className='w-4 h-4' />
+                </div>
+                <div className={` ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} absolute left-0 z-10 flex flex-col w-48 border shadow border-reddit-border shadow-reddit-white duration-300`}>
+                  {userOptionData.map(icon => (
+                    <div className='flex flex-row items-center px-3 py-2 duration-300 border border-reddit-border bg-reddit-dark gap-x-2 hover:bg-reddit-hover-gray hover:cursor-pointer'>
+                      <> {icon.icon} </>
+                      <span> {icon.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
           <>
@@ -233,7 +254,6 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
 
       {showReply && replies?.map(reply => (
         <>
-          {/* <div className='h-full mt-1 text-xs text-transparent border-l-2-2 w-fit border-reddit-comment-line hover:border-slate-100 hover:cursor-pointer'> </div> */}
           <section className='pl-0 ml-4 border-l-2 border-reddit-comment-line'>
             <CommentCard id={reply} postAuthor={postAuthor} showReply={true} />
           </section>
