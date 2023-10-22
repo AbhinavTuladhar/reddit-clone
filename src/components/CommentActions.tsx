@@ -7,20 +7,46 @@ import { SlPencil } from 'react-icons/sl'
 import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import classnames from 'classnames'
 import { FaRegCommentAlt } from 'react-icons/fa'
+import { FiBookmark } from 'react-icons/fi'
+import { BsFlag } from 'react-icons/bs'
+import IconWithText from './IconWithText'
 
 interface CommentActionProps {
+  sameUser: boolean,
   voteStatus: voteStatus,
   effectiveKarma: number,
   handleVoteChange: (status: voteStatus) => void,
   toggleReplyVisibility: () => void,
 }
 
-const CommentActions: React.FC<CommentActionProps> = ({ voteStatus, effectiveKarma, handleVoteChange, toggleReplyVisibility }) => {
+const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, effectiveKarma, handleVoteChange, toggleReplyVisibility }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const userOptionData = [
     { icon: <SlPencil />, text: 'Edit' },
     { icon: <BsTrash />, text: 'Delete comment' },
+  ]
+
+  const baseIcons = [
+    <IconWithText
+      icon={<FiBookmark className='w-5 h-5' />}
+      text='Save'
+    />,
+    <IconWithText
+      icon={<BsFlag className='w-5 h-5' />}
+      text='Report'
+    />
+  ]
+
+  const ownCommentIcons = [
+    <IconWithText
+      icon={<SlPencil className='w-5 h-5' />}
+      text='Edit'
+    />,
+    <IconWithText
+      icon={<BsTrash className='w-5 h-5' />}
+      text='Delete comment'
+    />
   ]
 
   const toggleMenu = () => {
@@ -74,12 +100,25 @@ const CommentActions: React.FC<CommentActionProps> = ({ voteStatus, effectiveKar
           <BsThreeDots className='w-4 h-4' />
         </div>
         <div className={` ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} absolute left-0 z-10 flex flex-col w-48 border shadow border-reddit-border shadow-reddit-white duration-300`}>
-          {userOptionData.map(icon => (
-            <div className='flex flex-row items-center px-3 py-2 duration-300 border border-reddit-border bg-reddit-dark gap-x-2 hover:bg-reddit-hover-gray hover:cursor-pointer'>
+          {sameUser ? (
+            [baseIcons[0], ...ownCommentIcons].map(icon => (
+              <div className='border border-reddit-border'>
+                {icon}
+              </div>
+            ))
+          ) : (
+            baseIcons.map(icon => (
+              <div className="border border-reddit-border">
+                {icon}
+              </div>
+            ))
+          )}
+          {/* {userOptionData.map(icon => (
+            <div className='flex flex-row items-center px-3 py-2 duration-300 border border-reddit-border bg-reddit-dark gap-x-2 hover:bg-reddit-dark-blue hover:cursor-pointer'>
               <> {icon.icon} </>
               <span> {icon.text}</span>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

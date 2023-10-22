@@ -15,21 +15,7 @@ import axios from 'axios'
 import { BsFlag } from 'react-icons/bs'
 import { PostType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString';
-
-interface IconProps {
-  icon: React.ReactNode,
-  extraClassName?: string,
-  text: string | React.ReactNode
-}
-
-const IconWithText: React.FC<IconProps> = ({ icon, extraClassName, text }) => {
-  return (
-    <div className='flex flex-row items-center px-1 py-2 duration-200 gap-x-1 text-reddit-placeholder-gray hover:bg-reddit-hover-gray hover:cursor-pointer'>
-      {icon}
-      <span> {text} </span>
-    </div>
-  )
-}
+import IconWithText from './IconWithText';
 
 interface PostProps {
   /** The id of the post. */
@@ -248,15 +234,13 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
             >
               <BsThreeDots className={rowIconClassName} />
             </div>
-            {isMenuOpen && (
-              <div className='absolute left-0 z-10 flex flex-col w-32 border shadow border-reddit-border shadow-reddit-white'>
-                {extraRowIcons.map(icon => (
-                  <div className='border border-reddit-border bg-reddit-dark'>
-                    {icon}
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className={`${isMenuOpen ? 'opacity-100' : 'opacity-0  pointer-events-none'} transition-opacity duration-300 absolute left-0 z-10 flex flex-col w-32 border shadow border-reddit-border shadow-reddit-white`}>
+              {extraRowIcons.map(icon => (
+                <div className='border border-reddit-border'>
+                  {icon}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

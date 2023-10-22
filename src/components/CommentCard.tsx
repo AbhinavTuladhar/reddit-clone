@@ -106,7 +106,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
                 </>
               ))}
             </div>
-            <CommentActions effectiveKarma={effectiveKarma} handleVoteChange={handleVoteChange} toggleReplyVisibility={toggleReplyVisibility} voteStatus={voteStatus} />
+            <CommentActions sameUser={author === userName} effectiveKarma={effectiveKarma} handleVoteChange={handleVoteChange} toggleReplyVisibility={toggleReplyVisibility} voteStatus={voteStatus} />
           </section>
           <>
             {replyFlag && (
