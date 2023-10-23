@@ -99,3 +99,8 @@ export interface UserOverviewResponse {
   comments: ContentId[],
   overview: SpecificContentId[]
 }
+
+export interface CommentEditBody {
+  userName: string,
+  content: string
+}

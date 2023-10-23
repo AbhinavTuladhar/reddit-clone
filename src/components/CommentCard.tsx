@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import useSWR from 'swr'
 import Profile from '../images/reddit_default_pp.png'
-import { CommentType, voteStatus } from '@/types/types'
+import { CommentType, voteStatus, CommentEditBody } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString'
 import useCommentVote from '../hooks/useCommentVote';
 import CommentActions from './CommentActions'
@@ -31,7 +31,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
 
   const {
     author,
-    content,
+    content = '',
     createdAt = '',
     downvotedBy = [],
     parentComment,
@@ -53,6 +53,8 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
 
   const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, id, initialVoteStatus, mutate, status, userName })
 
+  const [isEditing, setIsEditing] = useState(false)
+  const [editedComment, setEditedComment] = useState(content)
   const [reply, setReply] = useState('')
   const [replyFlag, setReplyFlag] = useState(false)
 
@@ -60,12 +62,36 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
     setVoteStatus(initialVoteStatus)
   }, [initialVoteStatus])
 
+  useEffect(() => {
+    setEditedComment(content)
+  }, [content])
+
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const paragraphs = content?.split('\n')
 
+  const handleEditedCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { target: { value } } = event
+    setEditedComment(value)
+  }
+
   const toggleReplyVisibility = () => {
     setReplyFlag(prevFlag => !prevFlag)
+  }
+
+  const toggleEditing = () => {
+    setIsEditing(prevFlag => !prevFlag)
+  }
+
+  const handleEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const requestBody: CommentEditBody = {
+      content: editedComment,
+      userName: userName
+    }
+    await axios.patch(`/api/comment/${id}/edit`, requestBody)
+    mutate()
+    toggleEditing()
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -81,6 +107,35 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
     mutate()
     toggleReplyVisibility()
   }
+
+  const editingForm = (
+    <form className='flex flex-col flex-1 gap-y-2' onSubmit={handleEditSubmit}>
+      <textarea
+        className='w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray'
+        placeholder='What are your thoughts?'
+        value={editedComment}
+        onChange={handleEditedCommentChange}
+      />
+      <div className='bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row gap-x-3 justify-end'>
+        <button
+          className='px-2 py-1 text-sm text-white rounded-full hover:bg-reddit-hover-gray'
+          onClick={() => {
+            toggleEditing()
+            setEditedComment(content)
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          className='px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black disabled:hover:cursor-not-allowed'
+          disabled={editedComment === ''}
+          type='submit'
+        >
+          Save edits
+        </button>
+      </div>
+    </form>
+  )
 
   return (
     <div className={`${parentComment !== null && 'pl-4'} flex flex-col`}>
@@ -100,13 +155,17 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
           </div>
           <section className='flex flex-col pl-6 ml-4 border-l-2 border-reddit-comment-line gap-y-1'>
             <div>
-              {paragraphs?.map((row) => (
-                <>
-                  {row} <br />
-                </>
-              ))}
+              {isEditing ? (
+                editingForm
+              ) : (
+                paragraphs?.map((row) => (
+                  <>
+                    {row} <br />
+                  </>
+                ))
+              )}
             </div>
-            <CommentActions sameUser={author === userName} effectiveKarma={effectiveKarma} handleVoteChange={handleVoteChange} toggleReplyVisibility={toggleReplyVisibility} voteStatus={voteStatus} />
+            {!isEditing && <CommentActions toggleEditing={toggleEditing} sameUser={author === userName} effectiveKarma={effectiveKarma} handleVoteChange={handleVoteChange} toggleReplyVisibility={toggleReplyVisibility} voteStatus={voteStatus} />}
           </section>
           <>
             {replyFlag && (

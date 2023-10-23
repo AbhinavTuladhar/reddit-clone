@@ -17,15 +17,15 @@ interface CommentActionProps {
   effectiveKarma: number,
   handleVoteChange: (status: voteStatus) => void,
   toggleReplyVisibility: () => void,
+  toggleEditing: () => void
 }
 
-const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, effectiveKarma, handleVoteChange, toggleReplyVisibility }) => {
+const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, effectiveKarma, handleVoteChange, toggleReplyVisibility, toggleEditing }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const userOptionData = [
-    { icon: <SlPencil />, text: 'Edit' },
-    { icon: <BsTrash />, text: 'Delete comment' },
-  ]
+  const toggleMenu = () => {
+    setIsMenuOpen(prevState => !prevState)
+  }
 
   const baseIcons = [
     <IconWithText
@@ -42,16 +42,16 @@ const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, ef
     <IconWithText
       icon={<SlPencil className='w-5 h-5' />}
       text='Edit'
+      handleClick={() => {
+        toggleMenu()
+        toggleEditing()
+      }}
     />,
     <IconWithText
       icon={<BsTrash className='w-5 h-5' />}
       text='Delete comment'
     />
   ]
-
-  const toggleMenu = () => {
-    setIsMenuOpen(prevState => !prevState)
-  }
 
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray duration-300'
 
