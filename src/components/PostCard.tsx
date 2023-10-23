@@ -11,11 +11,11 @@ import { BsThreeDots } from 'react-icons/bs'
 import useSWR from 'swr';
 import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
-import axios from 'axios'
 import { BsFlag } from 'react-icons/bs'
 import { PostType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString';
 import IconWithText from './IconWithText';
+import useCommentVote from '@/hooks/useCommentVote';
 
 interface PostProps {
   /** The id of the post. */
@@ -52,8 +52,9 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   } else {
     initialVoteStatus = 'nonvoted'
   }
+  const apiUrl = `/api/post/${id}`
+  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
 
-  const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -67,40 +68,6 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const postLink = `/r/${subreddit}/comments/${id}`
-
-  const handleVoteChange = async (targetStatus: voteStatus) => {
-    if (status !== 'authenticated') {
-      alert('Please login to vote.')
-      return
-    }
-
-    let newVoteStatus: voteStatus = 'nonvoted'
-
-    if (voteStatus === targetStatus && targetStatus === 'upvoted') {
-      newVoteStatus = 'nonvoted'
-      setVoteStatus('nonvoted')
-    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') {
-      newVoteStatus = 'nonvoted'
-      setVoteStatus('nonvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') {
-      newVoteStatus = 'upvoted'
-      setVoteStatus('upvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') {
-      newVoteStatus = 'downvoted'
-      setVoteStatus('downvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {
-      newVoteStatus = 'downvoted'
-      setVoteStatus('downvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {
-      newVoteStatus = 'upvoted'
-      setVoteStatus('upvoted')
-    }
-
-    const requestBody = { user: userName, voteTarget: newVoteStatus, author: author }
-
-    await axios.patch(`/api/post/${id}`, requestBody)
-    mutate()
-  }
 
   const iconBaseClassName = 'w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
   const votingDivComponents = [
@@ -132,38 +99,6 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
       onClick={() => handleVoteChange('downvoted')}
     />
   ]
-
-  const votingDiv = (
-    <div className='flex flex-col items-center bg-[#161617] px-4 py-4 h-full gap-y-1'>
-      <PiArrowFatUpFill
-        className={classnames(
-          iconBaseClassName,
-          { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
-          { 'text-reddit-orange': voteStatus === 'upvoted' },
-          'hover:text-reddit-orange'
-        )}
-        onClick={() => handleVoteChange('upvoted')}
-      />
-      <span
-        className={classnames(
-          { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
-          { 'text-reddit-orange': voteStatus === 'upvoted' },
-          { 'text-indigo-400': voteStatus === 'downvoted' },
-        )}
-      >
-        {effectiveKarma}
-      </span>
-      <PiArrowFatDownFill
-        className={classnames(
-          iconBaseClassName,
-          { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
-          { 'text-indigo-400': voteStatus === 'downvoted' },
-          'hover:text-indigo-400'
-        )}
-        onClick={() => handleVoteChange('downvoted')}
-      />
-    </div>
-  )
 
   const rowIconClassName = 'w-5 h-5'
 

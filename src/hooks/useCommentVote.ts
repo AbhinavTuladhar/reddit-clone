@@ -4,14 +4,14 @@ import axios from 'axios'
 
 interface CommentVoteProps {
   author: string | undefined,
-  id: string,
+  apiUrl: string,
   initialVoteStatus: voteStatus,
   mutate: () => void,
   status: string
   userName: string,
 }
 
-const useCommentVote = ({ author, id, initialVoteStatus, mutate, status, userName }: CommentVoteProps) => {
+const useCommentVote = ({ author, apiUrl, initialVoteStatus, mutate, status, userName }: CommentVoteProps) => {
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
@@ -44,7 +44,7 @@ const useCommentVote = ({ author, id, initialVoteStatus, mutate, status, userNam
 
     const requestBody = { user: userName, voteTarget: newVoteStatus, author: author }
 
-    await axios.patch(`/api/comment/${id}`, requestBody)
+    await axios.patch(apiUrl, requestBody)
     mutate()
   }
 

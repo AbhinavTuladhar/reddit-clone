@@ -53,7 +53,9 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
     initialVoteStatus = 'nonvoted'
   }
 
-  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, id, initialVoteStatus, mutate, status, userName })
+  // The api endpoint which deals with voting.
+  const apiUrl = `/api/comment/${id}`
+  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
 
   const [isEditing, setIsEditing] = useState(false)
   const [editedComment, setEditedComment] = useState(content)

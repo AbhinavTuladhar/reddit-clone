@@ -15,6 +15,7 @@ import classnames from 'classnames';
 import calculateDateString from '@/utils/calculateDateString';
 import AboutCommunity from '@/components/AboutCommunity';
 import { BsThreeDots } from 'react-icons/bs'
+import useCommentVote from '@/hooks/useCommentVote';
 
 interface SubredditCommentParams {
   params: {
@@ -35,7 +36,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const [comment, setComment] = useState<string>('')
   const [commentData, setCommentData] = useState<string[]>([])
 
-  const authStatus = session?.status
+  const status = session?.status
   const userName = session?.data?.user?.name || ''
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -73,7 +74,8 @@ const Page: React.FC<SubredditCommentParams> = ({
     initialVoteStatus = 'nonvoted'
   }
 
-  const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+  const apiUrl = `/api/post/${_id}`
+  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
@@ -82,40 +84,6 @@ const Page: React.FC<SubredditCommentParams> = ({
   useEffect(() => {
     setVoteStatus(initialVoteStatus)
   }, [initialVoteStatus])
-
-  const handleVoteChange = async (targetStatus: voteStatus) => {
-    if (authStatus !== 'authenticated') {
-      alert('Please login to vote.')
-      return
-    }
-
-    let newVoteStatus: voteStatus = 'nonvoted'
-
-    if (voteStatus === targetStatus && targetStatus === 'upvoted') {
-      newVoteStatus = 'nonvoted'
-      setVoteStatus('nonvoted')
-    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') {
-      newVoteStatus = 'nonvoted'
-      setVoteStatus('nonvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') {
-      newVoteStatus = 'upvoted'
-      setVoteStatus('upvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') {
-      newVoteStatus = 'downvoted'
-      setVoteStatus('downvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {
-      newVoteStatus = 'downvoted'
-      setVoteStatus('downvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {
-      newVoteStatus = 'upvoted'
-      setVoteStatus('upvoted')
-    }
-
-    const requestBody = { user: userName, voteTarget: newVoteStatus, author: author }
-
-    await axios.patch(`/api/post/${_id}`, requestBody)
-    mutate()
-  }
 
   // For fethcing the comments
   useEffect(() => {
@@ -238,7 +206,7 @@ const Page: React.FC<SubredditCommentParams> = ({
             </section>
 
             <>
-              {authStatus === 'authenticated' && commentForm}
+              {status === 'authenticated' && commentForm}
             </>
           </section>
         </div>
