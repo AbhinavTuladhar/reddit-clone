@@ -15,7 +15,7 @@ import { BsFlag } from 'react-icons/bs'
 import { PostType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString';
 import IconWithText from './IconWithText';
-import useCommentVote from '@/hooks/useCommentVote';
+import useVote from '@/hooks/useVote';
 
 interface PostProps {
   /** The id of the post. */
@@ -53,7 +53,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
     initialVoteStatus = 'nonvoted'
   }
   const apiUrl = `/api/post/${id}`
-  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
+  const { voteStatus, setVoteStatus, handleVoteChange } = useVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 

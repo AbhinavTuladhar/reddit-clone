@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { voteStatus } from "@/types/types"
 import axios from 'axios'
 
-interface CommentVoteProps {
+interface VoteProps {
   author: string | undefined,
   apiUrl: string,
   initialVoteStatus: voteStatus,
@@ -11,7 +11,23 @@ interface CommentVoteProps {
   userName: string,
 }
 
-const useCommentVote = ({ author, apiUrl, initialVoteStatus, mutate, status, userName }: CommentVoteProps) => {
+/**
+ * A custom react hook to implement voting functionality for both posts and comments
+ * 
+ * @param {Object}   props                    The props object.
+ * @param {string}   props.author             The author of the post or comment. 
+ * @param {string}   props.apiUrl             The api endpoint that the PATCH request is directed to. 
+ * @param {string}   props.initialVoteStatus  Whether the post/comment is up, down or non voted.
+ * @param {function} props.mutate             The function which refetches data after making the patch request. 
+ * @param {string}   props.status             Whether the user is authenticated or not. 
+ * @param {string}   props.userName           The name of the authenticated user.
+ * 
+ * @return {Object}                       The voting status management object.
+ * @property {string}   voteStatus        The current voting status, which can be upvoted, downvoted or nonvoted.
+ * @property {function} setVoteStatus     Sets the current vote status
+ * @property {function} handleVoteChange  An async function for handling vote changes using PATCH request.
+ */
+const useVote = ({ author, apiUrl, initialVoteStatus, mutate, status, userName }: VoteProps) => {
   const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
 
   const handleVoteChange = async (targetStatus: voteStatus) => {
@@ -55,4 +71,4 @@ const useCommentVote = ({ author, apiUrl, initialVoteStatus, mutate, status, use
   };
 }
 
-export default useCommentVote
+export default useVote

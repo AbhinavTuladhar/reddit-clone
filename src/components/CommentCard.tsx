@@ -9,7 +9,7 @@ import useSWR from 'swr'
 import Profile from '../images/reddit_default_pp.png'
 import { CommentType, voteStatus, CommentEditBody } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString'
-import useCommentVote from '../hooks/useCommentVote';
+import useVote from '../hooks/useVote';
 import CommentActions from './CommentActions'
 import ReplyForm from './ReplyForm'
 
@@ -55,7 +55,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
 
   // The api endpoint which deals with voting.
   const apiUrl = `/api/comment/${id}`
-  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
+  const { voteStatus, setVoteStatus, handleVoteChange } = useVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
 
   const [isEditing, setIsEditing] = useState(false)
   const [editedComment, setEditedComment] = useState(content)

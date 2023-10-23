@@ -15,7 +15,7 @@ import classnames from 'classnames';
 import calculateDateString from '@/utils/calculateDateString';
 import AboutCommunity from '@/components/AboutCommunity';
 import { BsThreeDots } from 'react-icons/bs'
-import useCommentVote from '@/hooks/useCommentVote';
+import useVote from '@/hooks/useVote';
 
 interface SubredditCommentParams {
   params: {
@@ -75,7 +75,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   }
 
   const apiUrl = `/api/post/${_id}`
-  const { voteStatus, setVoteStatus, handleVoteChange } = useCommentVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
+  const { voteStatus, setVoteStatus, handleVoteChange } = useVote({ author, apiUrl, initialVoteStatus, mutate, status, userName })
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
