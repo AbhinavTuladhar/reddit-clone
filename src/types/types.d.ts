@@ -57,7 +57,9 @@ export interface CommentType {
   replies: string[],
   upvotedBy: string[],
   downvotedBy: string[],
-  comments: string[]
+  comments: string[],
+  editedFlag: boolean,
+  editedAt: string
 }
 
 export interface VotingRequestBody {

@@ -32,6 +32,14 @@ const CommentSchema = new Schema({
     type: String,
     required: true
   }],
+  editedFlag: {
+    type: Boolean,
+    default: false
+  },
+  editedAt: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 export default models.Comment || model('Comment', CommentSchema)

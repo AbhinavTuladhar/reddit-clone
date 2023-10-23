@@ -18,7 +18,8 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
 
   try {
     await connectDatabase()
-    const foundComment = await Comment.findOneAndUpdate({ _id: id }, { content: content })
+    const currentTime = new Date()
+    const foundComment = await Comment.findOneAndUpdate({ _id: id }, { content: content, editedFlag: true, editedAt: currentTime })
     await foundComment.save()
     return new NextResponse(JSON.stringify(foundComment), { status: 201 })
   } catch (error) {
