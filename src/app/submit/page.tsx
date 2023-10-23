@@ -12,7 +12,7 @@ interface SubListResponse {
   creatorName: string
 }
 
-const page = () => {
+const Page = () => {
   const placeholderSub = 'Choose a community'
   const characterLimit = 300
 
@@ -109,4 +109,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

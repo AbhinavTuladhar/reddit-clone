@@ -28,7 +28,7 @@ const getUserContent = async (userName: string) => {
   }
 }
 
-const page: React.FC<UserParams> = async ({ params }) => {
+const Page: React.FC<UserParams> = async ({ params }) => {
   const userName = params.user
   const userData = await getUserContent(userName)
 
@@ -56,4 +56,4 @@ const page: React.FC<UserParams> = async ({ params }) => {
   )
 }
 
-export default page
+export default Page
