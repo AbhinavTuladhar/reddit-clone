@@ -17,8 +17,8 @@ const PostingRules = () => {
         <h1 className={`${rowClassName} text-xl font-bold px-3`}>
           Posting to reddit
         </h1>
-        {ruleList.map(rule => (
-          <div className={rowClassName}> {rule} </div>
+        {ruleList.map((rule, index) => (
+          <div className={rowClassName} key={index}> {rule} </div>
         ))}
       </div>
     </section>

@@ -88,11 +88,11 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
         ) : (
           <div className='flex flex-row gap-x-2'>
             <p>
-              {bioParts.map((part: string) => (
-                <>
+              {bioParts.map((part: string, index) => (
+                <div key={index}>
                   <span> {part}  </span>
                   <br />
-                </>
+                </div>
               ))}
             </p>
             <SlPencil onClick={toggleEditing} className='hover:cursor-pointer' />
@@ -128,11 +128,11 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
         {currentUser !== userName ? (
           bio !== '' && (
             <p>
-              {bioParts.map((part: string) => (
-                <>
+              {bioParts.map((part: string, index) => (
+                <div key={index}>
                   <span> {part}  </span>
                   <br />
-                </>
+                </div>
               ))}
             </p>
           )

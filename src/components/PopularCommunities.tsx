@@ -19,8 +19,8 @@ const PopularCommunities = () => {
     <div className='bg-reddit-dark border border-reddit-border rounded-lg flex flex-col gap-y-4 p-4'>
       <h1 className='text-reddit-placeholder-gray'> POPULAR COMMUNITIES </h1>
       <section className='flex flex-col gap-y-6'>
-        {popularSubs?.map((subreddit) => (
-          <div className='flex flex-row items-center gap-x-4'>
+        {popularSubs?.map((subreddit, index) => (
+          <div className='flex flex-row items-center gap-x-4' key={index}>
             <Image src={SubredditIcon} alt='icon' className='w-10 h-10 rounded-full' />
             <div className='flex flex-col justify-between'>
               <Link href={`r/${subreddit.name}`} className='font-bold text-base hover:underline duration-200'> {`r/${subreddit.name}`} </Link>

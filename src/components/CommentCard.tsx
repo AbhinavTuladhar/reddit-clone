@@ -170,10 +170,10 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
               {isEditing ? (
                 editingForm
               ) : (
-                paragraphs?.map((row) => (
-                  <>
+                paragraphs?.map((row, index) => (
+                  <div key={index}>
                     {row} <br />
-                  </>
+                  </div>
                 ))
               )}
             </div>
@@ -189,12 +189,12 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
         </section>
       </main>
 
-      {showReply && replies?.map(reply => (
-        <>
+      {showReply && replies?.map((reply, index) => (
+        <div key={index}>
           <section className='pl-0 ml-4 border-l-2 border-reddit-comment-line'>
             <CommentCard id={reply} postAuthor={postAuthor} showReply={true} />
           </section>
-        </>
+        </div>
       ))}
 
     </div>

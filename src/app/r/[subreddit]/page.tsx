@@ -98,8 +98,8 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
               <CreatePostCard />
             </div>
           )}
-          {postDetails?.map(post => (
-            <PostCard id={post._id} subViewFlag={false} />
+          {postDetails?.map((post, index) => (
+            <PostCard id={post._id} subViewFlag={false} key={index} />
           ))}
         </div>
         <section className='hidden w-80 lg:block'>

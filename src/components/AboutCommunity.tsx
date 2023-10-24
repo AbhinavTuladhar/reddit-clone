@@ -85,11 +85,11 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
         ) : (
           <div className='flex flex-row gap-x-2'>
             <p>
-              {descriptionParts.map((part: string) => (
-                <>
+              {descriptionParts.map((part: string, index) => (
+                <div key={index}>
                   <span> {part}  </span>
                   <br />
-                </>
+                </div>
               ))}
             </p>
             <SlPencil onClick={toggleEditing} className='hover:cursor-pointer' />
@@ -122,11 +122,11 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
       </h3>
       {creator !== userName ? (
         <p>
-          {descriptionParts.map((part: string) => (
-            <>
+          {descriptionParts.map((part: string, index) => (
+            <div key={index}>
               <span> {part}  </span>
               <br />
-            </>
+            </div>
           ))}
         </p>
       ) : (

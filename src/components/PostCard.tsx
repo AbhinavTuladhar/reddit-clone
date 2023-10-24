@@ -121,7 +121,11 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
     <main className='flex flex-row items-center duration-150 border gap-x-4 bg-reddit-dark border-reddit-border hover:cursor-poiner hover:border-white hover:cursor-pointer'>
 
       <div className='hidden sm:flex flex-col items-center bg-[#161617] px-4 py-4 h-full gap-y-1'>
-        {votingDivComponents.map(component => component)}
+        {votingDivComponents.map((component, index) => (
+          <div key={index}>
+            {component}
+          </div>
+        ))}
       </div>
 
       <div className='flex flex-col justify-between flex-1 flex-grow py-1 pl-4 gap-y-1 sm:pl-0'>
@@ -143,7 +147,11 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
 
         <div className='flex flex-row flex-wrap items-center gap-x-1'>
           <div className='flex flex-row gap-x-2 sm:hidden'>
-            {votingDivComponents.map(component => component)}
+            {votingDivComponents.map((component, index) => (
+              <div key={index}>
+                {component}
+              </div>
+            ))}
           </div>
           <IconWithText
             icon={<FaRegCommentAlt className={rowIconClassName} />}
@@ -158,9 +166,11 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
             text='Share'
           />
           <div className='hidden sm:flex sm:flex-row sm:gap-x-1'>
-            {
-              extraRowIcons.map(icon => icon)
-            }
+            {extraRowIcons.map((icon, index) => (
+              <div key={index}>
+                {icon}
+              </div>
+            ))}
           </div>
           <div className='relative'>
             <div
@@ -170,8 +180,8 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
               <BsThreeDots className={rowIconClassName} />
             </div>
             <div className={`${isMenuOpen ? 'opacity-100' : 'opacity-0  pointer-events-none'} transition-opacity duration-300 absolute left-0 z-10 flex flex-col w-32 border shadow border-reddit-border shadow-reddit-white`}>
-              {extraRowIcons.map(icon => (
-                <div className='border border-reddit-border'>
+              {extraRowIcons.map((icon, index) => (
+                <div className='border border-reddit-border' key={index}>
                   {icon}
                 </div>
               ))}

@@ -101,14 +101,14 @@ const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, ef
         </div>
         <div className={` ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} absolute left-0 z-10 flex flex-col w-48 border shadow border-reddit-border shadow-reddit-white duration-300`}>
           {sameUser ? (
-            [baseIcons[0], ...ownCommentIcons].map(icon => (
-              <div className='border border-reddit-border'>
+            [baseIcons[0], ...ownCommentIcons].map((icon, index) => (
+              <div className='border border-reddit-border' key={index}>
                 {icon}
               </div>
             ))
           ) : (
-            baseIcons.map(icon => (
-              <div className="border border-reddit-border">
+            baseIcons.map((icon, index) => (
+              <div className="border border-reddit-border" key={index}>
                 {icon}
               </div>
             ))

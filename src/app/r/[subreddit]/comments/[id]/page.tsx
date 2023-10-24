@@ -190,10 +190,10 @@ const Page: React.FC<SubredditCommentParams> = ({
             <h1 className='text-xl font-bold'>
               {title}
             </h1>
-            {paragraphs?.map((row) => (
-              <>
+            {paragraphs?.map((row, index) => (
+              <div key={index}>
                 {row} <br />
-              </>
+              </div>
             ))}
 
             <section className='flex flex-row gap-x-2'>
@@ -217,8 +217,8 @@ const Page: React.FC<SubredditCommentParams> = ({
         </div>
 
         <>
-          {commentData?.map(comment => (
-            <CommentCard id={comment} postAuthor={author || ''} showReply={true} />
+          {commentData?.map((comment, index) => (
+            <CommentCard id={comment} postAuthor={author || ''} showReply={true} key={index} />
           ))}
         </>
       </section>

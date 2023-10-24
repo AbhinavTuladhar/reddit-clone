@@ -22,8 +22,8 @@ export default function Home() {
           </section>
         )}
         <main className='flex flex-col gap-y-0'>
-          {postIdList?.map((postId: string) => (
-            <PostCard id={postId} subViewFlag={true} />
+          {postIdList?.map((postId: string, index) => (
+            <PostCard id={postId} subViewFlag={true} key={index} />
           ))}
         </main>
       </div>
