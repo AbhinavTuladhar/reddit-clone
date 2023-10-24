@@ -13,6 +13,12 @@ export default function Home() {
   const fetcher = (url: string) => fetch(url).then((response) => response.json())
   const { data: postIdList } = useSWR<string[]>('/api/home?posts=10', fetcher)
 
+  // This is for testing out the system environment variables in deployment
+  const vercelUrl = process.env.VERCEL_URL
+  const publicUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+
+  console.log({ vercelUrl, publicUrl })
+
   return (
     <div className='flex flex-row mt-4 gap-x-4'>
       <div className='flex flex-col flex-1'>
