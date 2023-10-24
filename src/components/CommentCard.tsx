@@ -64,7 +64,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
 
   useEffect(() => {
     setVoteStatus(initialVoteStatus)
-  }, [initialVoteStatus])
+  }, [initialVoteStatus, setVoteStatus])
 
   useEffect(() => {
     setEditedComment(content)

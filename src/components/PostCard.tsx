@@ -63,7 +63,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
 
   useEffect(() => {
     setVoteStatus(initialVoteStatus)
-  }, [initialVoteStatus])
+  }, [initialVoteStatus, setVoteStatus])
 
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
@@ -79,6 +79,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
         'hover:text-reddit-orange'
       )}
       onClick={() => handleVoteChange('upvoted')}
+      key={1}
     />,
     <span
       className={classnames(
@@ -86,6 +87,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
         { 'text-reddit-orange': voteStatus === 'upvoted' },
         { 'text-indigo-400': voteStatus === 'downvoted' },
       )}
+      key={2}
     >
       {effectiveKarma}
     </span>,
@@ -97,6 +99,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
         'hover:text-indigo-400'
       )}
       onClick={() => handleVoteChange('downvoted')}
+      key={3}
     />
   ]
 
@@ -106,14 +109,17 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
     <IconWithText
       icon={<FiBookmark className={rowIconClassName} />}
       text='Save'
+      key={1}
     />,
     <IconWithText
       icon={<AiOutlineEyeInvisible className={rowIconClassName} />}
       text='Hide'
+      key={2}
     />,
     <IconWithText
       icon={<BsFlag className={rowIconClassName} />}
       text='Report'
+      key={3}
     />
   ]
 

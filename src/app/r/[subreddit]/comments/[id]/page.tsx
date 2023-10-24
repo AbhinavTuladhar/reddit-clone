@@ -83,7 +83,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
   useEffect(() => {
     setVoteStatus(initialVoteStatus)
-  }, [initialVoteStatus])
+  }, [initialVoteStatus, setVoteStatus])
 
   // For fethcing the comments
   useEffect(() => {
@@ -99,7 +99,7 @@ const Page: React.FC<SubredditCommentParams> = ({
     // }
     // fetchData()
     setCommentData(topLevelComments)
-  }, [topLevelComments])
+  }, [topLevelComments, comments])
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { target: { value } } = event
