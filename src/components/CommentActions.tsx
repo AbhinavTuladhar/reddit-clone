@@ -31,10 +31,12 @@ const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, ef
     <IconWithText
       icon={<FiBookmark className='w-5 h-5' />}
       text='Save'
+      key={1}
     />,
     <IconWithText
       icon={<BsFlag className='w-5 h-5' />}
       text='Report'
+      key={2}
     />
   ]
 
@@ -42,6 +44,7 @@ const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, ef
     <IconWithText
       icon={<SlPencil className='w-5 h-5' />}
       text='Edit'
+      key={3}
       handleClick={() => {
         toggleMenu()
         toggleEditing()
@@ -50,6 +53,7 @@ const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, ef
     <IconWithText
       icon={<BsTrash className='w-5 h-5' />}
       text='Delete comment'
+      key={4}
     />
   ]
 
@@ -113,12 +117,6 @@ const CommentActions: React.FC<CommentActionProps> = ({ sameUser, voteStatus, ef
               </div>
             ))
           )}
-          {/* {userOptionData.map(icon => (
-            <div className='flex flex-row items-center px-3 py-2 duration-300 border border-reddit-border bg-reddit-dark gap-x-2 hover:bg-reddit-dark-blue hover:cursor-pointer'>
-              <> {icon.icon} </>
-              <span> {icon.text}</span>
-            </div>
-          ))} */}
         </div>
       </div>
     </div>

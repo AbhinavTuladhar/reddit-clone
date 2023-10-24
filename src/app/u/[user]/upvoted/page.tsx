@@ -17,7 +17,7 @@ interface ResponseType {
   downvotedIds: string[]
 }
 
-const page: React.FC<UserParams> = ({ params }) => {
+const Page: React.FC<UserParams> = ({ params }) => {
   const userName = params.user
   const session = useSession()
   const currentUser = session.data?.user?.name
@@ -42,4 +42,4 @@ const page: React.FC<UserParams> = ({ params }) => {
   )
 }
 
-export default page
+export default Page
