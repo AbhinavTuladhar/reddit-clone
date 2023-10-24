@@ -37,17 +37,17 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         className='absolute top-0 right-0 mt-4 mr-4 hover:cursor-pointer'
         onClick={() => setModalState('closed')}
       />
-      <div className='flex flex-col gap-y-2'>
+      <div className='flex flex-col gap-y-2 mb-4'>
         <span className='text-xl font-bold'> Login </span>
         <span className='text-sm'> By continuing, you are setting up a Reddit account and agree to our User Agreement and Privacy Policy. </span>
       </div>
-      <div
+      {/* <div
         className='w-full py-2 flex justify-center items-center border-[1px] border-gray-300 rounded-full my-4 hover:cursor-pointer hover:bg-gray-900'
         onClick={handleGoogleSignIn}
       >
         Continue with Google
       </div>
-      <BorderDivider />
+      <BorderDivider /> */}
       <form className='flex flex-col w-full gap-y-4' onSubmit={handleSubmit}>
         <input
           type='text'
