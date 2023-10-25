@@ -28,9 +28,9 @@ const IconGroup: React.FC<IconProps> = ({ mutateData }) => {
       <ModalContainer visibilityFlag={subCreationFlag} containerClassName='w-5/6 mx-auto'>
         <SubCreationWindow handleModalView={handleModalView} mutateData={mutateData} />
       </ModalContainer>
-      <div className='md:flex md:flex-row md:gap-x-1.5 hidden'>
+      <div className='sm:flex sm:flex-row sm:gap-x-1.5 hidden'>
         <CgArrowTopRightO id='createSub' className={className} onClick={handleModalView} />
-        <BsChatDots id='chats' className={`${className} hidden md:block`} />
+        <BsChatDots id='chats' className={`${className} hidden sm:block`} />
         <VscBell id='notifications' className={className} />
         <Link href='/submit'>
           <AiOutlinePlus id='createPost' className={className} />

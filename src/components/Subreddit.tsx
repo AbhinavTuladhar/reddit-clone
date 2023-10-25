@@ -38,7 +38,7 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
         <div className='flex flex-row items-center gap-x-2'>
           {selectedSub === 'Home' ? (
             <>
-              <AiFillHome className='w-6 h-6 text-white' height={60} width={60} />
+              <AiFillHome className='hidden w-6 h-6 text-white lg:block' height={60} width={60} />
               <span className='hidden text-sm lg:block'>
                 Home
               </span>

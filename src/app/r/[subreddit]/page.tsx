@@ -70,7 +70,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
           className='w-24 h-24 -mt-6 border-4 rounded-full'
           alt='sub icon'
         />
-        <section className='flex flex-col my-2 justify-center gap-y-0.5'>
+        <section className='flex flex-col justify-center my-2 gap-y-2'>
           <div className='flex flex-row flex-wrap items-center gap-4'>
             <h1 className='text-4xl font-bold'>
               {formattedSubredditName}

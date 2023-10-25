@@ -139,7 +139,7 @@ const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
           <h1 className='text-lg'>
             {title}
           </h1>
-          <div className='flex flex-row items-center text-xs gap-x-1'>
+          <div className='flex flex-row flex-wrap items-center text-xs gap-x-1'>
             {subViewFlag && (
               <Link href={`/r/${subreddit}`} className='font-bold hover:underline'> {`r/${subreddit}`} </Link>
             )}
