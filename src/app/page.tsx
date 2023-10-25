@@ -34,7 +34,11 @@ export default function Home() {
         </main>
       </div>
       <section className='w-full lg:w-80 flex flex-col gap-y-4'>
-        {status === 'authenticated' && <HomeSidebar />}
+        {status === 'authenticated' && (
+          <div className='hidden lg:block'>
+            <HomeSidebar />
+          </div>
+        )}
         <div className='sticky top-16'>
           <PopularCommunities />
         </div>
