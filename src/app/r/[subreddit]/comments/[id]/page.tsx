@@ -147,7 +147,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-row mt-4 gap-x-0.5'>
+    <main className='flex flex-row mt-4 gap-x-4'>
       <section className='flex flex-col flex-1 w-full px-2 py-4 mx-auto border md:px-4 gap-y-6 bg-reddit-dark border-reddit-border'>
         <div className='flex flex-row gap-x-4'>
           <section className='flex flex-col items-center gap-y-1'>
@@ -198,7 +198,7 @@ const Page: React.FC<SubredditCommentParams> = ({
 
             <section className='flex flex-row gap-x-2'>
               {iconBarData.map((row, index) => (
-                <div className='flex flex-row items-center p-2 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray duration-300' key={index}>
+                <div className='flex flex-row items-center p-2 duration-300 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray' key={index}>
                   <span> {row.icon} </span>
                   <span className='text-reddit-placeholder-gray'> {row.label} </span>
                 </div>

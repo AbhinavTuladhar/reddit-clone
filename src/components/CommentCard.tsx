@@ -143,7 +143,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
   )
 
   return (
-    <div className={`${parentComment !== null && 'pl-4'} flex flex-col`}>
+    <div className={`${parentComment !== null && 'pl-1'} flex flex-col`}>
       <main className='flex flex-row mt-2 gap-x-4'>
         <section className='flex flex-col flex-1 gap-y-1'>
           <div className='flex flex-row items-center text-xs gap-x-2'>
@@ -153,7 +153,7 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
               className='w-8 h-8 rounded-full'
             />
             <div className='flex flex-row flex-wrap items-center text-xs gap-x-2'>
-              <Link href={`/u/${author}`} className='tracking-tight hover:underline font-bold'> {author} </Link>
+              <Link href={`/u/${author}`} className='font-bold tracking-tight hover:underline'> {author} </Link>
               {postAuthor === author && (
                 <span className='font-bold text-blue-600'> OP </span>
               )}
@@ -162,12 +162,12 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
               {editedFlag && (
                 <>
                   <span className='text-reddit-placeholder-gray'> · </span>
-                  <span className='text-reddit-placeholder-gray italic'> {`edited ${editedDateString}`} </span>
+                  <span className='italic text-reddit-placeholder-gray'> {`edited ${editedDateString}`} </span>
                 </>
               )}
             </div>
           </div>
-          <section className='flex flex-col pl-6 ml-4 border-l-2 border-reddit-comment-line gap-y-1'>
+          <section className='flex flex-col pl-4 ml-4 border-l-2 border-reddit-comment-line gap-y-1'>
             <div>
               {isEditing ? (
                 editingForm
