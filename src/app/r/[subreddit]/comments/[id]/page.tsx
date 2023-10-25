@@ -128,7 +128,7 @@ const Page: React.FC<SubredditCommentParams> = ({
         </Link>
       </span>
       <textarea
-        className='w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray'
+        className='max-w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray'
         placeholder='What are your thoughts?'
         onChange={handleChange}
         value={comment}
@@ -147,7 +147,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-row mt-4 gap-x-4'>
+    <main className='flex flex-row mt-4 gap-x-0.5'>
       <section className='flex flex-col flex-1 w-full px-2 py-4 mx-auto border md:px-4 gap-y-6 bg-reddit-dark border-reddit-border'>
         <div className='flex flex-row gap-x-4'>
           <section className='flex flex-col items-center gap-y-1'>

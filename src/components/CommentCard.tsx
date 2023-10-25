@@ -152,18 +152,20 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
               alt='profile pic'
               className='w-8 h-8 rounded-full'
             />
-            <Link href={`/u/${author}`} className='tracking-tight hover:underline font-bold'> {author} </Link>
-            {postAuthor === author && (
-              <span className='font-bold text-blue-600'> OP </span>
-            )}
-            <span className='text-reddit-placeholder-gray'> · </span>
-            <span className='text-reddit-placeholder-gray'> {dateString} </span>
-            {editedFlag && (
-              <>
-                <span className='text-reddit-placeholder-gray'> · </span>
-                <span className='text-reddit-placeholder-gray italic'> {`edited ${editedDateString}`} </span>
-              </>
-            )}
+            <div className='flex flex-row flex-wrap items-center text-xs gap-x-2'>
+              <Link href={`/u/${author}`} className='tracking-tight hover:underline font-bold'> {author} </Link>
+              {postAuthor === author && (
+                <span className='font-bold text-blue-600'> OP </span>
+              )}
+              <span className='text-reddit-placeholder-gray'> · </span>
+              <span className='text-reddit-placeholder-gray'> {dateString} </span>
+              {editedFlag && (
+                <>
+                  <span className='text-reddit-placeholder-gray'> · </span>
+                  <span className='text-reddit-placeholder-gray italic'> {`edited ${editedDateString}`} </span>
+                </>
+              )}
+            </div>
           </div>
           <section className='flex flex-col pl-6 ml-4 border-l-2 border-reddit-comment-line gap-y-1'>
             <div>
@@ -172,7 +174,8 @@ const CommentCard: React.FC<CommentProps> = ({ id, postAuthor, showReply }) => {
               ) : (
                 paragraphs?.map((row, index) => (
                   <div key={index}>
-                    {row} <br />
+                    <span> {row} </span>
+                    <br />
                   </div>
                 ))
               )}
