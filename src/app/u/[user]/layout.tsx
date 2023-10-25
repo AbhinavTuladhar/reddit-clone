@@ -22,9 +22,9 @@ export default function RootLayout({ children, params }: LayoutProps) {
   return (
     <>
       <ProfileNavigation />
-      <div className='flex flex-row mx-0 mt-4 md:mx-8 lg:mx-20 gap-x-10'>
+      <div className='flex flex-col-reverse lg:flex-row mx-0 mt-4 md:mx-8 lg:mx-20 gap-x-10 gap-y-4'>
         {children}
-        <section className='hidden w-80 lg:block'>
+        <section className='w-full lg:w-80'>
           <UserProfileSideBar userName={userName} />
         </section>
       </div>

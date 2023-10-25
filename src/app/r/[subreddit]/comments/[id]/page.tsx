@@ -147,7 +147,7 @@ const Page: React.FC<SubredditCommentParams> = ({
   const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className='flex flex-row mt-4 gap-x-4'>
+    <main className='flex flex-col lg:flex-row mt-4 gap-4'>
       <section className='flex flex-col flex-1 w-full px-2 py-4 mx-auto border md:px-4 gap-y-6 bg-reddit-dark border-reddit-border'>
         <div className='flex flex-row gap-x-4'>
           <section className='flex flex-col items-center gap-y-1'>
@@ -223,12 +223,11 @@ const Page: React.FC<SubredditCommentParams> = ({
         </>
       </section>
 
-      <section className='hidden w-80 lg:block'>
+      <section className='w-full lg:w-80'>
         <div className='sticky top-16'>
           <AboutCommunity subName={subredditName} />
         </div>
       </section>
-
     </main>
   );
 };

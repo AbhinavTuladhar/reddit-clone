@@ -20,7 +20,7 @@ export default function Home() {
   console.log({ vercelUrl, publicUrl })
 
   return (
-    <div className='flex flex-row mt-4 gap-x-4'>
+    <div className='flex flex-col-reverse lg:flex-row mt-4 gap-4'>
       <div className='flex flex-col flex-1'>
         {status === 'authenticated' && (
           <section className='mb-4'>
@@ -33,7 +33,7 @@ export default function Home() {
           ))}
         </main>
       </div>
-      <section className='hidden w-80 lg:flex lg:flex-col lg:gap-y-4'>
+      <section className='w-full lg:w-80 flex flex-col gap-y-4'>
         {status === 'authenticated' && <HomeSidebar />}
         <div className='sticky top-16'>
           <PopularCommunities />

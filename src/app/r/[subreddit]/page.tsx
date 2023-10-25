@@ -91,7 +91,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
         </section>
       </section>
 
-      <div className={`flex flex-row gap-x-6 my-4`}>
+      <div className={`flex flex-col-reverse lg:flex-row gap-4 my-4`}>
         <div className='flex flex-col flex-1 gap-y-0'>
           {status === 'authenticated' && (
             <div className='flex flex-col mb-4 gap-y-4'>
@@ -102,7 +102,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
             <PostCard id={post._id} subViewFlag={false} key={index} />
           ))}
         </div>
-        <section className='hidden w-80 lg:block'>
+        <section className='w-full lg:w-80'>
           <AboutCommunity subName={subredditName} />
         </section>
       </div>
