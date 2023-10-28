@@ -33,7 +33,7 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+    const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{3,}$/i
     if (EMAIL_REGEX.test(formData.email)) {
       setButtonDisabledFlag(false)
     } else {
@@ -81,9 +81,9 @@ const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
       <BorderDivider /> */}
       <input
         type='email'
-        className='w-full border-gray-300 border-[1px] rounded-full p-3 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-            invalid:border-pink-500 invalid:text-pink-600
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500'
+        className='w-full border-gray-300 border-[1px] rounded-full text-black p-3 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+            invalid:border-red-500 invalid:text-red-600
+            focus:invalid:border-red-500 focus:invalid:ring-red-500'
         name='email'
         value={formData.email}
         placeholder='Email'

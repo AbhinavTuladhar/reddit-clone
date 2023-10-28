@@ -10,6 +10,7 @@ import { signOut } from 'next-auth/react'
 import { PiCaretDown } from 'react-icons/pi'
 import { PiFlowerFill } from 'react-icons/pi'
 import Profile from '../images/reddit_default_pp.png'
+import { useRouter } from 'next/navigation'
 
 interface UserOptionsProps {
   userName: string | null | undefined
@@ -17,6 +18,7 @@ interface UserOptionsProps {
 
 const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter()
 
   const fetcher = (url: string) => axios.get(url).then(response => response.data)
   const { data: userData } = useSWR<UserType>(`/api/u/${userName}`, fetcher)
@@ -26,6 +28,12 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
 
   const toggleMenu = () => {
     setIsMenuOpen(prevState => !prevState)
+  }
+
+  const handleLogOut = async () => {
+    toggleMenu()
+    await signOut()
+    router.push('/')
   }
 
   return (
@@ -48,7 +56,7 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
       </section>
       <div className={`${isMenuOpen ? 'opacity-100' : 'opacity-0  pointer-events-none'} transition-opacity duration-300 absolute right-0 z-50 flex flex-col mt-1 border min-w-fit w-52 bg-reddit-dark border-reddit-border`}>
         <Link className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' href={`/u/${userName}`} onClick={toggleMenu}> Profile </Link>
-        <div className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' onClick={() => { signOut(); toggleMenu() }}> Sign out </div>
+        <div className='p-2 duration-200 hover:bg-reddit-hover-gray hover:cursor-pointer' onClick={handleLogOut}> Sign out </div>
       </div>
     </div>
   )

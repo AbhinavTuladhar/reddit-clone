@@ -5,8 +5,10 @@ import { signIn } from 'next-auth/react'
 import { ModalProps } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
 import BorderDivider from './BorderDivider'
+import { useRouter } from 'next/navigation'
 
 const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     password: ''
@@ -29,6 +31,7 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
     event.preventDefault()
     // console.log(formData)
     await signIn('credentials', formData)
+    router.push('/')
   }
 
   return (
