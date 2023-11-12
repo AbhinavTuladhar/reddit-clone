@@ -1,39 +1,74 @@
 'use client'
 
+import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import CreatePostCard from '@/components/CreatePostCard'
 import useSWR from 'swr'
 import PostCard from '@/components/PostCard'
 import HomeSidebar from '@/components/HomeSidebar'
 import PopularCommunities from '@/components/PopularCommunities'
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from 'axios'
+import Loader from '@/components/Loader'
+
+const LoadingRow = () => (
+  <div className='flex flex-row justify-center w-full my-2'>
+    <Loader />
+  </div>
+)
 
 export default function Home() {
+  const [postIds, setPostIds] = useState<string[]>([])
+  const [hasMore, setHasMore] = useState(true)
+  const [index, setIndex] = useState(10)
+
   const { status } = useSession()
 
-  const fetcher = (url: string) => fetch(url).then((response) => response.json())
-  const { data: postIdList } = useSWR<string[]>('/api/home?posts=10', fetcher)
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get<string[]>(`/api/home?offset=0&limit=10`)
+      setPostIds(response.data)
+    }
+    fetchData()
+  }, [])
 
-  // This is for testing out the system environment variables in deployment
-  const vercelUrl = process.env.VERCEL_URL
-  const publicUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-
-  console.log({ vercelUrl, publicUrl })
+  const fetchMoreData = async () => {
+    const response = await axios.get<string[]>(`/api/home?offset=${index}&limit=10`)
+    setPostIds(prevIds => (
+      [...prevIds, ...response.data]
+    ))
+    response.data.length > 0 ? setHasMore(true) : setHasMore(false)
+    setIndex(prevIndex => prevIndex + 10)
+  }
 
   return (
-    <div className='flex flex-col-reverse lg:flex-row mt-4 gap-4'>
+    <div className='flex flex-col-reverse gap-4 mt-4 lg:flex-row'>
       <div className='flex flex-col flex-1'>
         {status === 'authenticated' && (
           <section className='mb-4'>
             <CreatePostCard />
           </section>
         )}
-        <main className='flex flex-col gap-y-0'>
-          {postIdList?.map((postId: string, index) => (
-            <PostCard id={postId} subViewFlag={true} key={index} />
-          ))}
-        </main>
+        <InfiniteScroll
+          dataLength={postIds.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<LoadingRow />}
+          endMessage={
+            <p className='w-full mx-auto my-2 text-lg text-center'>
+              You have seen all posts!
+            </p>
+          }
+          style={{ height: '100%', overflow: 'hidden' }}
+        >
+          <main className='flex flex-col gapy-y-0'>
+            {postIds?.map((postId: string, index) => (
+              <PostCard id={postId} subViewFlag={true} key={index} />
+            ))}
+          </main>
+        </InfiniteScroll>
       </div>
-      <section className='w-full lg:w-80 flex flex-col gap-y-4'>
+      <section className='flex flex-col w-full lg:w-80 gap-y-4'>
         {status === 'authenticated' && (
           <div className='hidden lg:block'>
             <HomeSidebar />

@@ -16,6 +16,7 @@ import UserOptions from './UserOptions'
 import { ModalStateType } from '@/types/types'
 import { SessionContext } from './SessionContext'
 import { GiMegaphone } from 'react-icons/gi'
+import Loader from './Loader'
 
 interface SubListResponse {
   name: string,
@@ -77,9 +78,7 @@ const NavBar = () => {
                 <UserOptions userName={session?.data?.user?.name} />
               </>
             ) : (
-              <div>
-                Loading...
-              </div>
+              <Loader />
             )
         )
       }
