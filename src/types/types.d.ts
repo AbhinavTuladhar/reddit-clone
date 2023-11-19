@@ -88,7 +88,7 @@ interface ContentId {
   createdAt: string,
 }
 
-interface SpecificContentId extends ContentId {
+export interface SpecificContentId extends ContentId {
   type: 'post' | 'comment',
   postAuthor?: string
   postSubreddit?: string

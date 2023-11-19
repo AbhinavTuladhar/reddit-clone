@@ -13,11 +13,30 @@ interface RequestParams {
 export const GET = async (request: NextRequest, params: RequestParams) => {
   const { params: { name } } = params
   const searchParams = request.nextUrl.searchParams
+  const offset = request.nextUrl.searchParams.get('offset') || 0
+  const limit = request.nextUrl.searchParams.get('limit') || 10
+
+  const postOffset = Math.ceil(+offset / 2)
+  const commentOffset = +offset - postOffset
+
+  const postLimit = Math.ceil(+limit / 2)
+  const commentLimit = +limit - postLimit
 
   try {
     await connectDatabase()
 
-    const foundUser = await User.findOne({ name }, { name: 1, posts: 1, comments: 1, upvotedPosts: 1, downvotedPosts: 1 })
+    const foundUser = await User.findOne(
+      { name },
+      {
+        name: 1,
+        // posts: { $slice: [+offset, +limit] },
+        posts: 1,
+        // comments: { $slice: [+offset, +limit] },
+        comments: 1,
+        upvotedPosts: 1,
+        downvotedPosts: 1
+      }
+    )
 
     // This is the case for finding out the up and downvoted posts
     if (searchParams.get('voted') === 'yes') {
@@ -36,11 +55,11 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     const foundPosts = await Post.find(
       { _id: { $in: foundUser.posts } },
       { _id: 1, createdAt: 1 }
-    ).sort({ createdAt: -1 })
+    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
     const foundComments = await Comment.find(
       { _id: { $in: foundUser.comments } },
       { _id: 1, createdAt: 1, post: 1 }
-    ).sort({ createdAt: -1 })
+    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
 
     const postIdsOfCommentedPosts = foundComments.map(comment => comment.post)
 
@@ -66,8 +85,8 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     const combinedArray = [
       ...foundPosts.map(post => ({ type: 'post', _id: post._id, createdAt: post.createdAt })),
       ...properCommentData.map(comment => ({
-        type: 'comment', _id: comment._id, createdAt: comment.createdAt,
-        postAuthor: comment.postAuthor, postSubreddit: comment.postSubreddit, postTitle: comment.postTitle, postId: comment.postId
+        type: 'comment', _id: comment._id, createdAt: comment.createdAt, postAuthor: comment.postAuthor,
+        postSubreddit: comment.postSubreddit, postTitle: comment.postTitle, postId: comment.postId
       }))
     ]
     combinedArray.sort((a, b) => b.createdAt - a.createdAt);

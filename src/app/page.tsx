@@ -3,19 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import CreatePostCard from '@/components/CreatePostCard'
-import useSWR from 'swr'
 import PostCard from '@/components/PostCard'
 import HomeSidebar from '@/components/HomeSidebar'
 import PopularCommunities from '@/components/PopularCommunities'
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from 'axios'
-import Loader from '@/components/Loader'
-
-const LoadingRow = () => (
-  <div className='flex flex-row justify-center w-full my-2'>
-    <Loader />
-  </div>
-)
+import LoadingRow from '@/components/LoadingRow'
 
 export default function Home() {
   const [postIds, setPostIds] = useState<string[]>([])
