@@ -17,7 +17,6 @@ const Page: React.FC<UserParams> = ({ params }) => {
   const userName = params.user
 
   const [userPosts, setUserPosts] = useState<ContentId[]>([])
-  const [isLoading, setIsLoading] = useState(true)
   const [isEmpty, setIsEmpty] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const [index, setIndex] = useState(5)
@@ -25,7 +24,6 @@ const Page: React.FC<UserParams> = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get<ContentId[]>(`/api/u/${userName}/posts?offset=0&limit=5`)
-      setIsLoading(false)
       if (response.data.length === 0) {
         setIsEmpty(true)
       }
@@ -47,7 +45,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
   return (
     <div className='flex-1'>
       {isEmpty ? (
-        <p className='text-center text-lg'> Nothing to see here</p>
+        <p className='text-center text-base'> Nothing to see here</p>
       ) : (
         <InfiniteScroll
           dataLength={userPosts.length}
@@ -55,7 +53,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
           hasMore={hasMore}
           loader={<LoadingRow />}
           endMessage={
-            <p className='w-full mx-auto my-2 text-lg text-center'>
+            <p className='w-full mx-auto my-2 text-base text-center'>
               You have seen all posts!
             </p>
           }

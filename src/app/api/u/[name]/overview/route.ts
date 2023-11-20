@@ -106,25 +106,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     ]
     combinedArray.sort((a, b) => b.createdAt - a.createdAt);
 
-    // This is for purely posts and purely comments
-    const foundPurePosts = await Post.find(
-      { _id: { $in: foundUser.posts } },
-      { _id: 1, createdAt: 1 }
-    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
-
-    const foundPureComments = await Comment.find(
-      { _id: { $in: foundUser.comments } },
-      { _id: 1, createdAt: 1, post: 1 }
-    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
-
-    // Construct an object for overview, posts and comments, separately.
-    const apiResponse = {
-      posts: foundPurePosts,
-      comments: properCommentData,
-      overview: combinedArray
-    }
-
-    return new NextResponse(JSON.stringify(apiResponse, null, 2), { status: 201 })
+    return new NextResponse(JSON.stringify(combinedArray, null, 2), { status: 201 })
   } catch (error) {
     console.error(error)
     return new NextResponse(JSON.stringify({ error }), { status: 501 })
