@@ -78,8 +78,6 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       return { ...rest }
     })
 
-    console.log(foundPostsNew)
-
     const postIdsOfCommentedPosts = foundCommentsNew.map(comment => comment.post)
 
     const postsCommentedIn = await Post.find(
