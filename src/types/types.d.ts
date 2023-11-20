@@ -83,7 +83,7 @@ export interface JoinSubBody {
   subreddit: string
 }
 
-interface ContentId {
+export interface ContentId {
   _id: string,
   createdAt: string,
 }

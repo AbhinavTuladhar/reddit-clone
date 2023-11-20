@@ -14,13 +14,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
   const { params: { name } } = params
   const searchParams = request.nextUrl.searchParams
   const offset = request.nextUrl.searchParams.get('offset') || 0
-  const limit = request.nextUrl.searchParams.get('limit') || 10
-
-  const postOffset = Math.ceil(+offset / 2)
-  const commentOffset = +offset - postOffset
-
-  const postLimit = Math.ceil(+limit / 2)
-  const commentLimit = +limit - postLimit
+  const limit = request.nextUrl.searchParams.get('limit') || 100
 
   try {
     await connectDatabase()
@@ -29,9 +23,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       { name },
       {
         name: 1,
-        // posts: { $slice: [+offset, +limit] },
         posts: 1,
-        // comments: { $slice: [+offset, +limit] },
         comments: 1,
         upvotedPosts: 1,
         downvotedPosts: 1
@@ -55,13 +47,38 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     const foundPosts = await Post.find(
       { _id: { $in: foundUser.posts } },
       { _id: 1, createdAt: 1 }
-    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
+    ).sort({ createdAt: -1 })
+
     const foundComments = await Comment.find(
       { _id: { $in: foundUser.comments } },
       { _id: 1, createdAt: 1, post: 1 }
-    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
+    ).sort({ createdAt: -1 })
 
-    const postIdsOfCommentedPosts = foundComments.map(comment => comment.post)
+    // Label the posts and comments for pagination purposes.
+    const flaggedComments = foundComments.map(comment => ({
+      type: 'comment',
+      ...comment.toObject()
+    }))
+
+    const flaggedPosts = foundPosts.map(post => ({
+      type: 'post',
+      ...post.toObject()
+    }))
+
+    // Combine the posts and comments into one array, and then apply offset and limits.
+    const combinedPostsComments = [...flaggedPosts, ...flaggedComments].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).slice(+offset, +offset + +limit + 1)
+
+    const foundCommentsNew = combinedPostsComments.filter(content => content.type === 'comment').map(comment => {
+      const { type, ...rest } = comment
+      return { ...rest }
+    })
+
+    const foundPostsNew = combinedPostsComments.filter(content => content.type === 'post').map(post => {
+      const { type, ...rest } = post
+      return { ...rest }
+    })
+
+    const postIdsOfCommentedPosts = foundCommentsNew.map(comment => comment.post)
 
     const postsCommentedIn = await Post.find(
       { _id: { $in: postIdsOfCommentedPosts } },
@@ -69,10 +86,8 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     )
 
     // This array of objects contains the comment id, and some details of the post.
-    const properCommentData = foundComments.map(comment => {
-      const obj1 = comment.toObject()
-      const matchingObj = postsCommentedIn.find(post => {
-        const obj = post.toObject()
+    const properCommentData = foundCommentsNew.map(obj1 => {
+      const matchingObj = postsCommentedIn.find(obj => {
         return obj1.post.toString() === obj._id.toString()
       })
       return {
@@ -83,7 +98,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
 
     // Sort the posts AND comments by the creation date.
     const combinedArray = [
-      ...foundPosts.map(post => ({ type: 'post', _id: post._id, createdAt: post.createdAt })),
+      ...foundPostsNew.map(post => ({ type: 'post', _id: post._id, createdAt: post.createdAt })),
       ...properCommentData.map(comment => ({
         type: 'comment', _id: comment._id, createdAt: comment.createdAt, postAuthor: comment.postAuthor,
         postSubreddit: comment.postSubreddit, postTitle: comment.postTitle, postId: comment.postId
@@ -93,7 +108,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
 
     // Construct an object for overview, posts and comments, separately.
     const apiResponse = {
-      posts: foundPosts,
+      posts: foundPostsNew,
       comments: properCommentData,
       overview: combinedArray
     }

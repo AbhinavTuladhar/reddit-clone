@@ -1,6 +1,11 @@
-import React from 'react'
-import { UserOverviewResponse } from '@/types/types'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import { UserOverviewResponse, ContentId } from '@/types/types'
 import PostCard from '@/components/PostCard'
+import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import LoadingRow from '@/components/LoadingRow'
 
 interface UserParams {
   params: {
@@ -8,33 +13,52 @@ interface UserParams {
   }
 }
 
-const getUserPosts = async (userName: string) => {
-  const siteUrl = process.env.SITE_URL
-
-  if (!siteUrl) {
-    throw new Error('Site url in .env file has not been configured!')
-  }
-
-  try {
-    const url = `${siteUrl}/api/u/${userName}/overview`
-    const apiResponse = await fetch(url, { cache: 'force-cache' })
-    const userData: UserOverviewResponse = await apiResponse.json()
-    return userData.posts
-  } catch (error) {
-    console.error('Error.')
-  }
-}
-
-const Page: React.FC<UserParams> = async ({ params }) => {
+const Page: React.FC<UserParams> = ({ params }) => {
   const userName = params.user
-  const userPosts = await getUserPosts(userName)
+
+  const [userPosts, setUserPosts] = useState<ContentId[]>([])
+  const [hasMore, setHasMore] = useState(true)
+  const [index, setIndex] = useState(10)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview`)
+      setUserPosts(response.data.posts)
+    }
+    fetchData()
+  }, [])
+
+  const fetchMoreData = async () => {
+    const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview?offset=${index}&limit=5`)
+    const userPostsData = response.data.posts
+    setUserPosts(prevData => (
+      [...prevData, ...userPostsData]
+    ))
+    userPostsData.length > 0 ? setHasMore(true) : setHasMore(false)
+    setIndex(prevIndex => prevIndex + 5)
+  }
 
   return (
-    <main className='flex flex-col flex-1 gap-y-2'>
-      {userPosts?.map((post, index) => (
-        <PostCard id={post._id} subViewFlag={true} key={index} />
-      ))}
-    </main>
+    <div className='flex-1'>
+      <InfiniteScroll
+        dataLength={userPosts.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<LoadingRow />}
+        endMessage={
+          <p className='w-full mx-auto my-2 text-lg text-center'>
+            You have seen all posts!
+          </p>
+        }
+        style={{ height: '100%', overflow: 'hidden' }}
+      >
+        <main className='flex flex-col flex-1 gap-y-2'>
+          {userPosts?.map((post, index) => (
+            <PostCard id={post._id} subViewFlag={true} key={index} />
+          ))}
+        </main>
+      </InfiniteScroll>
+    </div>
   )
 }
 
