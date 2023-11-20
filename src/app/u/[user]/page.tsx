@@ -21,17 +21,24 @@ const Page: React.FC<UserParams> = ({ params }) => {
 
   const [userData, setUserData] = useState<SpecificContentId[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const [index, setIndex] = useState(10)
+  const [index, setIndex] = useState<number>(10)
+
+  // useEffect(() => {
+  //   setIndex(0)
+  // }, [])
 
   useEffect(() => {
+    // console.log('For the user', userName)
     const fetchData = async () => {
-      const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview?limit=10`)
+      const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview?offset=0&limit=10`)
       setUserData(response.data.overview)
     }
     fetchData()
-  }, [])
+    // setIndex(10)
+  }, [userName])
 
   const fetchMoreData = async () => {
+    // console.log('The value of index before fetching is ', index)
     const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview?offset=${index}&limit=10`)
     const overviewData = response.data.overview
     setUserData(prevData => (

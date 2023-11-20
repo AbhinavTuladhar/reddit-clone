@@ -18,15 +18,15 @@ const Page: React.FC<UserParams> = ({ params }) => {
 
   const [userPosts, setUserPosts] = useState<ContentId[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const [index, setIndex] = useState(10)
+  const [index, setIndex] = useState(5)
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview`)
+      const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview?offset=0&limit=5`)
       setUserPosts(response.data.posts)
     }
     fetchData()
-  }, [])
+  }, [userName])
 
   const fetchMoreData = async () => {
     const response = await axios.get<UserOverviewResponse>(`/api/u/${userName}/overview?offset=${index}&limit=5`)

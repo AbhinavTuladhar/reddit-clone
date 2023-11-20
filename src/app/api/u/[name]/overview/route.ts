@@ -66,7 +66,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     }))
 
     // Combine the posts and comments into one array, and then apply offset and limits.
-    const combinedPostsComments = [...flaggedPosts, ...flaggedComments].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).slice(+offset, +offset + +limit + 1)
+    const combinedPostsComments = [...flaggedPosts, ...flaggedComments].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).slice(+offset, +offset + +limit)
 
     const foundCommentsNew = combinedPostsComments.filter(content => content.type === 'comment').map(comment => {
       const { type, ...rest } = comment
@@ -77,6 +77,8 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       const { type, ...rest } = post
       return { ...rest }
     })
+
+    console.log(foundPostsNew)
 
     const postIdsOfCommentedPosts = foundCommentsNew.map(comment => comment.post)
 
@@ -106,9 +108,20 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     ]
     combinedArray.sort((a, b) => b.createdAt - a.createdAt);
 
+    // This is for purely posts and purely comments
+    const foundPurePosts = await Post.find(
+      { _id: { $in: foundUser.posts } },
+      { _id: 1, createdAt: 1 }
+    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
+
+    const foundPureComments = await Comment.find(
+      { _id: { $in: foundUser.comments } },
+      { _id: 1, createdAt: 1, post: 1 }
+    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
+
     // Construct an object for overview, posts and comments, separately.
     const apiResponse = {
-      posts: foundPostsNew,
+      posts: foundPurePosts,
       comments: properCommentData,
       overview: combinedArray
     }
