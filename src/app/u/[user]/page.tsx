@@ -31,6 +31,9 @@ const Page: React.FC<UserParams> = ({ params }) => {
       if (response.data.length === 0) {
         setIsEmpty(true)
       }
+      if (response.data.length < 10) {
+        setHasMore(false)
+      }
       setUserData(response.data)
     }
     fetchData()
