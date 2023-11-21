@@ -88,6 +88,11 @@ export interface ContentId {
   createdAt: string,
 }
 
+export interface VotedPostsResponse {
+  upvotedIds: string[],
+  downvotedIds: string[],
+}
+
 export interface SpecificContentId extends ContentId {
   type: 'post' | 'comment',
   postAuthor?: string
