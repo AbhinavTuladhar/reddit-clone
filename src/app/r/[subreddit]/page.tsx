@@ -62,33 +62,38 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   }
 
   return (
-    <>
-      <div className='flex flex-1 w-full h-20 -ml-0 bg-reddit-blue'> </div>
+    <div>
+      <div className='w-full h-20 bg-reddit-blue box-border'> </div>
       <section className='flex flex-row w-full pl-6 -ml-0 gap-x-2 bg-reddit-gray'>
         <Image
           src={SubIcon}
-          className='w-24 h-24 -mt-6 border-4 rounded-full'
+          className='w-16 h-16 mt-0 sm:w-20 sm:h-20 sm:-mt-5 border-4 rounded-full'
           alt='sub icon'
         />
-        <section className='flex flex-col justify-center my-2 gap-y-2'>
-          <div className='flex flex-row flex-wrap items-center gap-4'>
-            <h1 className='text-4xl font-bold'>
+        <div className='flex flex-col flex-1 justify-center my-1 gap-y-1'>
+          <div className='flex flex-row flex-wrap items-center justify-between sm:justify-start gap-4'>
+            <h1 className='text-2xl font-bold sm:block hidden'>
               {formattedSubredditName}
             </h1>
-            <div
-              className={classnames(
-                'flex items-center px-6 py-1 text-base font-bold rounded-full hover:cursor-pointer',
-                { 'text-black bg-reddit-white hover:brightness-90 duration-300': joinStatus === 'Join' },
-                { 'text-reddit-white bg-transparent border border-reddit-white': joinStatus === 'Joined' }
-              )}
-              onClick={handleJoin}>
-              {joinStatus}
-            </div>
+            <small className='text-base font-bold block sm:hidden'>
+              {`r/${subredditName}`}
+            </small>
+            {status === 'authenticated' && (
+              <button
+                className={classnames(
+                  'flex mr-2 items-center px-2 sm:px-6 py-1 text-base font-bold rounded-full hover:cursor-pointer',
+                  { 'text-black bg-reddit-white hover:brightness-90 duration-300': joinStatus === 'Join' },
+                  { 'text-reddit-white bg-transparent border border-reddit-white': joinStatus === 'Joined' }
+                )}
+                onClick={handleJoin}>
+                {joinStatus}
+              </button>
+            )}
           </div>
-          <small className='text-sm text-reddit-placeholder-gray'>
+          <small className='text-base font-bold hidden sm:block'>
             {`r/${subredditName}`}
           </small>
-        </section>
+        </div>
       </section>
 
       <div className={`flex flex-col-reverse lg:flex-row gap-4 my-4`}>
@@ -107,7 +112,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
         </section>
       </div>
 
-    </>
+    </div>
   );
 };
 

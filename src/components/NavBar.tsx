@@ -47,7 +47,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className='z-20 bg-reddit-dark px-5 h-12 flex flex-row justify-between gap-x-2 items-center border-b-[1px] border-reddit-border top-0 fixed w-screen'>
+    <nav className='z-20 bg-reddit-dark px-6 h-12 flex flex-row justify-between gap-x-2 items-center border-b-[1px] border-reddit-border top-0 fixed w-screen'>
       <Link className='flex flex-row items-center gap-x-2' href='/'>
         <SiReddit className='w-8 h-8 bg-white rounded-full text-reddit-orange' />
         <h1 className='hidden text-xl text-white lg:block'> reddit </h1>
