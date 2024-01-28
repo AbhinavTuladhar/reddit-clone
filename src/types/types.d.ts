@@ -7,60 +7,65 @@ export interface ModalProps {
   setModalState: (state: ModalStateType) => void
 }
 
-export interface UserType {
-  name: string,
-  email: string,
-  password: string,
-  createdAt: string,
-  bio: string,
-  postKarma: number,
-  commentKarma: number,
-  subscribedSubs: string[],
-  posts: string[],
-  comments: string[],
-  upvotedPosts: string[],
-  downvotedPosts: string[],
-  upvotedComments: string[],
-  downvotedComments: string[]
-}
+// export interface UserType {
+//   name: string,
+//   email: string,
+//   password: string,
+//   createdAt: string,
+//   bio: string,
+//   postKarma: number,
+//   commentKarma: number,
+//   subscribedSubs: string[],
+//   posts: string[],
+//   comments: string[],
+//   upvotedPosts: string[],
+//   downvotedPosts: string[],
+//   upvotedComments: string[],
+//   downvotedComments: string[]
+// }
 
-export interface SubredditType {
-  name: string,
-  description: string,
-  rules?: string[],
-  subscribers?: string[],
-  createdAt: string,
-  creator: string,
-  posts: string[]
-}
+// export interface SubredditType {
+//   name: string,
+//   description: string,
+//   rules?: string[],
+//   subscribers?: string[],
+//   createdAt: string,
+//   creator: string,
+//   posts: string[]
+// }
 
-export interface PostType {
-  _id: string,
-  author: string,
-  subreddit: string,
-  title: string,
-  body?: string,
-  createdAt: string,
-  upvotedBy: string[],
-  downvotedBy: string[],
-  comments: string[],
-  topLevelComments?: string[]
-}
+// export interface PostType {
+//   _id: string,
+//   author: string,
+//   subreddit: string,
+//   title: string,
+//   body?: string,
+//   createdAt: string,
+//   upvotedBy: string[],
+//   downvotedBy: string[],
+//   comments: string[],
+//   topLevelComments?: string[]
+// }
 
-export interface CommentType {
-  _id: string,
-  content: string,
-  author: string,
-  post: string,
-  parentComment: string | null,
-  createdAt: string,
-  replies: string[],
-  upvotedBy: string[],
-  downvotedBy: string[],
-  comments: string[],
-  editedFlag: boolean,
-  editedAt: string
-}
+// export interface CommentType {
+//   _id: string,
+//   content: string,
+//   author: string,
+//   post: string,
+//   parentComment: string | null,
+//   createdAt: string,
+//   replies: string[],
+//   upvotedBy: string[],
+//   downvotedBy: string[],
+//   comments: string[],
+//   editedFlag: boolean,
+//   editedAt: string
+// }
+
+export { CommentType } from '@/models/Comment'
+export { PostType } from '@/models/Post'
+export { SubredditType } from '@/models/Subreddit'
+export { UserType } from '@/models/User'
 
 export interface VotingRequestBody {
   user: string,

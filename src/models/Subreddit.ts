@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const SubredditSchema = new Schema({
   name: {
@@ -33,4 +33,6 @@ const SubredditSchema = new Schema({
   }]
 })
 
-export default models.Subreddit || model('Subreddit', SubredditSchema)
+export type SubredditType = InferSchemaType<typeof SubredditSchema>
+
+export default model<SubredditType>('Subreddit', SubredditSchema)

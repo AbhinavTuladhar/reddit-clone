@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const PostSchema = new Schema({
   author: {
@@ -32,4 +32,6 @@ const PostSchema = new Schema({
   }]
 })
 
-export default models.Post || model('Post', PostSchema)
+export type PostType = InferSchemaType<typeof PostSchema>
+
+export default model<PostType>('Post', PostSchema)
