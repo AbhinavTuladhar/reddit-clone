@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import Credentials from 'next-auth/providers/credentials'
 import { connectDatabase } from '@/utils/db'
 import User from '@/models/User'
 import bcrypt from 'bcryptjs'
@@ -22,11 +21,8 @@ const handler = NextAuth({
     CredentialsProvider({
       id: 'credentials',
       name: 'credentials',
-      // credentials: {
-      //   name: { label: "name", type: "text", placeholder: "spez" },
-      //   password: { label: "Password", type: "password" }
-      // },
-      authorize: async (credentials, _req) => {
+
+      authorize: async (credentials) => {
         await connectDatabase()
         try {
           const user = await User.findOne({ name: credentials?.name })

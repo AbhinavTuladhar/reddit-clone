@@ -1,4 +1,4 @@
-import { Schema, model, models, InferSchemaType } from 'mongoose'
+import { Schema, model, InferSchemaType } from 'mongoose'
 
 const PostSchema = new Schema({
   author: {

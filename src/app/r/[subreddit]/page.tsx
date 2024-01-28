@@ -43,6 +43,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
   const { data: postDetails } = useSWR<PostTypeWithId[]>(
     subInfo ? subInfo.posts.map((post) => `/api/post/${post.toString()}`) : [],
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     multiFetcher,
   )
