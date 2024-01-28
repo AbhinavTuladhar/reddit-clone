@@ -253,7 +253,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
         <>
           {commentData?.map((comment, index) => (
             <CommentCard
-              id={comment}
+              _id={comment}
               postAuthor={author || ''}
               showReply={true}
               key={index}

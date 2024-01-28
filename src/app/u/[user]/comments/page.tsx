@@ -27,7 +27,9 @@ const Page: React.FC<UserParams> = ({ params }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get<CommentDetails[]>(`/api/u/${userName}/comments?offset=0&limit=10`)
+      const response = await axios.get<CommentDetails[]>(
+        `/api/u/${userName}/comments?offset=0&limit=10`
+      )
       if (response.data.length === 0) {
         setIsEmpty(true)
       }
@@ -40,21 +42,21 @@ const Page: React.FC<UserParams> = ({ params }) => {
   }, [userName])
 
   const fetchMoreData = async () => {
-    const response = await axios.get<CommentDetails[]>(`/api/u/${userName}/comments?offset=${index}&limit=10`)
+    const response = await axios.get<CommentDetails[]>(
+      `/api/u/${userName}/comments?offset=${index}&limit=10`
+    )
     const userCommentsData = response.data
-    setUserComments(prevData => (
-      [...prevData, ...userCommentsData]
-    ))
-    userCommentsData.length > 0 && !isEmpty ? setHasMore(true) : setHasMore(false)
-    setIndex(prevIndex => prevIndex + 10)
+    setUserComments((prevData) => [...prevData, ...userCommentsData])
+    userCommentsData.length > 0 && !isEmpty
+      ? setHasMore(true)
+      : setHasMore(false)
+    setIndex((prevIndex) => prevIndex + 10)
   }
 
   return (
-    <div className='flex-1'>
+    <div className="flex-1">
       {isEmpty ? (
-        <p className='text-center text-base'>
-          No comments to show.
-        </p>
+        <p className="text-center text-base">No comments to show.</p>
       ) : (
         <InfiniteScroll
           dataLength={userComments.length}
@@ -62,21 +64,34 @@ const Page: React.FC<UserParams> = ({ params }) => {
           hasMore={hasMore}
           loader={<LoadingRow />}
           endMessage={
-            <p className='w-full mx-auto my-2 text-base text-center'>
+            <p className="w-full mx-auto my-2 text-base text-center">
               You have seen all comments!
             </p>
           }
           style={{ height: '100%', overflow: 'hidden' }}
         >
-          <main className='flex flex-col flex-1 gap-y-2'>
+          <main className="flex flex-col flex-1 gap-y-2">
             {userComments?.map((comment, index) => {
-              const { _id, postAuthor, postId, postSubreddit, postTitle } = comment
+              const { _id, postAuthor, postId, postSubreddit, postTitle } =
+                comment
               return (
-                <div key={index} className='duration-300 border border-transparent hover:border-white'>
-                  <CommentHeader postAuthor={postAuthor} postSubreddit={postSubreddit} postTitle={postTitle} postId={postId} userName={userName} />
-                  <section className='pb-2 pl-2 duration-300 border border-transparent bg-reddit-dark hover:border-white hover:cursor-pointer' key={index}>
+                <div
+                  key={index}
+                  className="duration-300 border border-transparent hover:border-white"
+                >
+                  <CommentHeader
+                    postAuthor={postAuthor}
+                    postSubreddit={postSubreddit}
+                    postTitle={postTitle}
+                    postId={postId}
+                    userName={userName}
+                  />
+                  <section
+                    className="pb-2 pl-2 duration-300 border border-transparent bg-reddit-dark hover:border-white hover:cursor-pointer"
+                    key={index}
+                  >
                     <Link href={`/r/${postSubreddit}/comments/${postId}`}>
-                      <CommentCard id={_id} showReply={false} />
+                      <CommentCard _id={_id} showReply={false} />
                     </Link>
                   </section>
                 </div>
