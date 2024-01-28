@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { connectDatabase } from "@/utils/db"
 import Comment from "@/models/Comment"
-import User from "@/models/User"
-import { voteStatus, VotingRequestBody, CommentType, CommentEditBody } from "@/types/types"
-import { Schema } from "mongoose";
+import { CommentEditBody } from "@/types/types"
 
 interface RequestParams {
   params: {
@@ -20,6 +18,11 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     await connectDatabase()
     const currentTime = new Date()
     const foundComment = await Comment.findOneAndUpdate({ _id: id }, { content: content, editedFlag: true, editedAt: currentTime })
+
+    if (!foundComment) {
+      return new NextResponse(JSON.stringify({ error: 'Comment mysteriously not found' }), { status: 501 })
+    }
+
     await foundComment.save()
     return new NextResponse(JSON.stringify(foundComment), { status: 201 })
   } catch (error) {

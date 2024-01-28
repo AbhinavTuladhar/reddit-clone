@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { connectDatabase } from "@/utils/db"
 import Comment from "@/models/Comment"
 import User from "@/models/User"
-import { voteStatus, VotingRequestBody, CommentType } from "@/types/types"
-import { Schema, Types } from "mongoose";
+import { VotingRequestBody } from "@/types/types"
+import { Types } from "mongoose";
 
 interface RequestParams {
   params: {
