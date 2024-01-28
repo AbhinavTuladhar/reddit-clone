@@ -4,7 +4,7 @@ import Post from "@/models/Post"
 import Comment from "@/models/Comment"
 import User from "@/models/User"
 import { VotingRequestBody } from "@/types/types"
-import { Schema } from "mongoose";
+import { Types } from "mongoose";
 
 interface RequestParams {
   params: {
@@ -20,11 +20,16 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
 
     const foundPost = await Post.findOne({ _id: id })
 
+    if (!foundPost) {
+      return new NextResponse(JSON.stringify({ message: 'Post not found!' }), { status: 501 })
+    }
+
     // Fetch the top-level comment IDs for the post
     const topLevelCommentsList = await Comment.find(
       { post: id, parentComment: null },
       { '_id': 1 }
     )
+
 
     // Extract IDs from the query result
     const topLevelComments = topLevelCommentsList.map((comment) => comment._id)
@@ -57,13 +62,23 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     // Find the corresponding user
     const foundUser = await User.findOne({ name: user })
 
-    // Find the author of the post to change their post karma
-    const postAuthor = await User.findOne({ name: foundPost.author })
 
     // For the TS compiler
     if (!foundPost) {
       return new NextResponse(JSON.stringify({ message: 'Post not found!' }), { status: 501 })
     }
+
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ message: 'User not found!' }), { status: 501 })
+    }
+
+    // Find the author of the post to change their post karma
+    const postAuthor = await User.findOne({ name: foundPost.author })
+
+    if (!postAuthor) {
+      return new NextResponse(JSON.stringify({ message: 'Post author not found!' }), { status: 501 })
+    }
+
 
     // Disable changing the vote count if the up/downvoer and the author of the post are the same,
     if (user === author) { }
@@ -71,14 +86,14 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     // Case 2: Upvoted, click upvote again.
     else if (foundPost.upvotedBy.includes(user) && voteTarget === 'nonvoted') {
       foundPost.upvotedBy = foundPost.upvotedBy.filter((value: string) => value !== user)
-      foundUser.upvotedPosts = foundUser.upvotedPosts.filter((value: Schema.Types.ObjectId) => value.toString() !== postId)
+      foundUser.upvotedPosts = foundUser.upvotedPosts.filter(value => value.toString() !== postId)
       postAuthor.postKarma -= 1
     }
 
     // Case 3: Downvoted, click downvote again.
     else if (foundPost.downvotedBy.includes(user) && voteTarget === 'nonvoted') {
       foundPost.downvotedBy = foundPost.downvotedBy.filter((value: string) => value !== user)
-      foundUser.downvotedPosts = foundUser.downvotedPosts.filter((value: Schema.Types.ObjectId) => value.toString() !== postId)
+      foundUser.downvotedPosts = foundUser.downvotedPosts.filter(value => value.toString() !== postId)
       postAuthor.postKarma += 1
     }
 
@@ -87,8 +102,8 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       foundPost.upvotedBy = foundPost.upvotedBy.filter((value: string) => value !== user)
       foundPost.downvotedBy.push(user)
 
-      foundUser.upvotedPosts = foundUser.upvotedPosts.filter((value: Schema.Types.ObjectId) => value.toString() !== postId)
-      foundUser.downvotedPosts.push(postId)
+      foundUser.upvotedPosts = foundUser.upvotedPosts.filter(value => value.toString() !== postId)
+      foundUser.downvotedPosts.push(new Types.ObjectId(postId))
 
       postAuthor.postKarma -= 2
     }
@@ -98,8 +113,8 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       foundPost.downvotedBy = foundPost.downvotedBy.filter((value: string) => value !== user)
       foundPost.upvotedBy.push(user)
 
-      foundUser.downvotedPosts = foundUser.downvotedPosts.filter((value: Schema.Types.ObjectId) => value.toString() !== postId)
-      foundUser.upvotedPosts.push(postId)
+      foundUser.downvotedPosts = foundUser.downvotedPosts.filter(value => value.toString() !== postId)
+      foundUser.upvotedPosts.push(new Types.ObjectId(postId))
 
       postAuthor.postKarma += 2
     }
@@ -108,11 +123,11 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     else if ((!foundPost.upvotedBy.includes(user)) || (!foundPost.downvotedBy.includes(user))) {
       if (voteTarget === 'upvoted') {
         foundPost.upvotedBy.push(user)
-        foundUser.upvotedPosts.push(postId)
+        foundUser.upvotedPosts.push(new Types.ObjectId(postId))
         postAuthor.postKarma += 1
       } else if (voteTarget === 'downvoted') {
         foundPost.downvotedBy.push(user)
-        foundUser.downvotedPosts.push(postId)
+        foundUser.downvotedPosts.push(new Types.ObjectId(postId))
         postAuthor.postKarma -= 1
       }
     }
