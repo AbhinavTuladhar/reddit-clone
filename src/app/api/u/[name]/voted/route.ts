@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { connectDatabase } from "@/utils/db";
-import User from "@/models/User";
-import Post from "@/models/Post";
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import User from '@/models/User'
+import Post from '@/models/Post'
 
 interface RequestParams {
   params: {
@@ -10,7 +10,9 @@ interface RequestParams {
 }
 
 export const GET = async (request: NextRequest, params: RequestParams) => {
-  const { params: { name } } = params
+  const {
+    params: { name },
+  } = params
   const offset = request.nextUrl.searchParams.get('offset') || 0
   const limit = request.nextUrl.searchParams.get('limit') || 100
 
@@ -24,30 +26,30 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
         posts: 1,
         comments: 1,
         upvotedPosts: 1,
-        downvotedPosts: 1
-      }
+        downvotedPosts: 1,
+      },
     )
 
     if (!foundUser) {
-      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+      return new NextResponse(JSON.stringify({ error: 'User not found' }), { status: 501 })
     }
 
-    const upvotedPosts = await Post.find(
-      { _id: { $in: foundUser.upvotedPosts } },
-      { _id: 1, createdAt: 1 }
-    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
+    const upvotedPosts = await Post.find({ _id: { $in: foundUser.upvotedPosts } }, { _id: 1, createdAt: 1 })
+      .sort({ createdAt: -1 })
+      .skip(+offset)
+      .limit(+limit)
 
-    const downvotedPosts = await Post.find(
-      { _id: { $in: foundUser.downvotedPosts } },
-      { _id: 1, createdAt: 1 }
-    ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
+    const downvotedPosts = await Post.find({ _id: { $in: foundUser.downvotedPosts } }, { _id: 1, createdAt: 1 })
+      .sort({ createdAt: -1 })
+      .skip(+offset)
+      .limit(+limit)
 
     const upvotedPostIds = upvotedPosts.map((post) => post._id)
     const downvotedPostIds = downvotedPosts.map((post) => post._id)
 
     const votedResponse = {
       upvotedIds: upvotedPostIds,
-      downvotedIds: downvotedPostIds
+      downvotedIds: downvotedPostIds,
     }
 
     return new NextResponse(JSON.stringify(votedResponse, null, 2), { status: 201 })

@@ -2,7 +2,7 @@
  * Calculates a date string for displaying the best possible time difference units.
  * The order of the first and second dates do not matter, since an abs() function is used fo the subtraction.
  * @param   {Date}   first  The first date.
- * @param   {Date}   second The second date. 
+ * @param   {Date}   second The second date.
  * @returns {string}        The required date string.
  */
 

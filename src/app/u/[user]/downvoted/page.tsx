@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
-import PostCard from '@/components/PostCard';
-import { VotedPostsResponse } from '@/types/types';
+import PostCard from '@/components/PostCard'
+import { VotedPostsResponse } from '@/types/types'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import LoadingRow from '@/components/LoadingRow'
-
 
 interface UserParams {
   params: {
@@ -38,48 +37,38 @@ const Page: React.FC<UserParams> = ({ params }) => {
       setDownvotedPosts(votedPosts.downvotedIds)
     }
     fetchData()
-  },)
+  })
 
   const fetchMoreData = async () => {
     const response = await axios.get<VotedPostsResponse>(`/api/u/${userName}/voted?offset=${index}&limit=5`)
     const upvotedPosts = response.data.upvotedIds
-    setDownvotedPosts(prevData => (
-      [...prevData, ...upvotedPosts]
-    ))
-    setIndex(prevIndex => prevIndex + 5)
+    setDownvotedPosts((prevData) => [...prevData, ...upvotedPosts])
+    setIndex((prevIndex) => prevIndex + 5)
   }
 
   if (userName !== currentUser) {
     return (
-      <div className='flex flex-row mb-4 items-center justify-center flex-1 h-screen text-xl bg-reddit-dark'>
+      <div className="mb-4 flex h-screen flex-1 flex-row items-center justify-center bg-reddit-dark text-xl">
         You do not have permission to access this resource.
       </div>
     )
   }
 
   return (
-    <div className='flex-1'>
+    <div className="flex-1">
       {isEmpty ? (
-        <p className='text-center text-base'>
-          You have not downvoted any post!
-        </p>
+        <p className="text-center text-base">You have not downvoted any post!</p>
       ) : (
         <InfiniteScroll
           dataLength={downvotedPosts.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<LoadingRow />}
-          endMessage={
-            <p className='w-full mx-auto my-2 text-base text-center'>
-              You have reached the end.
-            </p>
-          }
+          endMessage={<p className="mx-auto my-2 w-full text-center text-base">You have reached the end.</p>}
           style={{ height: '100%', overflow: 'hidden' }}
         >
-          <main className='flex flex-col flex-1 gap-y-2'>
-            {downvotedPosts?.map((postId, index) => (
-              <PostCard id={postId} subViewFlag={true} key={index} />
-            ))}
+          <main className="flex flex-1 flex-col gap-y-2">
+            {downvotedPosts?.map((postId, index) => <PostCard id={postId} subViewFlag={true} key={index} />)}
           </main>
         </InfiniteScroll>
       )}

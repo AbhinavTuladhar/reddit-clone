@@ -1,8 +1,8 @@
 // This is for fetching all the comments in a post with id of [postId]
 
-import { NextRequest, NextResponse } from "next/server";
-import { connectDatabase } from "@/utils/db";
-import Comment from "@/models/Comment";
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Comment from '@/models/Comment'
 
 interface RequestParams {
   params: {
@@ -11,7 +11,9 @@ interface RequestParams {
 }
 
 export const GET = async (_request: NextRequest, params: RequestParams) => {
-  const { params: { postId: postId } } = params
+  const {
+    params: { postId: postId },
+  } = params
 
   try {
     await connectDatabase()

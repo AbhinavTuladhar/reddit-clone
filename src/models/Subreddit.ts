@@ -1,36 +1,36 @@
-import { Schema, model, models, InferSchemaType } from "mongoose";
+import { Schema, model, models, InferSchemaType } from 'mongoose'
 
 const SubredditSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   description: {
     type: String,
-    default: ''
+    default: '',
   },
-  rules: [
-    { type: String }
-  ],
+  rules: [{ type: String }],
   subscribers: [
     {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   ],
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   creator: {
     type: String,
-    required: true
+    required: true,
   },
-  posts: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Post'
-  }]
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+    },
+  ],
 })
 
 export type SubredditType = InferSchemaType<typeof SubredditSchema>

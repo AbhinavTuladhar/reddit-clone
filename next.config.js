@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   swcMinify: true,
-  reactStrictMode: true
+  reactStrictMode: true,
   // webpack(config) {
   //   config.module.rules.push({
   //     test: /\.js$/,

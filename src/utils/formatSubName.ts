@@ -7,9 +7,7 @@
 const formatSubName = (subName: string): string => {
   const splitWords = subName.split('_')
 
-  const formattedWords = splitWords.map((word: string) => (
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ))
+  const formattedWords = splitWords.map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
 
   return formattedWords.join(' ')
 }

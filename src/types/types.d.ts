@@ -3,7 +3,7 @@ export type ModalStateType = 'closed' | 'login' | 'signup'
 export type voteStatus = 'upvoted' | 'nonvoted' | 'downvoted'
 
 export interface ModalProps {
-  modalState: ModalStateType,
+  modalState: ModalStateType
   setModalState: (state: ModalStateType) => void
 }
 
@@ -68,38 +68,38 @@ export { SubredditType } from '@/models/Subreddit'
 export { UserType } from '@/models/User'
 
 export interface VotingRequestBody {
-  user: string,
+  user: string
   author: string
   voteTarget: voteStatus
 }
 
 export interface SubDescChangeBody {
-  name: string,
+  name: string
   description: string
 }
 
 export interface UserBioChangeBody {
-  name: string,
+  name: string
   bio: string
 }
 
 export interface JoinSubBody {
-  userName: string,
+  userName: string
   subreddit: string
 }
 
 export interface ContentId {
-  _id: string,
-  createdAt: string,
+  _id: string
+  createdAt: string
 }
 
 export interface VotedPostsResponse {
-  upvotedIds: string[],
-  downvotedIds: string[],
+  upvotedIds: string[]
+  downvotedIds: string[]
 }
 
 export interface SpecificContentId extends ContentId {
-  type: 'post' | 'comment',
+  type: 'post' | 'comment'
   postAuthor?: string
   postSubreddit?: string
   postTitle?: string
@@ -107,12 +107,12 @@ export interface SpecificContentId extends ContentId {
 }
 
 export interface UserOverviewResponse {
-  posts: ContentId[],
-  comments: ContentId[],
+  posts: ContentId[]
+  comments: ContentId[]
   overview: SpecificContentId[]
 }
 
 export interface CommentEditBody {
-  userName: string,
+  userName: string
   content: string
 }

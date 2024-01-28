@@ -27,9 +27,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
   useEffect(() => {
     // console.log('For the user', userName)
     const fetchData = async () => {
-      const response = await axios.get<SpecificContentId[]>(
-        `/api/u/${userName}/overview?offset=0&limit=10`
-      )
+      const response = await axios.get<SpecificContentId[]>(`/api/u/${userName}/overview?offset=0&limit=10`)
       if (response.data.length === 0) {
         setIsEmpty(true)
       }
@@ -44,9 +42,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
 
   const fetchMoreData = async () => {
     // console.log('The value of index before fetching is ', index)
-    const response = await axios.get<SpecificContentId[]>(
-      `/api/u/${userName}/overview?offset=${index}&limit=10`
-    )
+    const response = await axios.get<SpecificContentId[]>(`/api/u/${userName}/overview?offset=${index}&limit=10`)
     const overviewData = response.data
     setUserData((prevData) => [...prevData, ...overviewData])
     overviewData.length > 0 ? setHasMore(true) : setHasMore(false)
@@ -63,33 +59,19 @@ const Page: React.FC<UserParams> = ({ params }) => {
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<LoadingRow />}
-          endMessage={
-            <p className="w-full mx-auto my-2 text-base text-center">
-              You have reached the end.
-            </p>
-          }
+          endMessage={<p className="mx-auto my-2 w-full text-center text-base">You have reached the end.</p>}
           style={{ height: '100%', overflow: 'hidden' }}
         >
           <main className="flex flex-col gap-y-2">
             {userData.map((content, index) => {
-              const {
-                _id,
-                type,
-                postAuthor,
-                postSubreddit = '',
-                postTitle = '',
-                postId = '',
-              } = content
+              const { _id, type, postAuthor, postSubreddit = '', postTitle = '', postId = '' } = content
 
               if (type === 'post') {
                 return <PostCard id={_id} subViewFlag={true} key={index} />
               }
 
               return (
-                <div
-                  key={index}
-                  className="duration-300 border border-transparent hover:border-white"
-                >
+                <div key={index} className="border border-transparent duration-300 hover:border-white">
                   <CommentHeader
                     postAuthor={postAuthor}
                     postSubreddit={postSubreddit}
@@ -99,8 +81,8 @@ const Page: React.FC<UserParams> = ({ params }) => {
                   />
                   <section
                     className={`${
-                      type === 'comment' && 'pl-2 pb-2'
-                    } bg-reddit-dark border border-transparent hover:border-white hover:cursor-pointer duration-300`}
+                      type === 'comment' && 'pb-2 pl-2'
+                    } border border-transparent bg-reddit-dark duration-300 hover:cursor-pointer hover:border-white`}
                     key={index}
                   >
                     <Link href={`/r/${postSubreddit}/comments/${postId}`}>

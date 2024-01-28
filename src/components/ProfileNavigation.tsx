@@ -6,19 +6,20 @@ import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
 interface NavElementProps {
-  text: string,
-  href: string,
+  text: string
+  href: string
   condition: boolean
 }
 
 const NavElement: React.FC<NavElementProps> = ({ text, href, condition }) => {
   return (
-    <div className={`px-2 py-2 text-sm tracking-tighter text-center text-white border-b-2 border-transparent ${condition && 'border-white'} `}>
+    <div
+      className={`border-b-2 border-transparent px-2 py-2 text-center text-sm tracking-tighter text-white ${condition && 'border-white'} `}
+    >
       <Link href={href}> {text} </Link>
     </div>
   )
 }
-
 
 const ProfileNavigation = () => {
   const currentPath = usePathname()
@@ -34,7 +35,11 @@ const ProfileNavigation = () => {
   const finalUrlPart = urlParts[urlParts.length - 1]
 
   const navElements = [
-    { text: 'OVERVIEW', href: `/u/${userName}`, condition: !['posts', 'comments', 'upvoted', 'downvoted'].includes(finalUrlPart) },
+    {
+      text: 'OVERVIEW',
+      href: `/u/${userName}`,
+      condition: !['posts', 'comments', 'upvoted', 'downvoted'].includes(finalUrlPart),
+    },
     { text: 'POSTS', href: `/u/${userName}/posts`, condition: finalUrlPart === 'posts' },
     { text: 'COMMENTS', href: `/u/${userName}/comments`, condition: finalUrlPart === 'comments' },
     { text: 'UPVOTED', href: `/u/${userName}/upvoted`, condition: finalUrlPart === 'upvoted' },
@@ -42,18 +47,18 @@ const ProfileNavigation = () => {
   ]
 
   return (
-    <div className='flex flex-row w-[105vw] pl-4 -ml-4 -mr-4 overflow-x-auto text-xl md:pl-12 lg:pl-24 bg-reddit-dark gap-x-2 md:mr-0 md:-pr-4'>
+    <div className="md:-pr-4 -ml-4 -mr-4 flex w-[105vw] flex-row gap-x-2 overflow-x-auto bg-reddit-dark pl-4 text-xl md:mr-0 md:pl-12 lg:pl-24">
       {currentUser === userName ? (
         <>
-          {navElements.map((row, index) =>
+          {navElements.map((row, index) => (
             <NavElement condition={row.condition} href={row.href} text={row.text} key={index} />
-          )}
+          ))}
         </>
       ) : (
         <>
-          {navElements.slice(0, 3).map((row, index) =>
+          {navElements.slice(0, 3).map((row, index) => (
             <NavElement condition={row.condition} href={row.href} text={row.text} key={index} />
-          )}
+          ))}
         </>
       )}
     </div>

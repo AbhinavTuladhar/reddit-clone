@@ -16,7 +16,7 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
   const currentPath = usePathname()
 
   const toggleMenu = () => {
-    setIsOpen(prevState => !prevState)
+    setIsOpen((prevState) => !prevState)
   }
 
   // For finding out what to display in the div
@@ -32,32 +32,30 @@ const Subreddit: React.FC<SubredditProps> = ({ subredditList }) => {
 
   return (
     <section
-      className='z-50 relative h-10 w-10 lg:w-64 px-1 flex flex-row gap-x-2 lg:justify-between items-center border-[1px] border-transparent hover:cursor-pointer hover:border-reddit-border duration-300'
-      onClick={toggleMenu}>
-      <div className='flex flex-row items-center justify-between w-16 gap-x-2 lg:w-64'>
-        <div className='flex flex-row items-center gap-x-2'>
+      className="relative z-50 flex h-10 w-10 flex-row items-center gap-x-2 border-[1px] border-transparent px-1 duration-300 hover:cursor-pointer hover:border-reddit-border lg:w-64 lg:justify-between"
+      onClick={toggleMenu}
+    >
+      <div className="flex w-16 flex-row items-center justify-between gap-x-2 lg:w-64">
+        <div className="flex flex-row items-center gap-x-2">
           {selectedSub === 'Home' ? (
             <>
-              <AiFillHome className='hidden w-6 h-6 text-white lg:block' height={60} width={60} />
-              <span className='hidden text-sm lg:block'>
-                Home
-              </span>
+              <AiFillHome className="hidden h-6 w-6 text-white lg:block" height={60} width={60} />
+              <span className="hidden text-sm lg:block">Home</span>
             </>
           ) : (
-            <span className='hidden text-sm lg:block'> {selectedSub}</span>
+            <span className="hidden text-sm lg:block"> {selectedSub}</span>
           )}
         </div>
         <PiCaretDown />
 
         {isOpen && (
-          <ul className='absolute left-0 z-40 flex flex-col w-64 mt-2 overflow-y-auto list-none border rounded-lg top-9 bg-reddit-dark border-slate-300 max-h-64'>
+          <ul className="absolute left-0 top-9 z-40 mt-2 flex max-h-64 w-64 list-none flex-col overflow-y-auto rounded-lg border border-slate-300 bg-reddit-dark">
             {subredditList?.map((sub, index) => (
               <li
-                className='z-50 p-2 text-sm border border-slate-300 hover:brightness-110 hover:cursor-pointer'
-                key={index}>
-                <Link href={`/r/${sub.slice(2)}`}>
-                  {sub}
-                </Link>
+                className="z-50 border border-slate-300 p-2 text-sm hover:cursor-pointer hover:brightness-110"
+                key={index}
+              >
+                <Link href={`/r/${sub.slice(2)}`}>{sub}</Link>
               </li>
             ))}
           </ul>

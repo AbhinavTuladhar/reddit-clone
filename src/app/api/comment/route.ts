@@ -1,13 +1,13 @@
-import { NextResponse, NextRequest } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import User from "@/models/User"
-import Comment from "@/models/Comment"
-import Post from "@/models/Post"
+import { NextResponse, NextRequest } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import User from '@/models/User'
+import Comment from '@/models/Comment'
+import Post from '@/models/Post'
 
 interface RequestBody {
-  content: string,
-  author: string,
-  post: string,
+  content: string
+  author: string
+  post: string
   parentComment?: string
 }
 
@@ -23,25 +23,13 @@ export const POST = async (request: NextRequest) => {
     await newComment.save()
 
     // Update the parent comment - push the id of the reply into the replies array
-    await Comment.findOneAndUpdate(
-      { _id: parentComment },
-      { $push: { replies: newComment._id } },
-      { new: false }
-    )
+    await Comment.findOneAndUpdate({ _id: parentComment }, { $push: { replies: newComment._id } }, { new: false })
 
     // Update array in the Post schema.
-    await Post.findOneAndUpdate(
-      { _id: post },
-      { $push: { comments: newComment._id } },
-      { new: false }
-    )
+    await Post.findOneAndUpdate({ _id: post }, { $push: { comments: newComment._id } }, { new: false })
 
     // Update array in the User document.
-    await User.findOneAndUpdate(
-      { name: author },
-      { $push: { comments: newComment._id } },
-      { new: false }
-    )
+    await User.findOneAndUpdate({ name: author }, { $push: { comments: newComment._id } }, { new: false })
 
     return new NextResponse(JSON.stringify(body), { status: 201 })
   } catch (error) {

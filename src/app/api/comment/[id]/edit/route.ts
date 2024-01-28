@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import Comment from "@/models/Comment"
-import { CommentEditBody } from "@/types/types"
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Comment from '@/models/Comment'
+import { CommentEditBody } from '@/types/types'
 
 interface RequestParams {
   params: {
@@ -10,14 +10,19 @@ interface RequestParams {
 }
 
 export const PATCH = async (request: NextRequest, params: RequestParams) => {
-  const { params: { id } } = params
+  const {
+    params: { id },
+  } = params
   const body: CommentEditBody = await request.json()
   const { content } = body
 
   try {
     await connectDatabase()
     const currentTime = new Date()
-    const foundComment = await Comment.findOneAndUpdate({ _id: id }, { content: content, editedFlag: true, editedAt: currentTime })
+    const foundComment = await Comment.findOneAndUpdate(
+      { _id: id },
+      { content: content, editedFlag: true, editedAt: currentTime },
+    )
 
     if (!foundComment) {
       return new NextResponse(JSON.stringify({ error: 'Comment mysteriously not found' }), { status: 501 })

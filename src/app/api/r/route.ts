@@ -1,8 +1,8 @@
-import { NextResponse, NextRequest } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import Subreddit from "@/models/Subreddit"
-import User from "@/models/User"
-import { Document } from "mongodb"
+import { NextResponse, NextRequest } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Subreddit from '@/models/Subreddit'
+import User from '@/models/User'
+import { Document } from 'mongodb'
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json()
@@ -15,7 +15,7 @@ export const POST = async (request: NextRequest) => {
     // Now creating the subreddit
     const newSub: Document = new Subreddit({
       name: subredditName,
-      creator: matchedUser?.name
+      creator: matchedUser?.name,
     })
 
     await newSub.save()

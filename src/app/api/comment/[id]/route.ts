@@ -1,11 +1,11 @@
 // Get the information about the comment having id of [id]
 
-import { NextRequest, NextResponse } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import Comment from "@/models/Comment"
-import User from "@/models/User"
-import { VotingRequestBody } from "@/types/types"
-import { Types } from "mongoose";
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Comment from '@/models/Comment'
+import User from '@/models/User'
+import { VotingRequestBody } from '@/types/types'
+import { Types } from 'mongoose'
 
 interface RequestParams {
   params: {
@@ -14,7 +14,9 @@ interface RequestParams {
 }
 
 export const GET = async (_request: NextRequest, params: RequestParams) => {
-  const { params: { id } } = params
+  const {
+    params: { id },
+  } = params
 
   try {
     await connectDatabase()
@@ -29,7 +31,9 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
 }
 
 export const PATCH = async (request: NextRequest, params: RequestParams) => {
-  const { params: { id: commentId } } = params
+  const {
+    params: { id: commentId },
+  } = params
   const body: VotingRequestBody = await request.json()
 
   const { user, voteTarget, author } = body
@@ -61,14 +65,16 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     // For the TS compiler
 
     // Do nothing if the comment author and the up/down voter is the same
-    if (user === author) { /* empty */ }
+    if (user === author) {
+      /* empty */
+    }
 
     // Case 4: Upvoted, click on downvote
-    else if ((foundComment.upvotedBy.includes(user)) && voteTarget === 'downvoted') {
+    else if (foundComment.upvotedBy.includes(user) && voteTarget === 'downvoted') {
       foundComment.upvotedBy = foundComment.upvotedBy.filter((value: string) => value !== user)
       foundComment.downvotedBy.push(user)
 
-      foundUser.upvotedComments = foundUser.upvotedComments.filter(value => value.toString() !== commentId)
+      foundUser.upvotedComments = foundUser.upvotedComments.filter((value) => value.toString() !== commentId)
       foundUser.downvotedComments.push(new Types.ObjectId(commentId))
 
       // foundUser.upvotedComments = foundUser.upvotedComments.filter((value: Schema.Types.ObjectId) => value.toString() !== commentId)
@@ -78,7 +84,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     }
 
     // Case 5: Downvoted, click on upvote
-    else if ((foundComment.downvotedBy.includes(user)) && voteTarget === 'upvoted') {
+    else if (foundComment.downvotedBy.includes(user) && voteTarget === 'upvoted') {
       foundComment.downvotedBy = foundComment.downvotedBy.filter((value: string) => value !== user)
       foundComment.upvotedBy.push(user)
 
@@ -103,7 +109,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     }
 
     // Case 1: not voted, change to up or down vote.
-    else if ((!foundComment.upvotedBy.includes(user)) || (!foundComment.downvotedBy.includes(user))) {
+    else if (!foundComment.upvotedBy.includes(user) || !foundComment.downvotedBy.includes(user)) {
       if (voteTarget === 'upvoted') {
         foundComment.upvotedBy.push(user)
         foundUser.upvotedComments.push(new Types.ObjectId(commentId))

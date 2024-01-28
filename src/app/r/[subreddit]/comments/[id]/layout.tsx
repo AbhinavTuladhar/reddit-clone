@@ -1,9 +1,9 @@
 import React from 'react'
-import { PostType } from '@/types/types';
+import { PostType } from '@/types/types'
 
 interface CommentParams {
   params: {
-    id: string;
+    id: string
   }
 }
 
@@ -36,9 +36,5 @@ export const generateMetadata = async ({ params }: CommentParams) => {
 }
 
 export default function RootLayout({ children }: CommentLayoutProps) {
-  return (
-    <>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

@@ -1,45 +1,51 @@
-import { Schema, model, models, InferSchemaType } from "mongoose";
+import { Schema, model, models, InferSchemaType } from 'mongoose'
 
 const CommentSchema = new Schema({
   content: { type: String, required: true },
   author: {
     type: String,
-    required: true
+    required: true,
   },
   post: {
     type: Schema.Types.ObjectId,
     ref: 'Post',
-    required: true
+    required: true,
   },
   parentComment: {
     type: Schema.Types.ObjectId,
     ref: 'Comment',
-    default: null
+    default: null,
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-  replies: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment'
-  }],
-  upvotedBy: [{
-    type: String,
-    required: true
-  }],
-  downvotedBy: [{
-    type: String,
-    required: true
-  }],
+  replies: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  upvotedBy: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  downvotedBy: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   editedFlag: {
     type: Boolean,
-    default: false
+    default: false,
   },
   editedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 })
 
 export type CommentType = InferSchemaType<typeof CommentSchema>

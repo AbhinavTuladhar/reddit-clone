@@ -1,8 +1,8 @@
 // An API endpoint for displaying the top 5 subreddits by the number of members.
 
-import { NextResponse } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import Subreddit from "@/models/Subreddit"
+import { NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Subreddit from '@/models/Subreddit'
 
 export const GET = async () => {
   try {
@@ -14,20 +14,20 @@ export const GET = async () => {
         $project: {
           members: { $size: '$subscribers' },
           name: 1,
-          _id: 0
-        }
+          _id: 0,
+        },
       },
       {
         $match: {
-          members: { $gte: 1 }
-        }
+          members: { $gte: 1 },
+        },
       },
       {
-        $sort: { members: -1 }
+        $sort: { members: -1 },
       },
       {
-        $limit: 5
-      }
+        $limit: 5,
+      },
     ])
     return new NextResponse(JSON.stringify(topSubs, null, 2), { status: 201 })
   } catch (error) {

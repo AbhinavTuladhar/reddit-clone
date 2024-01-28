@@ -1,6 +1,6 @@
-import { NextResponse, NextRequest } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import User from "@/models/User"
+import { NextResponse, NextRequest } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import User from '@/models/User'
 import bcrypt from 'bcryptjs'
 
 export const POST = async (request: NextRequest) => {
@@ -26,5 +26,4 @@ export const POST = async (request: NextRequest) => {
     console.error(error)
     return new NextResponse('Unable to create user', { status: 501 })
   }
-
 }

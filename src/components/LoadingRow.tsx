@@ -2,7 +2,7 @@ import React from 'react'
 import Loader from './Loader'
 
 const LoadingRow = () => (
-  <div className='flex flex-row justify-center w-full my-2'>
+  <div className="my-2 flex w-full flex-row justify-center">
     <Loader />
   </div>
 )

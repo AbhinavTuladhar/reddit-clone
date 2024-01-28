@@ -27,9 +27,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get<CommentDetails[]>(
-        `/api/u/${userName}/comments?offset=0&limit=10`
-      )
+      const response = await axios.get<CommentDetails[]>(`/api/u/${userName}/comments?offset=0&limit=10`)
       if (response.data.length === 0) {
         setIsEmpty(true)
       }
@@ -42,14 +40,10 @@ const Page: React.FC<UserParams> = ({ params }) => {
   }, [userName])
 
   const fetchMoreData = async () => {
-    const response = await axios.get<CommentDetails[]>(
-      `/api/u/${userName}/comments?offset=${index}&limit=10`
-    )
+    const response = await axios.get<CommentDetails[]>(`/api/u/${userName}/comments?offset=${index}&limit=10`)
     const userCommentsData = response.data
     setUserComments((prevData) => [...prevData, ...userCommentsData])
-    userCommentsData.length > 0 && !isEmpty
-      ? setHasMore(true)
-      : setHasMore(false)
+    userCommentsData.length > 0 && !isEmpty ? setHasMore(true) : setHasMore(false)
     setIndex((prevIndex) => prevIndex + 10)
   }
 
@@ -63,22 +57,14 @@ const Page: React.FC<UserParams> = ({ params }) => {
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<LoadingRow />}
-          endMessage={
-            <p className="w-full mx-auto my-2 text-base text-center">
-              You have seen all comments!
-            </p>
-          }
+          endMessage={<p className="mx-auto my-2 w-full text-center text-base">You have seen all comments!</p>}
           style={{ height: '100%', overflow: 'hidden' }}
         >
-          <main className="flex flex-col flex-1 gap-y-2">
+          <main className="flex flex-1 flex-col gap-y-2">
             {userComments?.map((comment, index) => {
-              const { _id, postAuthor, postId, postSubreddit, postTitle } =
-                comment
+              const { _id, postAuthor, postId, postSubreddit, postTitle } = comment
               return (
-                <div
-                  key={index}
-                  className="duration-300 border border-transparent hover:border-white"
-                >
+                <div key={index} className="border border-transparent duration-300 hover:border-white">
                   <CommentHeader
                     postAuthor={postAuthor}
                     postSubreddit={postSubreddit}
@@ -87,7 +73,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
                     userName={userName}
                   />
                   <section
-                    className="pb-2 pl-2 duration-300 border border-transparent bg-reddit-dark hover:border-white hover:cursor-pointer"
+                    className="border border-transparent bg-reddit-dark pb-2 pl-2 duration-300 hover:cursor-pointer hover:border-white"
                     key={index}
                   >
                     <Link href={`/r/${postSubreddit}/comments/${postId}`}>

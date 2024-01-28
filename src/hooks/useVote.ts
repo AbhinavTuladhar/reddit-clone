@@ -1,27 +1,27 @@
 import { useState } from 'react'
-import { voteStatus } from "@/types/types"
+import { voteStatus } from '@/types/types'
 import axios from 'axios'
 
 interface VoteProps {
-  author: string | undefined,
-  apiUrl: string,
-  initialVoteStatus: voteStatus,
-  mutate: () => void,
+  author: string | undefined
+  apiUrl: string
+  initialVoteStatus: voteStatus
+  mutate: () => void
   status: string
-  userName: string,
+  userName: string
 }
 
 /**
  * A custom react hook to implement voting functionality for both posts and comments
- * 
+ *
  * @param {Object}   props                    The props object.
- * @param {string}   props.author             The author of the post or comment. 
- * @param {string}   props.apiUrl             The api endpoint that the PATCH request is directed to. 
+ * @param {string}   props.author             The author of the post or comment.
+ * @param {string}   props.apiUrl             The api endpoint that the PATCH request is directed to.
  * @param {string}   props.initialVoteStatus  Whether the post/comment is up, down or non voted.
- * @param {function} props.mutate             The function which refetches data after making the patch request. 
- * @param {string}   props.status             Whether the user is authenticated or not. 
+ * @param {function} props.mutate             The function which refetches data after making the patch request.
+ * @param {string}   props.status             Whether the user is authenticated or not.
  * @param {string}   props.userName           The name of the authenticated user.
- * 
+ *
  * @return {Object}                       The voting status management object.
  * @property {string}   voteStatus        The current voting status, which can be upvoted, downvoted or nonvoted.
  * @property {function} setVoteStatus     Sets the current vote status
@@ -68,7 +68,7 @@ const useVote = ({ author, apiUrl, initialVoteStatus, mutate, status, userName }
     voteStatus,
     setVoteStatus,
     handleVoteChange,
-  };
+  }
 }
 
 export default useVote

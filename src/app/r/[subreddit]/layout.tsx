@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 interface SubredditParams {
   params: {
-    subreddit: string;
+    subreddit: string
   }
 }
 
@@ -18,9 +18,5 @@ export const generateMetadata = ({ params }: SubredditParams): Metadata => {
 }
 
 export default function RootLayout({ children }: SubredditLayoutProps) {
-  return (
-    <>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

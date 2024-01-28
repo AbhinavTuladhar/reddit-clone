@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { connectDatabase } from "@/utils/db";
-import User from "@/models/User";
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import User from '@/models/User'
 
 interface RequestParams {
   params: {
@@ -9,7 +9,9 @@ interface RequestParams {
 }
 
 export const GET = async (_request: NextRequest, params: RequestParams) => {
-  const { params: { name } } = params
+  const {
+    params: { name },
+  } = params
 
   try {
     await connectDatabase()
@@ -22,5 +24,4 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
     console.error(error)
     return new NextResponse(JSON.stringify({ error }), { status: 501 })
   }
-
 }

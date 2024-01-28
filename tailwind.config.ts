@@ -18,8 +18,8 @@ const config: Config = {
         'reddit-comment-line': '#343536',
         'reddit-white': '#d7dadc',
         'reddit-blue': '#2d97e5',
-        'reddit-dark-blue': '#17232d'
-      }
+        'reddit-dark-blue': '#17232d',
+      },
     },
   },
   plugins: [],

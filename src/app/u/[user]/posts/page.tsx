@@ -38,34 +38,26 @@ const Page: React.FC<UserParams> = ({ params }) => {
   const fetchMoreData = async () => {
     const response = await axios.get<ContentId[]>(`/api/u/${userName}/posts?offset=${index}&limit=5`)
     const userPostsData = response.data
-    setUserPosts(prevData => (
-      [...prevData, ...userPostsData]
-    ))
+    setUserPosts((prevData) => [...prevData, ...userPostsData])
     userPostsData.length > 0 && !isEmpty ? setHasMore(true) : setHasMore(false)
-    setIndex(prevIndex => prevIndex + 5)
+    setIndex((prevIndex) => prevIndex + 5)
   }
 
   return (
-    <div className='flex-1'>
+    <div className="flex-1">
       {isEmpty ? (
-        <p className='text-center text-base'> Nothing to see here</p>
+        <p className="text-center text-base"> Nothing to see here</p>
       ) : (
         <InfiniteScroll
           dataLength={userPosts.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<LoadingRow />}
-          endMessage={
-            <p className='w-full mx-auto my-2 text-base text-center'>
-              You have seen all posts!
-            </p>
-          }
+          endMessage={<p className="mx-auto my-2 w-full text-center text-base">You have seen all posts!</p>}
           style={{ height: '100%', overflow: 'hidden' }}
         >
-          <main className='flex flex-col flex-1 gap-y-2'>
-            {userPosts?.map((post, index) => (
-              <PostCard id={post._id} subViewFlag={true} key={index} />
-            ))}
+          <main className="flex flex-1 flex-col gap-y-2">
+            {userPosts?.map((post, index) => <PostCard id={post._id} subViewFlag={true} key={index} />)}
           </main>
         </InfiniteScroll>
       )}

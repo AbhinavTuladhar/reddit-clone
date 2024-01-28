@@ -34,31 +34,22 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   const { status } = session
   const userName = session?.data?.user?.name || ''
 
-  const fetcher = (url: string) =>
-    axios.get(url).then((response) => response.data)
+  const fetcher = (url: string) => axios.get(url).then((response) => response.data)
   const multiFetcher = (urls: string[]) => {
     return Promise.all(urls.map((url) => fetcher(url)))
   }
 
   // For some reason multifethcer function all of a sudden started showing an error (:|
-  const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(
-    `/api/r/${subredditName}`,
-    fetcher
-  )
+  const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
   const { data: postDetails } = useSWR<PostTypeWithId[]>(
     subInfo ? subInfo.posts.map((post) => `/api/post/${post.toString()}`) : [],
     // @ts-ignore
-    multiFetcher
+    multiFetcher,
   )
 
   // Check if the user has jointed the sub
-  const initialJoinStatus: JoinStatusType = subInfo?.subscribers?.includes(
-    userName
-  )
-    ? 'Joined'
-    : 'Join'
-  const [joinStatus, setJoinStatus] =
-    useState<JoinStatusType>(initialJoinStatus)
+  const initialJoinStatus: JoinStatusType = subInfo?.subscribers?.includes(userName) ? 'Joined' : 'Join'
+  const [joinStatus, setJoinStatus] = useState<JoinStatusType>(initialJoinStatus)
 
   useEffect(() => {
     setJoinStatus(initialJoinStatus)
@@ -76,33 +67,23 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
 
   return (
     <div>
-      <div className="w-full h-20 bg-reddit-blue box-border"> </div>
-      <section className="flex flex-row w-full pl-6 -ml-0 gap-x-2 bg-reddit-gray">
-        <Image
-          src={SubIcon}
-          className="w-16 h-16 mt-0 sm:w-20 sm:h-20 sm:-mt-5 border-4 rounded-full"
-          alt="sub icon"
-        />
-        <div className="flex flex-col flex-1 justify-center my-1 gap-y-1">
-          <div className="flex flex-row flex-wrap items-center justify-between sm:justify-start gap-4">
-            <h1 className="text-2xl font-bold sm:block hidden">
-              {formattedSubredditName}
-            </h1>
-            <small className="text-base font-bold block sm:hidden">
-              {`r/${subredditName}`}
-            </small>
+      <div className="box-border h-20 w-full bg-reddit-blue"> </div>
+      <section className="-ml-0 flex w-full flex-row gap-x-2 bg-reddit-gray pl-6">
+        <Image src={SubIcon} className="mt-0 h-16 w-16 rounded-full border-4 sm:-mt-5 sm:h-20 sm:w-20" alt="sub icon" />
+        <div className="my-1 flex flex-1 flex-col justify-center gap-y-1">
+          <div className="flex flex-row flex-wrap items-center justify-between gap-4 sm:justify-start">
+            <h1 className="hidden text-2xl font-bold sm:block">{formattedSubredditName}</h1>
+            <small className="block text-base font-bold sm:hidden">{`r/${subredditName}`}</small>
             {status === 'authenticated' && (
               <button
                 className={classnames(
-                  'flex mr-2 items-center px-2 sm:px-6 py-1 text-base font-bold rounded-full hover:cursor-pointer',
+                  'mr-2 flex items-center rounded-full px-2 py-1 text-base font-bold hover:cursor-pointer sm:px-6',
                   {
-                    'text-black bg-reddit-white hover:brightness-90 duration-300':
-                      joinStatus === 'Join',
+                    'bg-reddit-white text-black duration-300 hover:brightness-90': joinStatus === 'Join',
                   },
                   {
-                    'text-reddit-white bg-transparent border border-reddit-white':
-                      joinStatus === 'Joined',
-                  }
+                    'border border-reddit-white bg-transparent text-reddit-white': joinStatus === 'Joined',
+                  },
                 )}
                 onClick={handleJoin}
               >
@@ -110,26 +91,18 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
               </button>
             )}
           </div>
-          <small className="text-base font-bold hidden sm:block">
-            {`r/${subredditName}`}
-          </small>
+          <small className="hidden text-base font-bold sm:block">{`r/${subredditName}`}</small>
         </div>
       </section>
 
-      <div className={`flex flex-col-reverse lg:flex-row gap-4 my-4`}>
-        <div className="flex flex-col flex-1 gap-y-0">
+      <div className={`my-4 flex flex-col-reverse gap-4 lg:flex-row`}>
+        <div className="flex flex-1 flex-col gap-y-0">
           {status === 'authenticated' && (
-            <div className="flex flex-col mb-4 gap-y-4">
+            <div className="mb-4 flex flex-col gap-y-4">
               <CreatePostCard />
             </div>
           )}
-          {postDetails?.map((post, index) => (
-            <PostCard
-              id={post._id.toString()}
-              subViewFlag={false}
-              key={index}
-            />
-          ))}
+          {postDetails?.map((post, index) => <PostCard id={post._id.toString()} subViewFlag={false} key={index} />)}
         </div>
         <section className="w-full lg:w-80">
           <AboutCommunity subName={subredditName} />

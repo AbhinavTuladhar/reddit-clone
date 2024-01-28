@@ -1,8 +1,8 @@
-import { NextResponse, NextRequest } from "next/server"
-import { connectDatabase } from "@/utils/db"
-import Subreddit from "@/models/Subreddit"
-import User from "@/models/User"
-import { JoinSubBody } from "@/types/types"
+import { NextResponse, NextRequest } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Subreddit from '@/models/Subreddit'
+import User from '@/models/User'
+import { JoinSubBody } from '@/types/types'
 
 export const PATCH = async (request: NextRequest) => {
   const body: JoinSubBody = await request.json()
@@ -20,11 +20,11 @@ export const PATCH = async (request: NextRequest) => {
 
     // Worshipping the compiler
     if (!foundUser) {
-      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+      return new NextResponse(JSON.stringify({ error: 'User not found' }), { status: 501 })
     }
 
     if (!foundSub) {
-      return new NextResponse(JSON.stringify({ error: "Subreddit not found" }), { status: 501 })
+      return new NextResponse(JSON.stringify({ error: 'Subreddit not found' }), { status: 501 })
     }
 
     // Check if the user has joined the sub.
@@ -44,7 +44,6 @@ export const PATCH = async (request: NextRequest) => {
     await foundSub.save()
 
     return new NextResponse(JSON.stringify({ message: 'Updated' }), { status: 200 })
-
   } catch (error) {
     console.error(error)
     return new NextResponse(JSON.stringify({ error }), { status: 400 })

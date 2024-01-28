@@ -1,10 +1,10 @@
 import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import Credentials from 'next-auth/providers/credentials';
-import { connectDatabase } from '@/utils/db';
-import User from '@/models/User';
-import bcrypt from 'bcryptjs';
+import GoogleProvider from 'next-auth/providers/google'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import Credentials from 'next-auth/providers/credentials'
+import { connectDatabase } from '@/utils/db'
+import User from '@/models/User'
+import bcrypt from 'bcryptjs'
 
 const googleClientId = process.env.GOOGLE_CLIENT_ID
 const googleSecretId = process.env.GOOGLE_CLIENT_SECRET
@@ -17,11 +17,11 @@ const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: googleClientId,
-      clientSecret: googleSecretId
+      clientSecret: googleSecretId,
     }),
     CredentialsProvider({
-      id: "credentials",
-      name: "credentials",
+      id: 'credentials',
+      name: 'credentials',
       // credentials: {
       //   name: { label: "name", type: "text", placeholder: "spez" },
       //   password: { label: "Password", type: "password" }
@@ -33,10 +33,7 @@ const handler = NextAuth({
           const providedPassword = credentials?.password
           if (user && providedPassword) {
             // Checking the password
-            const passwordCheck = await bcrypt.compare(
-              credentials.password,
-              user.password
-            );
+            const passwordCheck = await bcrypt.compare(credentials.password, user.password)
 
             if (passwordCheck) {
               return user
@@ -47,12 +44,12 @@ const handler = NextAuth({
           console.error(error)
           throw new Error(error)
         }
-      }
+      },
     }),
   ],
   pages: {
-    error: '/'
-  }
+    error: '/',
+  },
   // callbacks: {
   //   async signIn({ user, account, profile, email, credentials }) {
   //     console.log({ user, account, profile, email, credentials })

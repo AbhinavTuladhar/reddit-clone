@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 interface SubProps {
-  handleModalView: () => void,
+  handleModalView: () => void
   mutateData: () => void
 }
 
@@ -26,7 +26,9 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
   }, [subredditName])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { target: { value } } = event
+    const {
+      target: { value },
+    } = event
     if (subredditName.length < nameLimit) {
       setSubredditName(value)
     }
@@ -49,34 +51,24 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
   }
 
   return (
-    <div className='flex flex-col py-4 gap-y-4'>
-      <RxCross2 onClick={handleClose} className='absolute top-0 right-0 mt-4 mr-4 hover:cursor-pointer' />
-      <div className='flex flex-row justify-between items-center border-b-[1px] border-reddit-border pb-4'>
-        <h3 className='text-lg'>
-          Create a community
-        </h3>
+    <div className="flex flex-col gap-y-4 py-4">
+      <RxCross2 onClick={handleClose} className="absolute right-0 top-0 mr-4 mt-4 hover:cursor-pointer" />
+      <div className="flex flex-row items-center justify-between border-b-[1px] border-reddit-border pb-4">
+        <h3 className="text-lg">Create a community</h3>
       </div>
-      <div className='flex flex-col gap-y-2'>
-        <h1 className='text-xl'>
-          Name
-        </h1>
-        <p className='text-sm'>
-          Community names including capitalization cannot be changed.
-        </p>
+      <div className="flex flex-col gap-y-2">
+        <h1 className="text-xl">Name</h1>
+        <p className="text-sm">Community names including capitalization cannot be changed.</p>
       </div>
-      <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-y-4" onSubmit={handleSubmit}>
         <input
-          className='p-2 text-white border border-reddit-border bg-reddit-dark'
-          type='text'
+          className="border border-reddit-border bg-reddit-dark p-2 text-white"
+          type="text"
           value={subredditName}
           onChange={handleChange}
         />
-        <span className='text-sm'>
-          {charactersRemaining} characters remaining.
-        </span>
-        <button className='p-2 text-black bg-white rounded-full'>
-          Create community
-        </button>
+        <span className="text-sm">{charactersRemaining} characters remaining.</span>
+        <button className="rounded-full bg-white p-2 text-black">Create community</button>
       </form>
     </div>
   )

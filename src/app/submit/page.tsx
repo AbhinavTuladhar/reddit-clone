@@ -8,7 +8,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 
 interface SubListResponse {
-  name: string,
+  name: string
   creatorName: string
 }
 
@@ -19,7 +19,7 @@ const Page = () => {
   const initFormData = () => {
     return {
       title: '',
-      body: ''
+      body: '',
     }
   }
 
@@ -34,17 +34,19 @@ const Page = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
   const { data } = useSWR<SubListResponse[]>('/api/r', fetcher)
 
-  const subredditList = data?.map(row => `r/${row.name}`)
+  const subredditList = data?.map((row) => `r/${row.name}`)
 
   useEffect(() => {
     setTitleLength(postData.title.length)
   }, [postData.title])
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { target: { name, value } } = event
-    setPostData(prevState => ({
+    const {
+      target: { name, value },
+    } = event
+    setPostData((prevState) => ({
       ...prevState,
-      [name]: name === 'body' ? value : (value.length <= characterLimit ? value : prevState.title)
+      [name]: name === 'body' ? value : value.length <= characterLimit ? value : prevState.title,
     }))
   }
 
@@ -54,7 +56,7 @@ const Page = () => {
       author: userName,
       subreddit: selectedSubreddit.slice(2),
       title: postData.title,
-      body: postData.body
+      body: postData.body,
     }
 
     await axios.post('/api/post', requestBody)
@@ -66,37 +68,37 @@ const Page = () => {
   const buttonDisableFlag = postData.title === '' || selectedSubreddit === placeholderSub
 
   return (
-    <main className='flex flex-row justify-between mx-2 gap-x-6 md:mx-10 lg:mx-20'>
-      <section className='flex flex-col flex-1 h-full gap-y-4'>
-        <h1 className='mt-6 pb-4 text-xl border-b-[1px] border-reddit-border'>
-          Create a post
-        </h1>
-        <PostSubredditSelector subredditList={subredditList} selectedSubreddit={selectedSubreddit} setSelectedSubreddit={setSelectedSubreddit} />
-        <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
-          <div className='relative w-full'>
+    <main className="mx-2 flex flex-row justify-between gap-x-6 md:mx-10 lg:mx-20">
+      <section className="flex h-full flex-1 flex-col gap-y-4">
+        <h1 className="mt-6 border-b-[1px] border-reddit-border pb-4 text-xl">Create a post</h1>
+        <PostSubredditSelector
+          subredditList={subredditList}
+          selectedSubreddit={selectedSubreddit}
+          setSelectedSubreddit={setSelectedSubreddit}
+        />
+        <form className="flex flex-col gap-y-4" onSubmit={handleSubmit}>
+          <div className="relative w-full">
             <input
-              className='relative w-full h-12 p-2 pr-20 border-[1px] border-reddit-border bg-reddit-dark'
-              placeholder='Title'
-              type='text'
+              className="relative h-12 w-full border-[1px] border-reddit-border bg-reddit-dark p-2 pr-20"
+              placeholder="Title"
+              type="text"
               value={postData.title}
-              name='title'
+              name="title"
               onChange={handleFormChange}
               required
             />
-            <span className='absolute top-0 right-0 my-3 mr-3 text-sm text-gray-600'>
-              {titleLength}/300
-            </span>
+            <span className="absolute right-0 top-0 my-3 mr-3 text-sm text-gray-600">{titleLength}/300</span>
           </div>
           <textarea
-            className='w-full p-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none'
-            placeholder='Body (optional)'
+            className="h-32 w-full resize-none border-[1px] border-reddit-border bg-reddit-dark p-2"
+            placeholder="Body (optional)"
             value={postData.body}
-            name='body'
+            name="body"
             onChange={handleFormChange}
           />
-          <div className='flex justify-end w-full'>
+          <div className="flex w-full justify-end">
             <button
-              className='px-5 py-2 text-lg bg-white rounded-full disabled:text-gray-400 enabled:text-black'
+              className="rounded-full bg-white px-5 py-2 text-lg enabled:text-black disabled:text-gray-400"
               disabled={buttonDisableFlag}
             >
               Post

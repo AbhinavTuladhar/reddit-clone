@@ -19,11 +19,7 @@ interface CommentProps {
   showReply: boolean
 }
 
-const CommentCard: React.FC<CommentProps> = ({
-  _id,
-  postAuthor,
-  showReply,
-}) => {
+const CommentCard: React.FC<CommentProps> = ({ _id, postAuthor, showReply }) => {
   const session = useSession()
 
   const { status, data: sessionData } = session
@@ -81,17 +77,12 @@ const CommentCard: React.FC<CommentProps> = ({
     setEditedComment(content)
   }, [content])
 
-  const effectiveKarma =
-    upvotedBy.length + downvotedBy.length === 0
-      ? 1
-      : upvotedBy.length - downvotedBy.length + 1
+  const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const editedDateString = calculateDateString(new Date(editedAt), new Date())
   const paragraphs = content?.split('\n')
 
-  const handleEditedCommentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleEditedCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       target: { value },
     } = event
@@ -132,16 +123,16 @@ const CommentCard: React.FC<CommentProps> = ({
   }
 
   const editingForm = (
-    <form className="flex flex-col flex-1 gap-y-2" onSubmit={handleEditSubmit}>
+    <form className="flex flex-1 flex-col gap-y-2" onSubmit={handleEditSubmit}>
       <textarea
-        className="w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray"
+        className="h-32 w-full resize-none border-[1px] border-reddit-border bg-reddit-dark px-4 py-2 placeholder:text-reddit-placeholder-gray"
         placeholder="What are your thoughts?"
         value={editedComment}
         onChange={handleEditedCommentChange}
       />
-      <div className="bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row gap-x-3 justify-end">
+      <div className="-mt-1.5 flex flex-row justify-end gap-x-3 bg-reddit-gray px-2 py-1">
         <button
-          className="px-2 py-1 text-sm text-white rounded-full hover:bg-reddit-hover-gray"
+          className="rounded-full px-2 py-1 text-sm text-white hover:bg-reddit-hover-gray"
           onClick={() => {
             toggleEditing()
             setEditedComment(content)
@@ -150,7 +141,7 @@ const CommentCard: React.FC<CommentProps> = ({
           Cancel
         </button>
         <button
-          className="px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black disabled:hover:cursor-not-allowed"
+          className="rounded-full bg-white px-2 py-1 text-sm enabled:text-black disabled:text-gray-400 disabled:hover:cursor-not-allowed"
           disabled={editedComment === ''}
           type="submit"
         >
@@ -162,42 +153,27 @@ const CommentCard: React.FC<CommentProps> = ({
 
   return (
     <div className={`${parentComment !== null && 'pl-1'} flex flex-col`}>
-      <main className="flex flex-row mt-2 gap-x-4">
-        <section className="flex flex-col flex-1 gap-y-1">
-          <div className="flex flex-row items-center text-xs gap-x-2">
-            <Image
-              src={Profile}
-              alt="profile pic"
-              className="w-8 h-8 rounded-full"
-            />
-            <div className="flex flex-row flex-wrap items-center text-xs gap-x-2">
-              <Link
-                href={`/u/${author}`}
-                className="font-bold tracking-tight hover:underline"
-              >
+      <main className="mt-2 flex flex-row gap-x-4">
+        <section className="flex flex-1 flex-col gap-y-1">
+          <div className="flex flex-row items-center gap-x-2 text-xs">
+            <Image src={Profile} alt="profile pic" className="h-8 w-8 rounded-full" />
+            <div className="flex flex-row flex-wrap items-center gap-x-2 text-xs">
+              <Link href={`/u/${author}`} className="font-bold tracking-tight hover:underline">
                 {' '}
                 {author}{' '}
               </Link>
-              {postAuthor === author && (
-                <span className="font-bold text-blue-600"> OP </span>
-              )}
+              {postAuthor === author && <span className="font-bold text-blue-600"> OP </span>}
               <span className="text-reddit-placeholder-gray"> · </span>
-              <span className="text-reddit-placeholder-gray">
-                {' '}
-                {dateString}{' '}
-              </span>
+              <span className="text-reddit-placeholder-gray"> {dateString} </span>
               {editedFlag && (
                 <>
                   <span className="text-reddit-placeholder-gray"> · </span>
-                  <span className="italic text-reddit-placeholder-gray">
-                    {' '}
-                    {`edited ${editedDateString}`}{' '}
-                  </span>
+                  <span className="italic text-reddit-placeholder-gray"> {`edited ${editedDateString}`} </span>
                 </>
               )}
             </div>
           </div>
-          <section className="flex flex-col pl-4 ml-4 border-l-2 border-reddit-comment-line gap-y-1">
+          <section className="ml-4 flex flex-col gap-y-1 border-l-2 border-reddit-comment-line pl-4">
             <div>
               {isEditing
                 ? editingForm
@@ -221,7 +197,7 @@ const CommentCard: React.FC<CommentProps> = ({
           </section>
           <>
             {replyFlag && (
-              <div className="w-full m-2">
+              <div className="m-2 w-full">
                 <ReplyForm
                   reply={reply}
                   setReply={setReply}
@@ -237,12 +213,8 @@ const CommentCard: React.FC<CommentProps> = ({
       {showReply &&
         replies?.map((reply, index) => (
           <div key={index}>
-            <section className="pl-0 ml-4 border-l-2 border-reddit-comment-line">
-              <CommentCard
-                _id={reply.toString()}
-                postAuthor={postAuthor}
-                showReply={true}
-              />
+            <section className="ml-4 border-l-2 border-reddit-comment-line pl-0">
+              <CommentCard _id={reply.toString()} postAuthor={postAuthor} showReply={true} />
             </section>
           </div>
         ))}

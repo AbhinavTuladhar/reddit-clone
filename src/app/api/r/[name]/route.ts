@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { connectDatabase } from "@/utils/db";
-import Subreddit from "@/models/Subreddit";
-import { SubDescChangeBody } from "@/types/types";
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDatabase } from '@/utils/db'
+import Subreddit from '@/models/Subreddit'
+import { SubDescChangeBody } from '@/types/types'
 
 interface RequestParams {
   params: {
@@ -10,7 +10,9 @@ interface RequestParams {
 }
 
 export const GET = async (_request: NextRequest, params: RequestParams) => {
-  const { params: { name } } = params
+  const {
+    params: { name },
+  } = params
 
   try {
     await connectDatabase()
@@ -34,22 +36,17 @@ export const PATCH = async (request: NextRequest) => {
     await connectDatabase()
 
     // Find the subreddit document
-    const foundSubreddit = await Subreddit.findOneAndUpdate(
-      { name: subName },
-      { description: description }
-    )
+    const foundSubreddit = await Subreddit.findOneAndUpdate({ name: subName }, { description: description })
 
     if (!foundSubreddit) {
-      return new NextResponse(JSON.stringify({ error: "Subreddit not found" }), { status: 501 })
+      return new NextResponse(JSON.stringify({ error: 'Subreddit not found' }), { status: 501 })
     }
 
     await foundSubreddit.save()
 
     return new NextResponse(JSON.stringify(foundSubreddit), { status: 201 })
-
   } catch (error) {
     console.error(error)
     return new NextResponse(JSON.stringify({ error }), { status: 501 })
   }
-
 }

@@ -42,10 +42,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
   const userName = session?.data?.user?.name || ''
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
-  const { data, mutate } = useSWR<PostWithId | null>(
-    `/api/post/${postId}`,
-    fetcher
-  )
+  const { data, mutate } = useSWR<PostWithId | null>(`/api/post/${postId}`, fetcher)
 
   const {
     _id,
@@ -92,10 +89,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     userName,
   })
 
-  const effectiveKarma =
-    upvotedBy.length + downvotedBy.length === 0
-      ? 1
-      : upvotedBy.length - downvotedBy.length + 1
+  const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const paragraphs = body?.split('\n')
 
@@ -133,25 +127,22 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
   }
 
   const commentForm = (
-    <form className="flex flex-col flex-1 my-2 gap-y-2" onSubmit={handleSubmit}>
+    <form className="my-2 flex flex-1 flex-col gap-y-2" onSubmit={handleSubmit}>
       <span className="text-sm">
         Comment as&nbsp;
-        <Link
-          href={`/u/${userName}`}
-          className="text-blue-500 duration-300 hover:underline hover:text-red-500"
-        >
+        <Link href={`/u/${userName}`} className="text-blue-500 duration-300 hover:text-red-500 hover:underline">
           {userName}
         </Link>
       </span>
       <textarea
-        className="max-w-full px-4 py-2 h-32 border-[1px] border-reddit-border bg-reddit-dark resize-none placeholder:text-reddit-placeholder-gray"
+        className="h-32 max-w-full resize-none border-[1px] border-reddit-border bg-reddit-dark px-4 py-2 placeholder:text-reddit-placeholder-gray"
         placeholder="What are your thoughts?"
         onChange={handleChange}
         value={comment}
       />
-      <div className="bg-reddit-gray -mt-1.5 px-2 py-1 flex flex-row justify-end">
+      <div className="-mt-1.5 flex flex-row justify-end bg-reddit-gray px-2 py-1">
         <button
-          className="px-2 py-1 text-sm bg-white rounded-full disabled:text-gray-400 enabled:text-black disabled:hover:cursor-not-allowed"
+          className="rounded-full bg-white px-2 py-1 text-sm enabled:text-black disabled:text-gray-400 disabled:hover:cursor-not-allowed"
           disabled={comment === ''}
         >
           Comment
@@ -160,12 +151,11 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     </form>
   )
 
-  const baseIconClassName =
-    'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
+  const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
   return (
-    <main className="flex flex-col lg:flex-row mt-4 gap-4">
-      <section className="flex flex-col flex-1 w-full px-2 py-4 mx-auto border md:px-4 gap-y-6 bg-reddit-dark border-reddit-border">
+    <main className="mt-4 flex flex-col gap-4 lg:flex-row">
+      <section className="mx-auto flex w-full flex-1 flex-col gap-y-6 border border-reddit-border bg-reddit-dark px-2 py-4 md:px-4">
         <div className="flex flex-row gap-x-4">
           <section className="flex flex-col items-center gap-y-1">
             <PiArrowFatUpFill
@@ -173,7 +163,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
                 baseIconClassName,
                 { 'text-reddit-placeholder-gray': voteStatus !== 'upvoted' },
                 { 'text-reddit-orange': voteStatus === 'upvoted' },
-                'hover:text-reddit-orange'
+                'hover:text-reddit-orange',
               )}
               onClick={() => handleVoteChange('upvoted')}
             />
@@ -181,7 +171,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
               className={classnames(
                 { 'text-reddit-placeholder-gray': voteStatus === 'nonvoted' },
                 { 'text-reddit-orange': voteStatus === 'upvoted' },
-                { 'text-indigo-400': voteStatus === 'downvoted' }
+                { 'text-indigo-400': voteStatus === 'downvoted' },
               )}
             >
               {effectiveKarma}
@@ -191,25 +181,19 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
                 baseIconClassName,
                 { 'text-reddit-placeholder-gray': voteStatus !== 'downvoted' },
                 { 'text-indigo-400': voteStatus === 'downvoted' },
-                'hover:text-indigo-400'
+                'hover:text-indigo-400',
               )}
               onClick={() => handleVoteChange('downvoted')}
             />
           </section>
-          <section className="flex flex-col flex-1 gap-y-2">
-            <div className="flex flex-row flex-wrap items-center text-xs text-gray-400 gap-x-1">
-              <Link
-                className="font-bold text-white duration-300 hover:underline"
-                href={`/r/${subreddit}`}
-              >
+          <section className="flex flex-1 flex-col gap-y-2">
+            <div className="flex flex-row flex-wrap items-center gap-x-1 text-xs text-gray-400">
+              <Link className="font-bold text-white duration-300 hover:underline" href={`/r/${subreddit}`}>
                 {' '}
                 {`r/${subreddit}`}
               </Link>
               <span> Posted by </span>
-              <Link
-                href={`/u/${author}`}
-                className="duration-300 hover:underline"
-              >
+              <Link href={`/u/${author}`} className="duration-300 hover:underline">
                 {' '}
                 {`u/${author}`}{' '}
               </Link>
@@ -225,14 +209,11 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
             <section className="flex flex-row gap-x-2">
               {iconBarData.map((row, index) => (
                 <div
-                  className="flex flex-row items-center p-2 duration-300 gap-x-2 hover:cursor-pointer hover:bg-reddit-hover-gray"
+                  className="flex flex-row items-center gap-x-2 p-2 duration-300 hover:cursor-pointer hover:bg-reddit-hover-gray"
                   key={index}
                 >
                   <span> {row.icon} </span>
-                  <span className="text-reddit-placeholder-gray">
-                    {' '}
-                    {row.label}{' '}
-                  </span>
+                  <span className="text-reddit-placeholder-gray"> {row.label} </span>
                 </div>
               ))}
             </section>
@@ -243,20 +224,12 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
 
         <div className="flex items-center py-5">
           <div className="flex-grow border-t border-gray-100"></div>
-          <span className="flex justify-end flex-shrink ml-4 text-white">
-            {' '}
-            {comments?.length} comments{' '}
-          </span>
+          <span className="ml-4 flex flex-shrink justify-end text-white"> {comments?.length} comments </span>
         </div>
 
         <>
           {commentData?.map((comment, index) => (
-            <CommentCard
-              _id={comment}
-              postAuthor={author || ''}
-              showReply={true}
-              key={index}
-            />
+            <CommentCard _id={comment} postAuthor={author || ''} showReply={true} key={index} />
           ))}
         </>
       </section>

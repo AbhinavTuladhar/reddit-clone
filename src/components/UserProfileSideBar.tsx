@@ -29,19 +29,10 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
   const { data } = useSession()
   const currentUser = data?.user?.name
 
-  const fetcher = (url: string) =>
-    axios.get(url).then((response) => response.data)
-  const { data: userData, mutate } = useSWR<UserType>(
-    `/api/u/${userName}`,
-    fetcher
-  )
+  const fetcher = (url: string) => axios.get(url).then((response) => response.data)
+  const { data: userData, mutate } = useSWR<UserType>(`/api/u/${userName}`, fetcher)
 
-  const {
-    bio = '',
-    commentKarma = 0,
-    postKarma = 0,
-    createdAt,
-  } = userData || {}
+  const { bio = '', commentKarma = 0, postKarma = 0, createdAt } = userData || {}
 
   const [desc, setDesc] = useState<string>(bio)
   const [charactersRemaining, setCharactersRemaining] = useState(500)
@@ -93,7 +84,7 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
       {!isEditing ? (
         bio === '' ? (
           <div
-            className="flex flex-row px-2 py-1 duration-300 border border-black bg-reddit-gray hover:border-slate-100 hover:cursor-pointer"
+            className="flex flex-row border border-black bg-reddit-gray px-2 py-1 duration-300 hover:cursor-pointer hover:border-slate-100"
             onClick={toggleEditing}
           >
             <span className="tracking-tight"> Add your bio </span>
@@ -108,31 +99,21 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
                 </div>
               ))}
             </p>
-            <SlPencil
-              onClick={toggleEditing}
-              className="hover:cursor-pointer"
-            />
+            <SlPencil onClick={toggleEditing} className="hover:cursor-pointer" />
           </div>
         )
       ) : (
-        <form className="flex flex-col peer" onSubmit={handleSubmit}>
+        <form className="peer flex flex-col" onSubmit={handleSubmit}>
           <textarea
-            className="p-1 border resize-none border-reddit-gray bg-reddit-gray placeholder:text-reddit-placeholder-gray peer-focus:border-slate-100 peer-focus:border"
+            className="resize-none border border-reddit-gray bg-reddit-gray p-1 placeholder:text-reddit-placeholder-gray peer-focus:border peer-focus:border-slate-100"
             placeholder="Say something about yourself."
             value={desc}
             onChange={handleChange}
           />
-          <div className="flex justify-between p-1 mt-[1px] bg-reddit-gray peer-focus:border-slate-100">
-            <span className="text-reddit-placeholder-gray">
-              {' '}
-              {`${charactersRemaining} characters remaining`}{' '}
-            </span>
-            <div className="flex flex-row text-xs gap-x-2">
-              <button
-                className="text-red-600"
-                onClick={toggleEditing}
-                type="button"
-              >
+          <div className="mt-[1px] flex justify-between bg-reddit-gray p-1 peer-focus:border-slate-100">
+            <span className="text-reddit-placeholder-gray"> {`${charactersRemaining} characters remaining`} </span>
+            <div className="flex flex-row gap-x-2 text-xs">
+              <button className="text-red-600" onClick={toggleEditing} type="button">
                 {' '}
                 Cancel{' '}
               </button>
@@ -148,13 +129,13 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
   )
 
   return (
-    <div className="flex flex-col border rounded border-reddit-border">
-      <div className="w-full h-24 border rounded bg-reddit-blue border-reddit-border" />
-      <main className="flex flex-col p-4 bg-reddit-dark gap-y-2">
+    <div className="flex flex-col rounded border border-reddit-border">
+      <div className="h-24 w-full rounded border border-reddit-border bg-reddit-blue" />
+      <main className="flex flex-col gap-y-2 bg-reddit-dark p-4">
         <Image
           src={ProfilePic}
           alt="profile picture"
-          className="w-24 -mt-20 border-4 aspect-square border-reddit-dark"
+          className="-mt-20 aspect-square w-24 border-4 border-reddit-dark"
         />
         <span> {`u/${userName}`} </span>
 
@@ -177,22 +158,16 @@ const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
           <div className="flex flex-col gap-y-0.5">
             <h1 className="text-sm font-bold"> Karma </h1>
             <div className="flex flex-row items-center gap-x-1">
-              <PiFlowerFill className="w-4 h-4 text-reddit-blue" />
-              <span className="text-reddit-placeholder-gray">
-                {' '}
-                {effectiveKarma}{' '}
-              </span>
+              <PiFlowerFill className="h-4 w-4 text-reddit-blue" />
+              <span className="text-reddit-placeholder-gray"> {effectiveKarma} </span>
             </div>
           </div>
 
           <div className="flex flex-col gap-y-0.5">
             <h1 className="text-sm font-bold"> Cake day </h1>
             <div className="flex flex-row items-center gap-x-1">
-              <LuCake className="w-4 h-4 text-reddit-blue" />
-              <span className="text-reddit-placeholder-gray">
-                {' '}
-                {datePartFormatted}{' '}
-              </span>
+              <LuCake className="h-4 w-4 text-reddit-blue" />
+              <span className="text-reddit-placeholder-gray"> {datePartFormatted} </span>
             </div>
           </div>
         </section>

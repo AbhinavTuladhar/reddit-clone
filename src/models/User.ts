@@ -1,18 +1,18 @@
-import { Schema, model, models, InferSchemaType } from "mongoose";
+import { Schema, model, models, InferSchemaType } from 'mongoose'
 
 const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
@@ -20,7 +20,7 @@ const UserSchema = new Schema({
   },
   bio: {
     type: String,
-    default: ''
+    default: '',
   },
   postKarma: {
     type: Number,
@@ -28,38 +28,50 @@ const UserSchema = new Schema({
   },
   commentKarma: {
     type: Number,
-    default: 0
+    default: 0,
   },
   subscribedSubs: [
     {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   ],
-  posts: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Post'
-  }],
-  comments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment'
-  }],
-  upvotedPosts: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Post'
-  }],
-  downvotedPosts: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Post'
-  }],
-  upvotedComments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment'
-  }],
-  downvotedComments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment'
-  }],
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+    },
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  upvotedPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+    },
+  ],
+  downvotedPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+    },
+  ],
+  upvotedComments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  downvotedComments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 })
 
 export type UserType = InferSchemaType<typeof UserSchema>
