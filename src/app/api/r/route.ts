@@ -27,7 +27,7 @@ export const POST = async (request: NextRequest) => {
   }
 }
 
-export const GET = async (request: NextRequest) => {
+export const GET = async () => {
   // const email = request.nextUrl.searchParams.get('email') || ''
 
   const subsAndCreators = await Subreddit.find({}, { name: 1, creator: 1 })

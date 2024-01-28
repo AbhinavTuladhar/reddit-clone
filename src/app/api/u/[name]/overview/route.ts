@@ -59,12 +59,12 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     const combinedPostsComments = [...flaggedComments, ...flaggedPosts].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).slice(+offset, +offset + +limit)
 
     const foundCommentsNew = combinedPostsComments.filter(content => content.type === 'comment').map(comment => {
-      const { type, ...rest } = comment
+      const { ...rest } = comment
       return { ...rest }
     })
 
     const foundPostsNew = combinedPostsComments.filter(content => content.type === 'post').map(post => {
-      const { type, ...rest } = post
+      const { ...rest } = post
       return { ...rest }
     })
 
@@ -104,6 +104,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       }))
     ]
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     combinedArray.sort((a, b) => b.createdAt - a.createdAt);
 

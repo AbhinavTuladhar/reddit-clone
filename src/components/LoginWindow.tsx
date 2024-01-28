@@ -4,26 +4,22 @@ import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { ModalProps } from '@/types/types'
 import { RxCross2 } from 'react-icons/rx'
-import BorderDivider from './BorderDivider'
 import { useRouter } from 'next/navigation'
 
-const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
+const LoginWindow: React.FC<ModalProps> = ({ setModalState }) => {
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
-    password: ''
+    password: '',
   })
 
-  const handleGoogleSignIn = async () => {
-    await signIn('google')
-    setModalState('closed')
-  }
-
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { target: { name, value } } = event
-    setFormData(prevState => ({
+    const {
+      target: { name, value },
+    } = event
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }))
   }
 
@@ -37,12 +33,15 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   return (
     <>
       <RxCross2
-        className='absolute top-0 right-0 mt-4 mr-4 hover:cursor-pointer'
+        className="absolute right-0 top-0 mr-4 mt-4 hover:cursor-pointer"
         onClick={() => setModalState('closed')}
       />
-      <div className='flex flex-col gap-y-2 mb-4'>
-        <span className='text-xl font-bold'> Login </span>
-        <span className='text-sm'> By continuing, you are setting up a Reddit account and agree to our User Agreement and Privacy Policy. </span>
+      <div className="mb-4 flex flex-col gap-y-2">
+        <span className="text-xl font-bold"> Login </span>
+        <span className="text-sm">
+          {' '}
+          By continuing, you are setting up a Reddit account and agree to our User Agreement and Privacy Policy.{' '}
+        </span>
       </div>
       {/* <div
         className='w-full py-2 flex justify-center items-center border-[1px] border-gray-300 rounded-full my-4 hover:cursor-pointer hover:bg-gray-900'
@@ -51,28 +50,36 @@ const LoginWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
         Continue with Google
       </div>
       <BorderDivider /> */}
-      <form className='flex flex-col w-full gap-y-4' onSubmit={handleSubmit}>
+      <form className="flex w-full flex-col gap-y-4" onSubmit={handleSubmit}>
         <input
-          type='text'
-          className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
-          name='name'
+          type="text"
+          className="w-full rounded-full border-[1px] border-gray-300 p-3 text-black"
+          name="name"
           value={formData.name}
-          placeholder='name'
+          placeholder="name"
           onChange={handleFormChange}
         />
         <input
-          type='password'
-          className='w-full border-gray-300 border-[1px] rounded-full p-3 text-black'
-          name='password'
+          type="password"
+          className="w-full rounded-full border-[1px] border-gray-300 p-3 text-black"
+          name="password"
           value={formData.password}
-          placeholder='Password'
+          placeholder="Password"
           onChange={handleFormChange}
         />
-        <button className='w-full py-3 text-sm text-white rounded-full bg-reddit-orange hover:brightness-110'> Log In </button>
+        <button className="w-full rounded-full bg-reddit-orange py-3 text-sm text-white hover:brightness-110">
+          {' '}
+          Log In{' '}
+        </button>
       </form>
-      <div className='my-2'>
+      <div className="my-2">
         <span> New to Reddit? </span>
-        <span className='font-bold text-blue-500 underline hover:text-red-500 hover:cursor-pointer' onClick={() => setModalState('signup')}>Sign up!</span>
+        <span
+          className="font-bold text-blue-500 underline hover:cursor-pointer hover:text-red-500"
+          onClick={() => setModalState('signup')}
+        >
+          Sign up!
+        </span>
       </div>
     </>
   )

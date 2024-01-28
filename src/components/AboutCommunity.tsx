@@ -24,7 +24,7 @@ function formatDate(inputDate: string) {
 
 const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
   const session = useSession()
-  const { status, data: sessionData } = session
+  const { data: sessionData } = session
   const userName = sessionData?.user?.name || ''
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -82,7 +82,7 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
       {!isEditing ? (
         description === '' ? (
           <div
-            className="flex flex-row px-2 py-1 duration-300 border border-black bg-reddit-gray hover:border-slate-100 hover:cursor-pointer"
+            className="flex flex-row border border-black bg-reddit-gray px-2 py-1 duration-300 hover:cursor-pointer hover:border-slate-100"
             onClick={toggleEditing}
           >
             <span className="tracking-tight"> Add a description</span>
@@ -97,31 +97,21 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
                 </div>
               ))}
             </p>
-            <SlPencil
-              onClick={toggleEditing}
-              className="hover:cursor-pointer"
-            />
+            <SlPencil onClick={toggleEditing} className="hover:cursor-pointer" />
           </div>
         )
       ) : (
-        <form className="flex flex-col peer" onSubmit={handleSubmit}>
+        <form className="peer flex flex-col" onSubmit={handleSubmit}>
           <textarea
-            className="p-1 border resize-none border-reddit-gray bg-reddit-gray placeholder:text-reddit-placeholder-gray peer-focus:border-slate-100 peer-focus:border"
+            className="resize-none border border-reddit-gray bg-reddit-gray p-1 placeholder:text-reddit-placeholder-gray peer-focus:border peer-focus:border-slate-100"
             placeholder="Tell us about your community"
             value={desc}
             onChange={handleChange}
           />
-          <div className="flex justify-between p-1 mt-[1px] bg-reddit-gray peer-focus:border-slate-100">
-            <span className="text-reddit-placeholder-gray">
-              {' '}
-              {`${charactersRemaining} characters remaining`}{' '}
-            </span>
-            <div className="flex flex-row text-xs gap-x-2">
-              <button
-                className="text-red-600"
-                onClick={toggleEditing}
-                type="button"
-              >
+          <div className="mt-[1px] flex justify-between bg-reddit-gray p-1 peer-focus:border-slate-100">
+            <span className="text-reddit-placeholder-gray"> {`${charactersRemaining} characters remaining`} </span>
+            <div className="flex flex-row gap-x-2 text-xs">
+              <button className="text-red-600" onClick={toggleEditing} type="button">
                 {' '}
                 Cancel{' '}
               </button>
@@ -137,10 +127,8 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
   )
 
   return (
-    <main className="flex flex-col p-2 border rounded bg-reddit-dark gap-y-2 border-reddit-border">
-      <h3 className="text-base tracking-tight text-reddit-placeholder-gray">
-        About Community
-      </h3>
+    <main className="flex flex-col gap-y-2 rounded border border-reddit-border bg-reddit-dark p-2">
+      <h3 className="text-base tracking-tight text-reddit-placeholder-gray">About Community</h3>
       {creator !== userName ? (
         <p>
           {descriptionParts.map((part: string, index) => (
@@ -153,18 +141,13 @@ const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
       ) : (
         <>{editableDescription}</>
       )}
-      <div className="flex flex-row items-center pb-2 border-b gap-x-2 border-reddit-border">
-        <LuCake className="w-6 h-6 text-white" />
-        <span className="text-reddit-placeholder-gray">
-          {`Created on ${datePartFormatted}`}
-        </span>
+      <div className="flex flex-row items-center gap-x-2 border-b border-reddit-border pb-2">
+        <LuCake className="h-6 w-6 text-white" />
+        <span className="text-reddit-placeholder-gray">{`Created on ${datePartFormatted}`}</span>
       </div>
       <div className="flex flex-col gap-y-0">
         <h1 className="text-lg font-bold"> {subscribers.length} </h1>
-        <small className="text-xs text-reddit-placeholder-gray">
-          {' '}
-          members{' '}
-        </small>
+        <small className="text-xs text-reddit-placeholder-gray"> members </small>
       </div>
     </main>
   )

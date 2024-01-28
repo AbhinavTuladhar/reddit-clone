@@ -25,8 +25,7 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
   }
 }
 
-export const PATCH = async (request: NextRequest, params: RequestParams) => {
-  const { params: { name } } = params
+export const PATCH = async (request: NextRequest) => {
   const body: SubDescChangeBody = await request.json()
 
   const { name: subName, description } = body

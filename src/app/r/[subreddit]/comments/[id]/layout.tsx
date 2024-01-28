@@ -1,5 +1,4 @@
 import React from 'react'
-import type { Metadata } from 'next'
 import { PostType } from '@/types/types';
 
 interface CommentParams {

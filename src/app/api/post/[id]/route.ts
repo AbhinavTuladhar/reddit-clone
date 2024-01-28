@@ -81,7 +81,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
 
 
     // Disable changing the vote count if the up/downvoer and the author of the post are the same,
-    if (user === author) { }
+    if (user === author) { /* empty */ }
 
     // Case 2: Upvoted, click upvote again.
     else if (foundPost.upvotedBy.includes(user) && voteTarget === 'nonvoted') {

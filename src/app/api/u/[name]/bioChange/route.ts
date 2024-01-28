@@ -3,14 +3,7 @@ import { connectDatabase } from "@/utils/db";
 import User from "@/models/User";
 import { UserBioChangeBody } from "@/types/types";
 
-interface RequestParams {
-  params: {
-    name: string
-  }
-}
-
-export const PATCH = async (request: NextRequest, params: RequestParams) => {
-  const { params: { name } } = params
+export const PATCH = async (request: NextRequest) => {
   const requestBody: UserBioChangeBody = await request.json()
 
   const { bio, name: userName } = requestBody

@@ -6,7 +6,6 @@ import { CgArrowTopRightO } from 'react-icons/cg'
 import { BsChatDots } from 'react-icons/bs'
 import { VscBell } from 'react-icons/vsc'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { IconType } from 'react-icons'
 import { Tooltip } from 'react-tooltip'
 import ModalContainer from './ModalContainer'
 import SubCreationWindow from './SubCreationWindow'
@@ -19,21 +18,21 @@ const IconGroup: React.FC<IconProps> = ({ mutateData }) => {
   const [subCreationFlag, setSubCreationFlag] = useState(false)
 
   const handleModalView = () => {
-    setSubCreationFlag(prevState => !prevState)
+    setSubCreationFlag((prevState) => !prevState)
   }
 
   const className = 'w-8 h-8 p-1 hover:cursor-pointer hover:bg-reddit-hover-gray'
   return (
     <>
-      <ModalContainer visibilityFlag={subCreationFlag} containerClassName='w-5/6 mx-auto'>
+      <ModalContainer visibilityFlag={subCreationFlag} containerClassName="w-5/6 mx-auto">
         <SubCreationWindow handleModalView={handleModalView} mutateData={mutateData} />
       </ModalContainer>
-      <div className='sm:flex sm:flex-row sm:gap-x-1.5 hidden'>
-        <CgArrowTopRightO id='createSub' className={className} onClick={handleModalView} />
-        <BsChatDots id='chats' className={`${className} hidden sm:block`} />
-        <VscBell id='notifications' className={className} />
-        <Link href='/submit'>
-          <AiOutlinePlus id='createPost' className={className} />
+      <div className="hidden sm:flex sm:flex-row sm:gap-x-1.5">
+        <CgArrowTopRightO id="createSub" className={className} onClick={handleModalView} />
+        <BsChatDots id="chats" className={`${className} hidden sm:block`} />
+        <VscBell id="notifications" className={className} />
+        <Link href="/submit">
+          <AiOutlinePlus id="createPost" className={className} />
         </Link>
       </div>
       <Tooltip anchorSelect="#createSub" place="bottom">

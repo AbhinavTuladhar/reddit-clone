@@ -42,8 +42,8 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       { _id: 1, createdAt: 1 }
     ).sort({ createdAt: -1 }).skip(+offset).limit(+limit)
 
-    const upvotedPostIds = upvotedPosts.map((post: any) => post._id)
-    const downvotedPostIds = downvotedPosts.map((post: any) => post._id)
+    const upvotedPostIds = upvotedPosts.map((post) => post._id)
+    const downvotedPostIds = downvotedPosts.map((post) => post._id)
 
     const votedResponse = {
       upvotedIds: upvotedPostIds,

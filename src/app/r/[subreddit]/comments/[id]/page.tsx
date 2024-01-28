@@ -15,7 +15,6 @@ import useSWR from 'swr'
 import classnames from 'classnames'
 import calculateDateString from '@/utils/calculateDateString'
 import AboutCommunity from '@/components/AboutCommunity'
-import { BsThreeDots } from 'react-icons/bs'
 import useVote from '@/hooks/useVote'
 
 interface SubredditCommentParams {

@@ -61,7 +61,7 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
     // For the TS compiler
 
     // Do nothing if the comment author and the up/down voter is the same
-    if (user === author) { }
+    if (user === author) { /* empty */ }
 
     // Case 4: Upvoted, click on downvote
     else if ((foundComment.upvotedBy.includes(user)) && voteTarget === 'downvoted') {
