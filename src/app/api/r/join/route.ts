@@ -18,6 +18,15 @@ export const PATCH = async (request: NextRequest) => {
     // Find the concerned subreddit
     const foundSub = await Subreddit.findOne({ name: subreddit })
 
+    // Worshipping the compiler
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+    }
+
+    if (!foundSub) {
+      return new NextResponse(JSON.stringify({ error: "Subreddit not found" }), { status: 501 })
+    }
+
     // Check if the user has joined the sub.
     // If so remove the username from the Subreddit collection and the subreedit from UserNmae collection.
     if (foundUser.subscribedSubs.includes(subreddit)) {

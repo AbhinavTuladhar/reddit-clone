@@ -29,6 +29,10 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       }
     )
 
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+    }
+
     const foundComments = await Comment.find(
       { _id: { $in: foundUser.comments } },
       { _id: 1, createdAt: 1, post: 1 }
@@ -48,6 +52,9 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
         const obj = post.toObject()
         return obj1.post.toString() === obj._id.toString()
       })
+
+      if (!matchingObj) return {}
+
       return {
         postAuthor: matchingObj.author, postSubreddit: matchingObj.subreddit, postTitle: matchingObj.title, postId: matchingObj._id,
         _id: obj1._id, createdAt: obj1.createdAt

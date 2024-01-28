@@ -28,6 +28,10 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       }
     )
 
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+    }
+
     const upvotedPosts = await Post.find(
       { _id: { $in: foundUser.upvotedPosts } },
       { _id: 1, createdAt: 1 }

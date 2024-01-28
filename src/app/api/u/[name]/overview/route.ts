@@ -29,6 +29,10 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       }
     )
 
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+    }
+
     // Find all the posts and comments made by the user.
     const foundPosts = await Post.find(
       { _id: { $in: foundUser.posts } },
@@ -52,7 +56,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     }))
 
     // Combine the posts and comments into one array, and then apply offset and limits.
-    const combinedPostsComments = [...flaggedPosts, ...flaggedComments].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).slice(+offset, +offset + +limit)
+    const combinedPostsComments = [...flaggedComments, ...flaggedPosts].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).slice(+offset, +offset + +limit)
 
     const foundCommentsNew = combinedPostsComments.filter(content => content.type === 'comment').map(comment => {
       const { type, ...rest } = comment
@@ -64,7 +68,11 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       return { ...rest }
     })
 
-    const postIdsOfCommentedPosts = foundCommentsNew.map(comment => comment.post)
+    const postIdsOfCommentedPosts = foundCommentsNew.map(comment => {
+      if ('post' in comment) {
+        return comment.post
+      }
+    })
 
     const postsCommentedIn = await Post.find(
       { _id: { $in: postIdsOfCommentedPosts } },
@@ -74,8 +82,13 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     // This array of objects contains the comment id, and some details of the post.
     const properCommentData = foundCommentsNew.map(obj1 => {
       const matchingObj = postsCommentedIn.find(obj => {
-        return obj1.post.toString() === obj._id.toString()
+        if ('post' in obj1) {
+          return obj1.post.toString() === obj._id.toString()
+        }
       })
+
+      if (!matchingObj) return {}
+
       return {
         postAuthor: matchingObj.author, postSubreddit: matchingObj.subreddit, postTitle: matchingObj.title, postId: matchingObj._id,
         _id: obj1._id, createdAt: obj1.createdAt
@@ -90,6 +103,8 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
         postSubreddit: comment.postSubreddit, postTitle: comment.postTitle, postId: comment.postId
       }))
     ]
+
+    // @ts-ignore
     combinedArray.sort((a, b) => b.createdAt - a.createdAt);
 
     return new NextResponse(JSON.stringify(combinedArray, null, 2), { status: 201 })

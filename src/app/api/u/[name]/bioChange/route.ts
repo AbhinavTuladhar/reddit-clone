@@ -23,6 +23,10 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       { bio: bio }
     )
 
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+    }
+
     await foundUser.save()
 
     return new NextResponse(JSON.stringify(foundUser), { status: 201 })

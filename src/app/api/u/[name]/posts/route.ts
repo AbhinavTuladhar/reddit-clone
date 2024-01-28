@@ -28,6 +28,10 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       }
     )
 
+    if (!foundUser) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), { status: 501 })
+    }
+
     // Find all the posts and comments made by the user.
     const foundPosts = await Post.find(
       { _id: { $in: foundUser.posts } },

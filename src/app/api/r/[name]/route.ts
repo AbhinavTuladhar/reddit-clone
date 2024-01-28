@@ -40,6 +40,10 @@ export const PATCH = async (request: NextRequest, params: RequestParams) => {
       { description: description }
     )
 
+    if (!foundSubreddit) {
+      return new NextResponse(JSON.stringify({ error: "Subreddit not found" }), { status: 501 })
+    }
+
     await foundSubreddit.save()
 
     return new NextResponse(JSON.stringify(foundSubreddit), { status: 201 })
