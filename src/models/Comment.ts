@@ -50,5 +50,5 @@ const CommentSchema = new Schema({
 
 export type CommentType = InferSchemaType<typeof CommentSchema>
 
-const Comment: Model<CommentType> = model<CommentType>('Comment', CommentSchema) || models.Comment
+const Comment: Model<CommentType> = models.Comment || model<CommentType>('Comment', CommentSchema)
 export default Comment
