@@ -3,14 +3,16 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import axios from 'axios'
-import useSWR from 'swr'
-import { UserType } from '@/types/types'
+import { useRouter } from 'next/navigation'
 import { signOut } from 'next-auth/react'
+import axios from 'axios'
 import { PiCaretDown } from 'react-icons/pi'
 import { PiFlowerFill } from 'react-icons/pi'
+import useSWR from 'swr'
+
+import { UserType } from '@/types/types'
+
 import Profile from '../images/reddit_default_pp.png'
-import { useRouter } from 'next/navigation'
 
 interface UserOptionsProps {
   userName: string | null | undefined

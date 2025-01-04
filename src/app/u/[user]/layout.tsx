@@ -1,4 +1,5 @@
 import React from 'react'
+
 import ProfileNavigation from '@/components/ProfileNavigation'
 import UserProfileSideBar from '@/components/UserProfileSideBar'
 

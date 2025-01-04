@@ -1,21 +1,23 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
-import { FaRegCommentAlt } from 'react-icons/fa'
-import { PiShareFatBold } from 'react-icons/pi'
-import { FiBookmark } from 'react-icons/fi'
+import { useSession } from 'next-auth/react'
+import classnames from 'classnames'
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
-import useSWR from 'swr'
-import classnames from 'classnames'
-import { useSession } from 'next-auth/react'
 import { BsFlag } from 'react-icons/bs'
+import { FaRegCommentAlt } from 'react-icons/fa'
+import { FiBookmark } from 'react-icons/fi'
+import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
+import { PiShareFatBold } from 'react-icons/pi'
+import useSWR from 'swr'
+
+import useVote from '@/hooks/useVote'
 import { PostType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString'
+
 import IconWithText from './IconWithText'
-import useVote from '@/hooks/useVote'
 
 interface PostProps {
   /** The id of the post. */

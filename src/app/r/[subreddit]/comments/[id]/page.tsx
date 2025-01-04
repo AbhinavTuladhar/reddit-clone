@@ -1,21 +1,22 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
-import { PostType, voteStatus } from '@/types/types'
-import { Types } from 'mongoose'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import axios from 'axios'
+import classnames from 'classnames'
+import { Types } from 'mongoose'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { FiGift } from 'react-icons/fi'
+import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 import { PiShareFatBold } from 'react-icons/pi'
-import { useSession } from 'next-auth/react'
-import CommentCard from '@/components/CommentCard'
 import useSWR from 'swr'
-import classnames from 'classnames'
-import calculateDateString from '@/utils/calculateDateString'
+
 import AboutCommunity from '@/components/AboutCommunity'
+import CommentCard from '@/components/CommentCard'
 import useVote from '@/hooks/useVote'
+import { PostType, voteStatus } from '@/types/types'
+import calculateDateString from '@/utils/calculateDateString'
 
 interface SubredditCommentParams {
   params: {

@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { RxCross2 } from 'react-icons/rx'
-import { AiOutlineArrowLeft } from 'react-icons/ai'
-import { ModalProps } from '@/types/types'
 import axios from 'axios'
+import { AiOutlineArrowLeft } from 'react-icons/ai'
+import { RxCross2 } from 'react-icons/rx'
+
+import { ModalProps } from '@/types/types'
 
 const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   type SignUpPage = 'Page 1' | 'Page 2'

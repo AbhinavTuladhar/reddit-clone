@@ -1,8 +1,9 @@
-import { NextResponse, NextRequest } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+import { NextRequest, NextResponse } from 'next/server'
+import { Document } from 'mongodb'
+
 import Subreddit from '@/models/Subreddit'
 import User from '@/models/User'
-import { Document } from 'mongodb'
+import { connectDatabase } from '@/utils/db'
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json()

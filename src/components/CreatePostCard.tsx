@@ -1,6 +1,7 @@
 import React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
+
 import Profile from '../images/reddit_default_pp.png'
 
 const CreatePostCard = () => {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+
 import Post from '@/models/Post'
+import { connectDatabase } from '@/utils/db'
 
 export const GET = async (request: NextRequest) => {
   const offset = request.nextUrl.searchParams.get('offset') || 0

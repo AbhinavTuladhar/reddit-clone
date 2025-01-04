@@ -1,14 +1,16 @@
 'use client'
 
 import React, { useState } from 'react'
-import { voteStatus } from '@/types/types'
-import { BsThreeDots, BsTrash } from 'react-icons/bs'
-import { SlPencil } from 'react-icons/sl'
-import { PiArrowFatUpFill, PiArrowFatDownFill } from 'react-icons/pi'
 import classnames from 'classnames'
+import { BsThreeDots, BsTrash } from 'react-icons/bs'
+import { BsFlag } from 'react-icons/bs'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { FiBookmark } from 'react-icons/fi'
-import { BsFlag } from 'react-icons/bs'
+import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
+import { SlPencil } from 'react-icons/sl'
+
+import { voteStatus } from '@/types/types'
+
 import IconWithText from './IconWithText'
 
 interface CommentActionProps {

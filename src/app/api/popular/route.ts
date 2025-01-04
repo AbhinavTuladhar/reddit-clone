@@ -1,8 +1,9 @@
 // An API endpoint for displaying the top 5 subreddits by the number of members.
 
 import { NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+
 import Subreddit from '@/models/Subreddit'
+import { connectDatabase } from '@/utils/db'
 
 export const GET = async () => {
   try {

@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import PostSubredditSelector from '@/components/PostSubredditSelector'
-import PostingRules from '@/components/PostingRules'
 import axios from 'axios'
 import useSWR from 'swr'
+
+import PostingRules from '@/components/PostingRules'
+import PostSubredditSelector from '@/components/PostSubredditSelector'
 
 interface SubListResponse {
   name: string

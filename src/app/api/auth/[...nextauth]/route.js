@@ -1,9 +1,10 @@
 import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { connectDatabase } from '@/utils/db'
-import User from '@/models/User'
+import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
+
+import User from '@/models/User'
+import { connectDatabase } from '@/utils/db'
 
 const googleClientId = process.env.GOOGLE_CLIENT_ID
 const googleSecretId = process.env.GOOGLE_CLIENT_SECRET

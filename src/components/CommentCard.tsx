@@ -1,15 +1,18 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import useSWR from 'swr'
-import Profile from '../images/reddit_default_pp.png'
-import { CommentType, voteStatus, CommentEditBody } from '@/types/types'
+
+import { CommentEditBody, CommentType, voteStatus } from '@/types/types'
 import calculateDateString from '@/utils/calculateDateString'
+
 import useVote from '../hooks/useVote'
+import Profile from '../images/reddit_default_pp.png'
+
 import CommentActions from './CommentActions'
 import ReplyForm from './ReplyForm'
 

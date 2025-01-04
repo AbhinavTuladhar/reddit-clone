@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { ContentId } from '@/types/types'
-import PostCard from '@/components/PostCard'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component'
+
 import LoadingRow from '@/components/LoadingRow'
+import PostCard from '@/components/PostCard'
+import { ContentId } from '@/types/types'
 
 interface UserParams {
   params: {

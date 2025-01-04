@@ -1,16 +1,18 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
-import ProfilePic from '../images/profile_pic.png'
-import { UserType } from '@/types/types'
-import { PiFlowerFill } from 'react-icons/pi'
+import axios from 'axios'
 import { LuCake } from 'react-icons/lu'
-import { UserBioChangeBody } from '@/types/types'
+import { PiFlowerFill } from 'react-icons/pi'
 import { SlPencil } from 'react-icons/sl'
+import useSWR from 'swr'
+
+import { UserType } from '@/types/types'
+import { UserBioChangeBody } from '@/types/types'
+
+import ProfilePic from '../images/profile_pic.png'
 
 function formatDate(inputDate: string) {
   const date = new Date(inputDate)

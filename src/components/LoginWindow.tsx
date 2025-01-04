@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { ModalProps } from '@/types/types'
-import { RxCross2 } from 'react-icons/rx'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { RxCross2 } from 'react-icons/rx'
+
+import { ModalProps } from '@/types/types'
 
 const LoginWindow: React.FC<ModalProps> = ({ setModalState }) => {
   const router = useRouter()

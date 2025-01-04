@@ -1,8 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+
 import Banner from '../images/home_banner.png'
 import Snoo from '../images/Snoo.png'
-import Link from 'next/link'
 
 const HomeSidebar = () => {
   return (

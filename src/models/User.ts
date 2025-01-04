@@ -1,4 +1,4 @@
-import { Schema, model, InferSchemaType } from 'mongoose'
+import { InferSchemaType, model, Schema } from 'mongoose'
 
 const UserSchema = new Schema({
   name: {
@@ -76,4 +76,5 @@ const UserSchema = new Schema({
 
 export type UserType = InferSchemaType<typeof UserSchema>
 
+// export default models.User || model<UserType>('User', UserSchema)
 export default model<UserType>('User', UserSchema)
