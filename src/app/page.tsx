@@ -1,14 +1,15 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import CreatePostCard from '@/components/CreatePostCard'
-import PostCard from '@/components/PostCard'
-import HomeSidebar from '@/components/HomeSidebar'
-import PopularCommunities from '@/components/PopularCommunities'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
+import CreatePostCard from '@/components/CreatePostCard'
+import HomeSidebar from '@/components/HomeSidebar'
 import LoadingRow from '@/components/LoadingRow'
+import PopularCommunities from '@/components/PopularCommunities'
+import PostCard from '@/components/PostCard'
 
 export default function Home() {
   const [postIds, setPostIds] = useState<string[]>([])

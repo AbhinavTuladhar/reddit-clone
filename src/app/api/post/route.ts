@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+
 import Post from '@/models/Post'
 import Subreddit from '@/models/Subreddit'
 import User from '@/models/User'
+import { connectDatabase } from '@/utils/db'
 
 export const POST = async (request: NextRequest) => {
   const requestBody = await request.json()

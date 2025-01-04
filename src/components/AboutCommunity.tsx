@@ -1,13 +1,14 @@
 'use client'
 
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
-import { SubredditType } from '@/types/types'
+import axios from 'axios'
 import { LuCake } from 'react-icons/lu'
 import { SlPencil } from 'react-icons/sl'
+import useSWR from 'swr'
+
+import { SubredditType } from '@/types/types'
 import { SubDescChangeBody } from '@/types/types'
-import axios from 'axios'
 
 interface CommunityProps {
   subName: string

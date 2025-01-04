@@ -1,8 +1,9 @@
-import { NextResponse, NextRequest } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+import { NextRequest, NextResponse } from 'next/server'
+
 import Subreddit from '@/models/Subreddit'
 import User from '@/models/User'
 import { JoinSubBody } from '@/types/types'
+import { connectDatabase } from '@/utils/db'
 
 export const PATCH = async (request: NextRequest) => {
   const body: JoinSubBody = await request.json()

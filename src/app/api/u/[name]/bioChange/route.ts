@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+
 import User from '@/models/User'
 import { UserBioChangeBody } from '@/types/types'
+import { connectDatabase } from '@/utils/db'
 
 export const PATCH = async (request: NextRequest) => {
   const requestBody: UserBioChangeBody = await request.json()

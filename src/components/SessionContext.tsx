@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, ReactNode } from 'react'
-import { useSession, SessionContextValue } from 'next-auth/react'
+import { SessionContextValue, useSession } from 'next-auth/react'
 
 // Define the type for the context value based on the Session type from next-auth
 interface SessionContextType {

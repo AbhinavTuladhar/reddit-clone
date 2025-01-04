@@ -1,11 +1,12 @@
 // Get the information about the comment having id of [id]
 
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+import { Types } from 'mongoose'
+
 import Comment from '@/models/Comment'
 import User from '@/models/User'
 import { VotingRequestBody } from '@/types/types'
-import { Types } from 'mongoose'
+import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {
   params: {

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
-import User from '@/models/User'
-import Post from '@/models/Post'
+
 import Comment from '@/models/Comment'
+import Post from '@/models/Post'
+import User from '@/models/User'
+import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {
   params: {

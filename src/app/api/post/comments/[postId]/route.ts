@@ -1,8 +1,9 @@
 // This is for fetching all the comments in a post with id of [postId]
 
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
+
 import Comment from '@/models/Comment'
+import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {
   params: {

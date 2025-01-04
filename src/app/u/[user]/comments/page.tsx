@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import CommentHeader from '@/components/CommentHeader'
-import CommentCard from '@/components/CommentCard'
-import { SpecificContentId } from '@/types/types'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import LoadingRow from '@/components/LoadingRow'
 import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
+import CommentCard from '@/components/CommentCard'
+import CommentHeader from '@/components/CommentHeader'
+import LoadingRow from '@/components/LoadingRow'
+import { SpecificContentId } from '@/types/types'
 
 interface UserParams {
   params: {

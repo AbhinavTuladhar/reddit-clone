@@ -2,19 +2,21 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { SiReddit } from 'react-icons/si'
 import { useSession } from 'next-auth/react'
-import useSWR from 'swr'
-import Subreddit from './Subreddit'
-import Searchbar from './Searchbar'
-import IconGroup from './IconGroup'
-import ModalContainer from './ModalContainer'
-import LoginWindow from './LoginWindow'
-import SignupWindow from './SignupWindow'
-import UserOptions from './UserOptions'
-import { ModalStateType } from '@/types/types'
 import { GiMegaphone } from 'react-icons/gi'
+import { SiReddit } from 'react-icons/si'
+import useSWR from 'swr'
+
+import { ModalStateType } from '@/types/types'
+
+import IconGroup from './IconGroup'
 import Loader from './Loader'
+import LoginWindow from './LoginWindow'
+import ModalContainer from './ModalContainer'
+import Searchbar from './Searchbar'
+import SignupWindow from './SignupWindow'
+import Subreddit from './Subreddit'
+import UserOptions from './UserOptions'
 
 interface SubListResponse {
   name: string

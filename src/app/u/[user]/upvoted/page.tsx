@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
+import LoadingRow from '@/components/LoadingRow'
 import PostCard from '@/components/PostCard'
 import { VotedPostsResponse } from '@/types/types'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import LoadingRow from '@/components/LoadingRow'
 
 interface UserParams {
   params: {

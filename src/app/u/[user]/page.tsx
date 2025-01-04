@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { SpecificContentId } from '@/types/types'
-import CommentCard from '@/components/CommentCard'
-import PostCard from '@/components/PostCard'
-import CommentHeader from '@/components/CommentHeader'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component'
+
+import CommentCard from '@/components/CommentCard'
+import CommentHeader from '@/components/CommentHeader'
 import LoadingRow from '@/components/LoadingRow'
+import PostCard from '@/components/PostCard'
+import { SpecificContentId } from '@/types/types'
 
 interface UserParams {
   params: {

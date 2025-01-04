@@ -1,4 +1,4 @@
-import { Schema, model, InferSchemaType } from 'mongoose'
+import { InferSchemaType, model, Schema } from 'mongoose'
 
 const CommentSchema = new Schema({
   content: { type: String, required: true },
@@ -50,4 +50,5 @@ const CommentSchema = new Schema({
 
 export type CommentType = InferSchemaType<typeof CommentSchema>
 
+// export default models.Comment || model<CommentType>('Comment', CommentSchema)
 export default model<CommentType>('Comment', CommentSchema)

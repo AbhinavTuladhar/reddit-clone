@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDatabase } from '@/utils/db'
-import User from '@/models/User'
-import Post from '@/models/Post'
+
 import Comment from '@/models/Comment'
+import Post from '@/models/Post'
+import User from '@/models/User'
+import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {
   params: {
@@ -120,9 +121,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       })),
     ]
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    combinedArray.sort((a, b) => b.createdAt - a.createdAt)
+    combinedArray.sort((a, b) => Number(b?.createdAt) - Number(a?.createdAt))
 
     return new NextResponse(JSON.stringify(combinedArray, null, 2), { status: 201 })
   } catch (error) {

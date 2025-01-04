@@ -1,11 +1,12 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import axios from 'axios'
 import useSWR from 'swr'
-import Image from 'next/image'
+
 import SubredditIcon from '../images/subreddit_icon.png'
-import Link from 'next/link'
 
 interface PopularSubsType {
   name: string

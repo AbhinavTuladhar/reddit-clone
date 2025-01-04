@@ -1,19 +1,21 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { SubredditType, PostType } from '@/types/types'
-import PostCard from '@/components/PostCard'
-import SubIcon from '../../../images/subreddit_icon.png'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import formatSubName from '@/utils/formatSubName'
-import CreatePostCard from '@/components/CreatePostCard'
-import AboutCommunity from '@/components/AboutCommunity'
 import { useSession } from 'next-auth/react'
-import useSWR from 'swr'
 import axios from 'axios'
-import { JoinSubBody } from '@/types/types'
 import classnames from 'classnames'
 import { Types } from 'mongoose'
+import useSWR from 'swr'
+
+import AboutCommunity from '@/components/AboutCommunity'
+import CreatePostCard from '@/components/CreatePostCard'
+import PostCard from '@/components/PostCard'
+import { PostType, SubredditType } from '@/types/types'
+import { JoinSubBody } from '@/types/types'
+import formatSubName from '@/utils/formatSubName'
+
+import SubIcon from '../../../images/subreddit_icon.png'
 
 interface SubredditParams {
   params: {
@@ -43,7 +45,6 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
   const { data: postDetails } = useSWR<PostTypeWithId[]>(
     subInfo ? subInfo.posts.map((post) => `/api/post/${post.toString()}`) : [],
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     multiFetcher,
   )
