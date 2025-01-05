@@ -7,6 +7,7 @@ import useSWR from 'swr'
 
 import PostingRules from '@/components/PostingRules'
 import PostSubredditSelector from '@/components/PostSubredditSelector'
+import { useQuery } from '@tanstack/react-query'
 
 interface SubListResponse {
   name: string
@@ -67,6 +68,16 @@ const Page = () => {
 
   // Checking whether the post can be made or not
   const buttonDisableFlag = postData.title === '' || selectedSubreddit === placeholderSub
+
+  const { data: useQueryData } = useQuery({
+    queryKey: ['subreddit-list'],
+    queryFn: async () => {
+      const response = await axios.get('/api/r')
+      return response.data
+    },
+  })
+
+  console.log(useQueryData)
 
   return (
     <main className="mx-2 flex flex-row justify-between gap-x-6 md:mx-10 lg:mx-20">

@@ -12,6 +12,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.62.15",
     "@types/node": "20.5.7",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
@@ -40,6 +41,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.62.15",
     "@types/bcryptjs": "^2.4.5",
     "@types/react-modal": "^3.16.0",
     "eslint-plugin-react-refresh": "^0.4.5",
