@@ -40,5 +40,5 @@ const PostSchema = new Schema({
 
 export type PostType = InferSchemaType<typeof PostSchema>
 
-const Post: Model<PostType> = models.Post || model<PostType>('Post', PostSchema)
+const Post = (models.Post as Model<PostType>) || model<PostType>('Post', PostSchema)
 export default Post

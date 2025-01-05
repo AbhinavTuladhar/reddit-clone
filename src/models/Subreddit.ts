@@ -35,5 +35,5 @@ const SubredditSchema = new Schema({
 
 export type SubredditType = InferSchemaType<typeof SubredditSchema>
 
-const Subreddit: Model<SubredditType> = models.Subreddit || model<SubredditType>('Subreddit', SubredditSchema)
+const Subreddit = (models.Subreddit as Model<SubredditType>) || model<SubredditType>('Subreddit', SubredditSchema)
 export default Subreddit
