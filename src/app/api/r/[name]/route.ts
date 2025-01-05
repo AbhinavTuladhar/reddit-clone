@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import Subreddit from '@/models/Subreddit'
-import { SubDescChangeBody } from '@/types/types'
+import { SubDescChangeBody } from '@/types'
 import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {

@@ -6,7 +6,7 @@ import axios from 'axios'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { RxCross2 } from 'react-icons/rx'
 
-import { ModalProps } from '@/types/types'
+import { ModalProps } from '@/types'
 
 const SignupWindow: React.FC<ModalProps> = ({ modalState, setModalState }) => {
   type SignUpPage = 'Page 1' | 'Page 2'

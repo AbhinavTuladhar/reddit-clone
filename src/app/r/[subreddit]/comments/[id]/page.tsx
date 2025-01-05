@@ -15,7 +15,7 @@ import useSWR from 'swr'
 import AboutCommunity from '@/components/AboutCommunity'
 import CommentCard from '@/components/CommentCard'
 import useVote from '@/hooks/useVote'
-import { PostType, voteStatus } from '@/types/types'
+import { PostType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
 interface SubredditCommentParams {

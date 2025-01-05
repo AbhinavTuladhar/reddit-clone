@@ -7,8 +7,7 @@ import { LuCake } from 'react-icons/lu'
 import { SlPencil } from 'react-icons/sl'
 import useSWR from 'swr'
 
-import { SubredditType } from '@/types/types'
-import { SubDescChangeBody } from '@/types/types'
+import { SubDescChangeBody, SubredditType } from '@/types'
 
 interface CommunityProps {
   subName: string

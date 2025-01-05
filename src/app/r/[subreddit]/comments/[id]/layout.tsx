@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PostType } from '@/types/types'
+import { PostType } from '@/types'
 
 interface CommentParams {
   params: {

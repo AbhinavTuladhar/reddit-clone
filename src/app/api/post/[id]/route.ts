@@ -4,7 +4,7 @@ import { Types } from 'mongoose'
 import Comment from '@/models/Comment'
 import Post from '@/models/Post'
 import User from '@/models/User'
-import { VotingRequestBody } from '@/types/types'
+import { VotingRequestBody } from '@/types'
 import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {

@@ -8,7 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import CommentCard from '@/components/CommentCard'
 import CommentHeader from '@/components/CommentHeader'
 import LoadingRow from '@/components/LoadingRow'
-import { SpecificContentId } from '@/types/types'
+import { SpecificContentId } from '@/types'
 
 interface UserParams {
   params: {
