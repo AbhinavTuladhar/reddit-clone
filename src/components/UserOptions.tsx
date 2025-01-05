@@ -10,7 +10,7 @@ import { PiCaretDown } from 'react-icons/pi'
 import { PiFlowerFill } from 'react-icons/pi'
 import useSWR from 'swr'
 
-import { UserType } from '@/types/types'
+import { UserType } from '@/types'
 
 import Profile from '../images/reddit_default_pp.png'
 

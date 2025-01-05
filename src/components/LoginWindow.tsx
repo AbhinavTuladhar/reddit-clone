@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { RxCross2 } from 'react-icons/rx'
 
-import { ModalProps } from '@/types/types'
+import { ModalProps } from '@/types'
 
 const LoginWindow: React.FC<ModalProps> = ({ setModalState }) => {
   const router = useRouter()

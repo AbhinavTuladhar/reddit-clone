@@ -14,7 +14,7 @@ import { PiShareFatBold } from 'react-icons/pi'
 import useSWR from 'swr'
 
 import useVote from '@/hooks/useVote'
-import { PostType, voteStatus } from '@/types/types'
+import { PostType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
 import IconWithText from './IconWithText'

@@ -9,7 +9,7 @@ import { FiBookmark } from 'react-icons/fi'
 import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 import { SlPencil } from 'react-icons/sl'
 
-import { voteStatus } from '@/types/types'
+import { voteStatus } from '@/types'
 
 import IconWithText from './IconWithText'
 

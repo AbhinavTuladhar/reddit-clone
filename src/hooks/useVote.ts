@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-import { voteStatus } from '@/types/types'
+import { voteStatus } from '@/types'
 
 interface VoteProps {
   author: string | undefined

@@ -7,7 +7,7 @@ import { GiMegaphone } from 'react-icons/gi'
 import { SiReddit } from 'react-icons/si'
 import useSWR from 'swr'
 
-import { ModalStateType } from '@/types/types'
+import { ModalStateType } from '@/types'
 
 import IconGroup from './IconGroup'
 import Loader from './Loader'

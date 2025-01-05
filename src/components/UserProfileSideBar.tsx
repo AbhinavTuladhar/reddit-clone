@@ -9,8 +9,7 @@ import { PiFlowerFill } from 'react-icons/pi'
 import { SlPencil } from 'react-icons/sl'
 import useSWR from 'swr'
 
-import { UserType } from '@/types/types'
-import { UserBioChangeBody } from '@/types/types'
+import { UserBioChangeBody, UserType } from '@/types'
 
 import ProfilePic from '../images/profile_pic.png'
 

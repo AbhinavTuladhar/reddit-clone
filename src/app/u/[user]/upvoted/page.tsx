@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 import LoadingRow from '@/components/LoadingRow'
 import PostCard from '@/components/PostCard'
-import { VotedPostsResponse } from '@/types/types'
+import { VotedPostsResponse } from '@/types'
 
 interface UserParams {
   params: {

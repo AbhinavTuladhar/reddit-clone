@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import useSWR from 'swr'
 
-import { CommentEditBody, CommentType, voteStatus } from '@/types/types'
+import { CommentEditBody, CommentType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
 import useVote from '../hooks/useVote'

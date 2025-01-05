@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 import LoadingRow from '@/components/LoadingRow'
 import PostCard from '@/components/PostCard'
-import { ContentId } from '@/types/types'
+import { ContentId } from '@/types'
 
 interface UserParams {
   params: {
