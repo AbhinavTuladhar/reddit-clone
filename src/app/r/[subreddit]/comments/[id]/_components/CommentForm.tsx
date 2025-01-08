@@ -1,7 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import axios from 'axios'
 import { Types } from 'mongoose'
+
+import CommentService from '@/services/comment.service'
+import { useMutation } from '@tanstack/react-query'
 
 interface CommentFormProps {
   userName: string
@@ -9,7 +11,7 @@ interface CommentFormProps {
   refetchComments: () => void
 }
 
-export const CommentForm: React.FC<CommentFormProps> = ({ userName, postId }) => {
+export const CommentForm: React.FC<CommentFormProps> = ({ userName, postId, refetchComments }) => {
   const [comment, setComment] = React.useState<string>('')
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -19,6 +21,16 @@ export const CommentForm: React.FC<CommentFormProps> = ({ userName, postId }) =>
     setComment(value)
   }
 
+  const { mutate: createComment } = useMutation({
+    mutationFn: CommentService.createComment,
+    onSuccess: () => {
+      refetchComments()
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const requestBody = {
@@ -27,7 +39,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ userName, postId }) =>
       post: postId,
     }
 
-    await axios.post('/api/comment', requestBody)
+    createComment(requestBody)
     setComment('')
   }
 
