@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-import { PostCreateBody, PostType } from '@/types'
+import { PostCreateBody, PostWithId } from '@/types'
 
 class PostService {
   static async getPost(postId: string) {
     try {
-      const response = await axios.get<PostType>(`/api/post/${postId}`)
+      const response = await axios.get<PostWithId>(`/api/post/${postId}`)
       return response.data
     } catch (error) {
       console.error(error)
