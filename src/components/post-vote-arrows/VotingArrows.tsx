@@ -1,43 +1,50 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import classNames from 'classnames'
 import classnames from 'classnames'
+import { Types } from 'mongoose'
 import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 
-import useVote from '@/hooks/useVote'
+import useResourceVote from '@/hooks/useResourceVote'
 import { voteStatus } from '@/types'
 
 const baseIconClassName = 'flex flex-row items-center w-5 h-5 hover:cursor-pointer hover:bg-reddit-hover-gray'
 
 interface PostVoteArrowsProps {
   effectiveKarma: number
-  apiUrl: string
+  postId: Types.ObjectId
   author: string
   initialVoteStatus: voteStatus
   refetch: () => void
 }
 
 const VotingArrows: React.FC<PostVoteArrowsProps> = ({
-  apiUrl,
   author,
   effectiveKarma,
   refetch,
   initialVoteStatus,
+  postId,
 }) => {
   const session = useSession()
   const status = session?.status
   const userName = session?.data?.user?.name || ''
 
-  const { handleVoteChange, voteStatus } = useVote({
-    apiUrl,
+  const { handleVoteChange, voteStatus, setVoteStatus } = useResourceVote({
     author,
     initialVoteStatus,
-    userName,
+    refetchResource: refetch,
+    resourceId: postId,
+    resourceType: 'post',
     status,
-    mutate: refetch,
+    userName,
   })
+
+  // Change the arrow fill colours whenever the vote status changes
+  useEffect(() => {
+    setVoteStatus(initialVoteStatus)
+  }, [setVoteStatus, initialVoteStatus])
 
   return (
     <section className="flex flex-col items-center gap-y-1">
@@ -50,7 +57,7 @@ const VotingArrows: React.FC<PostVoteArrowsProps> = ({
         )}
         onClick={() => {
           handleVoteChange('upvoted')
-          console.log('clicked')
+          refetch()
         }}
       />
       <span
@@ -69,7 +76,10 @@ const VotingArrows: React.FC<PostVoteArrowsProps> = ({
           { 'text-indigo-400': voteStatus === 'downvoted' },
           'hover:text-indigo-400',
         )}
-        onClick={() => handleVoteChange('downvoted')}
+        onClick={() => {
+          handleVoteChange('downvoted')
+          refetch()
+        }}
       />
     </section>
   )

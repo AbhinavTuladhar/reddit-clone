@@ -31,14 +31,12 @@ const PostVoteArrows: React.FC<PostVoteArrowProps> = ({ postId, initialVoteStatu
   }
 
   const { author, upvotedBy, downvotedBy } = data
-  const apiUrl = `/api/post/${postId}`
-
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
 
   return (
     <VotingArrows
       effectiveKarma={effectiveKarma}
-      apiUrl={apiUrl}
+      postId={postId}
       author={author}
       refetch={refetch}
       initialVoteStatus={initialVoteStatus}

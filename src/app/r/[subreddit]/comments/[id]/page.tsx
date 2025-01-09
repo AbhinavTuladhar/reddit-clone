@@ -72,6 +72,8 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     initialVoteStatus = 'nonvoted'
   }
 
+  // setVoteStatus(initialVoteStatus)
+
   const paragraphs = body?.split('\n')
 
   const commentData = topLevelComments.map((comment) => comment.toString())
