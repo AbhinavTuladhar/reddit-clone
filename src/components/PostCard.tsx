@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import classnames from 'classnames'
+import { Types } from 'mongoose'
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
 import { BsFlag } from 'react-icons/bs'
@@ -20,9 +21,10 @@ import calculateDateString from '@/utils/calculateDateString'
 import IconWithText from './IconWithText'
 
 interface PostProps {
-  /** The id of the post. */
-  id: string
-  /** Whether to view the name of the subreddit on the post card. */
+  id: Types.ObjectId | undefined | string
+  /**
+   * Whether to view the name of the subreddit on the post card.
+   * */
   subViewFlag: boolean
 }
 

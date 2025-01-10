@@ -10,9 +10,11 @@ import useSWR from 'swr'
 
 import AboutCommunity from '@/components/AboutCommunity'
 import CreatePostCard from '@/components/CreatePostCard'
-import PostCard from '@/components/PostCard'
+import PostsList from '@/components/posts-list'
+import SubredditService from '@/services/subreddit.service'
 import { JoinSubBody, PostType, SubredditType } from '@/types'
 import formatSubName from '@/utils/formatSubName'
+import { useQuery } from '@tanstack/react-query'
 
 import SubIcon from '../../../images/subreddit_icon.png'
 
@@ -35,18 +37,22 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   const { status } = session
   const userName = session?.data?.user?.name || ''
 
+  const { data: subData } = useQuery({
+    queryKey: ['subreddit-detail', subredditName],
+    queryFn: () => SubredditService.getSubreddit(subredditName),
+  })
+
+  console.log(subData)
+
   const fetcher = (url: string) => axios.get(url).then((response) => response.data)
-  const multiFetcher = (urls: string[]) => {
-    return Promise.all(urls.map((url) => fetcher(url)))
-  }
 
   // For some reason multifethcer function all of a sudden started showing an error (:|
   const { data: subInfo, mutate: mutateSubInfo } = useSWR<SubredditType | null>(`/api/r/${subredditName}`, fetcher)
-  const { data: postDetails } = useSWR<PostTypeWithId[]>(
-    subInfo ? subInfo.posts.map((post) => `/api/post/${post.toString()}`) : [],
-    // @ts-ignore
-    multiFetcher,
-  )
+  // const { data: postDetails } = useSWR<PostTypeWithId[]>(
+  //   subInfo ? subInfo.posts.map((post) => `/api/post/${post.toString()}`) : [],
+  //   // @ts-ignore
+  //   multiFetcher,
+  // )
 
   // Check if the user has jointed the sub
   const initialJoinStatus: JoinStatusType = subInfo?.subscribers?.includes(userName) ? 'Joined' : 'Join'
@@ -103,7 +109,8 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
               <CreatePostCard />
             </div>
           )}
-          {postDetails?.map((post, index) => <PostCard id={post._id.toString()} subViewFlag={false} key={index} />)}
+          {/* {postDetails?.map((post, index) => <PostCard id={post._id.toString()} subViewFlag={false} key={index} />)} */}
+          <PostsList postIds={subInfo?.posts || []} />
         </div>
         <section className="w-full lg:w-80">
           <AboutCommunity subName={subredditName} />
