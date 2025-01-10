@@ -10,7 +10,7 @@ import { FiBookmark } from 'react-icons/fi'
 import { PiShareFatBold } from 'react-icons/pi'
 
 import useToggle from '@/hooks/useToggle'
-import { voteStatus } from '@/types'
+import { PostType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
 import IconWithText from '../IconWithText'
@@ -26,31 +26,15 @@ const extraRowIcons = [
 
 interface CardProps {
   postId: Types.ObjectId
-  author: string
-  subreddit: string
-  title: string
-  createdAt: string
-  upvotedBy: string[]
-  downvotedBy: string[]
-  comments: string[]
+  postData: PostType
   refetch: () => void
   subViewFlag?: boolean
   initialVoteStatus: voteStatus
 }
 
-const PresentationalCard: FC<CardProps> = ({
-  postId,
-  author,
-  subreddit,
-  title,
-  createdAt,
-  upvotedBy,
-  downvotedBy,
-  comments,
-  refetch,
-  initialVoteStatus,
-  subViewFlag = false,
-}) => {
+const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, initialVoteStatus, subViewFlag = false }) => {
+  const { author, subreddit, title, createdAt, upvotedBy, downvotedBy, comments } = postData
+
   const { value: isMenuOpen, toggleValue: toggleMenu } = useToggle(false)
 
   const postLink = `/r/${subreddit}/comments/${postId}`
