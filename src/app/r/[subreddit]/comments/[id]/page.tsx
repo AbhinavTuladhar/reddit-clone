@@ -49,18 +49,8 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     return <div> Post not found </div>
   }
 
-  const {
-    _id,
-    author,
-    subreddit,
-    title,
-    body,
-    createdAt = '',
-    upvotedBy = [],
-    downvotedBy = [],
-    comments,
-    topLevelComments,
-  } = postData
+  const { _id, author, subreddit, title, body, createdAt, upvotedBy, downvotedBy, comments, topLevelComments } =
+    postData
   // Check if the user is in the upvote or downvotedby list in the comment
   let initialVoteStatus: voteStatus = 'nonvoted'
 
@@ -82,7 +72,14 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     <main className="mt-4 flex flex-col gap-4 lg:flex-row">
       <section className="mx-auto flex w-full flex-1 flex-col gap-y-6 border border-reddit-border bg-reddit-dark px-2 py-4 md:px-4">
         <div className="flex flex-row gap-x-4">
-          <PostVoteArrows postId={_id} initialVoteStatus={initialVoteStatus} />
+          <PostVoteArrows
+            postId={_id}
+            initialVoteStatus={initialVoteStatus}
+            author={author}
+            upvotedBy={upvotedBy}
+            downvotedBy={downvotedBy}
+            refetch={refetch}
+          />
           <section className="flex flex-1 flex-col gap-y-2">
             <MetaData createdAt={createdAt} subreddit={subreddit} author={author} />
             <h1 className="text-xl font-bold">{title}</h1>
