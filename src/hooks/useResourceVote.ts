@@ -4,6 +4,7 @@ import { Types } from 'mongoose'
 import CommentService from '@/services/comment.service'
 import PostService from '@/services/post.service'
 import { ResourceType, voteStatus, VotingRequestBodyWithId } from '@/types'
+import updateVoteStatus from '@/utils/updateVoteStatus'
 import { useMutation } from '@tanstack/react-query'
 
 interface VoteProps {
@@ -62,7 +63,7 @@ const useResourceVote = ({
       return
     }
 
-    const updatedVoteStatus = initialVoteStatus === targetStatus ? 'nonvoted' : targetStatus
+    const updatedVoteStatus = updateVoteStatus(voteStatus, targetStatus)
     setVoteStatus(updatedVoteStatus)
 
     // Ignore the vote if the user is targeting their own post or comment
