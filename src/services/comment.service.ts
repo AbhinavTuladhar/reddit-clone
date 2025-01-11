@@ -3,6 +3,15 @@ import axios from 'axios'
 import { CommentCreationBody, CommentEditBody, CommentType, VotingRequestBodyWithId } from '@/types'
 
 class CommentService {
+  static async getComment(commentId: string) {
+    try {
+      const response = await axios.get<CommentType>(`/api/comment/${commentId}`)
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   static async getComments(postId: string) {
     try {
       const response = await axios.get<CommentType>(`/api/post/${postId}/comments`)
@@ -33,7 +42,7 @@ class CommentService {
   static async updateCommentVoteCount(body: VotingRequestBodyWithId) {
     const { resourceId: commentId, ...rest } = body
     try {
-      const response = await axios.patch(`/api/comment/${commentId}/vote`, rest)
+      const response = await axios.patch(`/api/comment/${commentId}`, rest)
       return response.data
     } catch (error) {
       console.error(error)

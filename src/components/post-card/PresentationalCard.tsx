@@ -50,6 +50,7 @@ const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, initialV
           upvotedBy={upvotedBy}
           downvotedBy={downvotedBy}
           refetch={refetch}
+          resourceType="post"
         />
       </div>
 
@@ -83,6 +84,7 @@ const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, initialV
               upvotedBy={upvotedBy}
               downvotedBy={downvotedBy}
               refetch={refetch}
+              resourceType="post"
             />
           </div>
           <IconWithText
