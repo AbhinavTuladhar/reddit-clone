@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { Types } from 'mongoose'
 
 import PostService from '@/services/post.service'
-import { voteStatus } from '@/types'
+import getVoteStatus from '@/utils/getVoteStatus'
 import { useQuery } from '@tanstack/react-query'
 
 import PresentationalCard from './PresentationalCard'
@@ -29,8 +29,6 @@ const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
     queryFn: () => PostService.getPost(postId.toString()),
   })
 
-  console.log({ postId })
-
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -39,31 +37,17 @@ const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
     return <div>Error</div>
   }
 
-  const { author, subreddit, title, createdAt, upvotedBy, downvotedBy, comments } = postData
+  const { author, upvotedBy, downvotedBy } = postData
 
-  let initialVoteStatus: voteStatus = 'nonvoted'
-
-  if (upvotedBy.includes(userName) || author === userName) {
-    initialVoteStatus = 'upvoted'
-  } else if (downvotedBy.includes(userName)) {
-    initialVoteStatus = 'downvoted'
-  } else {
-    initialVoteStatus = 'nonvoted'
-  }
+  const voteStatus = getVoteStatus({ author, upvotedBy, downvotedBy, userName })
 
   return (
     <PresentationalCard
       postId={postId}
-      author={author}
-      subreddit={subreddit}
-      title={title}
-      createdAt={createdAt.toString()}
-      upvotedBy={upvotedBy}
-      downvotedBy={downvotedBy}
-      comments={comments.map((comment) => comment.toString())}
+      postData={postData}
       refetch={refetch}
       subViewFlag={subViewFlag}
-      initialVoteStatus={initialVoteStatus}
+      initialVoteStatus={voteStatus}
     />
   )
 }
