@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import classnames from 'classnames'
 import { Types } from 'mongoose'
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
@@ -14,6 +13,7 @@ import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 import { PiShareFatBold } from 'react-icons/pi'
 import useSWR from 'swr'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import useVote from '@/hooks/useVote'
 import { PostType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
@@ -29,9 +29,7 @@ interface PostProps {
 }
 
 const PostCard: React.FC<PostProps> = ({ id, subViewFlag }) => {
-  const session = useSession()
-  const { status, data: sessionData } = session
-  const userName = sessionData?.user?.name || ''
+  const { status, userName } = useCurrentUser()
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
   const { data, mutate } = useSWR<PostType>(`/api/post/${id}`, fetcher)

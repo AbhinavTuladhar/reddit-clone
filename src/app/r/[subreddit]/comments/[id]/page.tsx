@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
-import { useSession } from 'next-auth/react'
 
 import AboutCommunity from '@/components/AboutCommunity'
 import CommentCard from '@/components/CommentCard'
 import PostVoteArrows from '@/components/post-vote-arrows'
+import useCurrentUser from '@/hooks/useCurrentUser'
 import PostService from '@/services/post.service'
 import { voteStatus } from '@/types'
 import { useQuery } from '@tanstack/react-query'
@@ -23,9 +23,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
   const subredditName = params.subreddit
   const postId = params.id
 
-  const session = useSession()
-  const status = session?.status
-  const userName = session?.data?.user?.name || ''
+  const { status, userName } = useCurrentUser()
 
   const {
     data: postData,

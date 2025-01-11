@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import useSWR from 'swr'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { CommentEditBody, CommentType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
@@ -23,10 +23,7 @@ interface CommentProps {
 }
 
 const CommentCard: React.FC<CommentProps> = ({ _id, postAuthor, showReply }) => {
-  const session = useSession()
-
-  const { status, data: sessionData } = session
-  const userName = sessionData?.user?.name || ''
+  const { userName, status } = useCurrentUser()
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
 

@@ -2,17 +2,16 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import classnames from 'classnames'
-import { Types } from 'mongoose'
 import useSWR from 'swr'
 
 import AboutCommunity from '@/components/AboutCommunity'
 import CreatePostCard from '@/components/CreatePostCard'
 import PostsList from '@/components/posts-list'
+import useCurrentUser from '@/hooks/useCurrentUser'
 import SubredditService from '@/services/subreddit.service'
-import { JoinSubBody, PostType, SubredditType } from '@/types'
+import { JoinSubBody, SubredditType } from '@/types'
 import formatSubName from '@/utils/formatSubName'
 import { useQuery } from '@tanstack/react-query'
 
@@ -26,16 +25,10 @@ interface SubredditParams {
 
 type JoinStatusType = 'Join' | 'Joined'
 
-interface PostTypeWithId extends PostType {
-  _id: Types.ObjectId
-}
-
 const Page: React.FC<SubredditParams> = ({ params }) => {
   const subredditName = params.subreddit
   const formattedSubredditName = formatSubName(subredditName)
-  const session = useSession()
-  const { status } = session
-  const userName = session?.data?.user?.name || ''
+  const { status, userName } = useCurrentUser()
 
   const { data: subData } = useQuery({
     queryKey: ['subreddit-detail', subredditName],

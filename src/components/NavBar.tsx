@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import { GiMegaphone } from 'react-icons/gi'
 import { SiReddit } from 'react-icons/si'
 import useSWR from 'swr'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { ModalStateType } from '@/types'
 
 import IconGroup from './IconGroup'
@@ -24,8 +24,7 @@ interface SubListResponse {
 }
 
 const NavBar = () => {
-  const session = useSession()
-  const { status } = session
+  const { status, userName } = useCurrentUser()
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
 
@@ -66,7 +65,7 @@ const NavBar = () => {
             <GiMegaphone className="h-6 w-10" />
             <span> Advertise </span>
           </div>
-          <UserOptions userName={session?.data?.user?.name} />
+          <UserOptions userName={userName} />
         </>
       ) : (
         <Loader />

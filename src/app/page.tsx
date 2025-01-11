@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -10,13 +9,14 @@ import HomeSidebar from '@/components/HomeSidebar'
 import LoadingRow from '@/components/LoadingRow'
 import PopularCommunities from '@/components/PopularCommunities'
 import PostCard from '@/components/PostCard'
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 export default function Home() {
   const [postIds, setPostIds] = useState<string[]>([])
   const [hasMore, setHasMore] = useState(true)
   const [index, setIndex] = useState(10)
 
-  const { status } = useSession()
+  const { status } = useCurrentUser()
 
   useEffect(() => {
     const fetchData = async () => {

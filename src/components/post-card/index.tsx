@@ -1,9 +1,9 @@
 'use client'
 
 import React, { FC } from 'react'
-import { useSession } from 'next-auth/react'
 import { Types } from 'mongoose'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import PostService from '@/services/post.service'
 import getVoteStatus from '@/utils/getVoteStatus'
 import { useQuery } from '@tanstack/react-query'
@@ -16,8 +16,7 @@ interface PostCardProps {
 }
 
 const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
-  const { data } = useSession()
-  const userName = data?.user?.name || ''
+  const { userName } = useCurrentUser()
 
   const {
     data: postData,

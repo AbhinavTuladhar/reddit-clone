@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import { LuCake } from 'react-icons/lu'
 import { PiFlowerFill } from 'react-icons/pi'
 import { SlPencil } from 'react-icons/sl'
 import useSWR from 'swr'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { UserBioChangeBody, UserType } from '@/types'
 
 import ProfilePic from '../images/profile_pic.png'
@@ -27,8 +27,7 @@ interface SideBarProps {
 }
 
 const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
-  const { data } = useSession()
-  const currentUser = data?.user?.name
+  const { userName: currentUser } = useCurrentUser()
 
   const fetcher = (url: string) => axios.get(url).then((response) => response.data)
   const { data: userData, mutate } = useSWR<UserType>(`/api/u/${userName}`, fetcher)

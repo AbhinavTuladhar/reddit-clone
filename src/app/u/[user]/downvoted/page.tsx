@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import LoadingRow from '@/components/LoadingRow'
 import PostCard from '@/components/PostCard'
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { VotedPostsResponse } from '@/types'
 
 interface UserParams {
@@ -17,8 +17,7 @@ interface UserParams {
 
 const Page: React.FC<UserParams> = ({ params }) => {
   const userName = params.user
-  const session = useSession()
-  const currentUser = session.data?.user?.name
+  const { userName: currentUser } = useCurrentUser()
 
   const [downvotedPosts, setDownvotedPosts] = useState<string[]>([])
   const [hasMore, setHasMore] = useState(true)
