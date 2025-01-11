@@ -62,31 +62,17 @@ const useResourceVote = ({
       return
     }
 
-    let newVoteStatus: voteStatus = 'nonvoted'
+    const updatedVoteStatus = initialVoteStatus === targetStatus ? 'nonvoted' : targetStatus
+    setVoteStatus(updatedVoteStatus)
 
-    if (voteStatus === targetStatus && targetStatus === 'upvoted') {
-      newVoteStatus = 'nonvoted'
-      setVoteStatus('nonvoted')
-    } else if (voteStatus === targetStatus && targetStatus === 'downvoted') {
-      newVoteStatus = 'nonvoted'
-      setVoteStatus('nonvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'nonvoted') {
-      newVoteStatus = 'upvoted'
-      setVoteStatus('upvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'nonvoted') {
-      newVoteStatus = 'downvoted'
-      setVoteStatus('downvoted')
-    } else if (targetStatus === 'downvoted' && voteStatus === 'upvoted') {
-      newVoteStatus = 'downvoted'
-      setVoteStatus('downvoted')
-    } else if (targetStatus === 'upvoted' && voteStatus === 'downvoted') {
-      newVoteStatus = 'upvoted'
-      setVoteStatus('upvoted')
+    // Ignore the vote if the user is targeting their own post or comment
+    if (author === userName) {
+      return
     }
 
     const requestBody: VotingRequestBodyWithId = {
       user: userName,
-      voteTarget: newVoteStatus,
+      voteTarget: updatedVoteStatus,
       author: author || '',
       resourceId,
     }
