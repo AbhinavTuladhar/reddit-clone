@@ -3,7 +3,7 @@
 import React from 'react'
 
 import AboutCommunity from '@/components/AboutCommunity'
-import CommentCard from '@/components/CommentCard'
+import CommentCardNew from '@/components/comment-card-new'
 import PostVoteArrows from '@/components/post-vote-arrows'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import PostService from '@/services/post.service'
@@ -77,6 +77,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
             upvotedBy={upvotedBy}
             downvotedBy={downvotedBy}
             refetch={refetch}
+            resourceType="post"
           />
           <section className="flex flex-1 flex-col gap-y-2">
             <MetaData createdAt={createdAt} subreddit={subreddit} author={author} />
@@ -98,8 +99,12 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
           <span className="ml-4 flex flex-shrink justify-end text-white"> {comments?.length} comments </span>
         </div>
 
-        {commentData.map((comment, index) => (
+        {/* {commentData.map((comment, index) => (
           <CommentCard _id={comment.toString()} postAuthor={author || ''} showReply={true} key={index} />
+        ))} */}
+
+        {commentData.map((comment) => (
+          <CommentCardNew key={comment.toString()} commentId={comment} postAuthor={author || ''} showReply />
         ))}
       </section>
 
