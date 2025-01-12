@@ -2,17 +2,21 @@ import React, { FC } from 'react'
 import Image from 'next/image'
 import classnames from 'classnames'
 import { Types } from 'mongoose'
+import { FaRegCommentAlt } from 'react-icons/fa'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
+import useToggle from '@/hooks/useToggle'
 import Profile from '@/images/reddit_default_pp.png'
 import { CommentType } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 import getVoteStatus from '@/utils/getVoteStatus'
 
 import CommentCardNew from '../comment-card-new'
+import IconWithText from '../IconWithText'
 import PostVoteArrows from '../post-vote-arrows'
 
 import MetaData from './MetaData'
+import ReplyForm from './ReplyForm'
 
 interface CommentDetailProps {
   commentData: CommentType
@@ -29,10 +33,21 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
   refetch,
   showReply = false,
 }) => {
-  const { author, upvotedBy, downvotedBy, replies, content, createdAt, editedAt, editedFlag, parentComment } =
-    commentData
+  const {
+    author,
+    post: postId,
+    upvotedBy,
+    downvotedBy,
+    replies,
+    content,
+    createdAt,
+    editedAt,
+    editedFlag,
+    parentComment,
+  } = commentData
 
   const { userName } = useCurrentUser()
+  const { value: replyFormFlag, toggleValue: toggleReplyForm } = useToggle(false)
 
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const editedDateString = calculateDateString(new Date(editedAt), new Date())
@@ -72,15 +87,30 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
                   <br />
                 </div>
               ))}
-              <PostVoteArrows
-                author={author}
-                downvotedBy={downvotedBy}
-                upvotedBy={upvotedBy}
-                resourceType="comment"
-                refetch={refetch}
-                initialVoteStatus={initialVoteStatus}
-                postId={commentId}
-              />
+              <div className="flex items-center gap-x-2">
+                <PostVoteArrows
+                  author={author}
+                  downvotedBy={downvotedBy}
+                  upvotedBy={upvotedBy}
+                  resourceType="comment"
+                  refetch={refetch}
+                  initialVoteStatus={initialVoteStatus}
+                  postId={commentId}
+                />
+                <IconWithText
+                  icon={<FaRegCommentAlt className="h-4 w-4" />}
+                  text="Reply"
+                  handleClick={toggleReplyForm}
+                />
+              </div>
+              {replyFormFlag && (
+                <ReplyForm
+                  toggleVisibility={toggleReplyForm}
+                  postId={postId}
+                  refetch={refetch}
+                  parentCommentId={commentId}
+                />
+              )}
             </div>
           </div>
         </div>

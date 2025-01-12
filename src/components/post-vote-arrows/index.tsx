@@ -49,7 +49,7 @@ const PostVoteArrows: React.FC<PostVoteArrowProps> = ({
 
   return (
     <section
-      className={classNames('flex gap-1', {
+      className={classNames('flex gap-x-2 gap-y-1', {
         'flex-col items-center': resourceType === 'post',
       })}
     >
