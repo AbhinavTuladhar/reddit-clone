@@ -65,12 +65,12 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
   })
 
   return (
-    <div className="flex flex-col">
-      <article
-        className={classnames('flex flex-col', {
-          'pl-2': parentComment,
-        })}
-      >
+    <div
+      className={classnames({
+        'ml-4': parentComment,
+      })}
+    >
+      <article className="flex flex-col">
         <div className="mt-2 flex gap-x-4">
           <div className="flex flex-1 flex-col gap-y-1">
             <div className="flex items-center gap-x-2 text-xs">
@@ -85,12 +85,7 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
             </div>
             <div className="ml-4 flex flex-col gap-y-1 border-l-2 border-reddit-comment-line pl-4">
               {editFlag ? (
-                <EditForm
-                  commentId={commentId}
-                  currentComment={content}
-                  refetch={refetch}
-                  toggleEditing={toggleEditFlag}
-                />
+                <EditForm commentId={commentId} currentComment={content} toggleEditing={toggleEditFlag} />
               ) : (
                 paragraphs?.map((row, index) => (
                   <div key={index}>
@@ -121,27 +116,19 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
                 </div>
               ) : null}
               {replyFormFlag && (
-                <ReplyForm
-                  toggleVisibility={toggleReplyForm}
-                  postId={postId}
-                  refetch={refetch}
-                  parentCommentId={commentId}
-                />
+                <ReplyForm toggleVisibility={toggleReplyForm} postId={postId} parentCommentId={commentId} />
               )}
             </div>
           </div>
         </div>
       </article>
 
-      {showReply && (
-        <div className="flex flex-col">
-          {replies?.map((reply) => (
-            <div className="ml-4 border-l-2 border-reddit-comment-line pl-0" key={reply?._id?.toString()}>
-              <CommentCardNew commentId={reply} />
-            </div>
-          ))}
-        </div>
-      )}
+      {showReply &&
+        replies?.map((reply) => (
+          <div className="ml-4 border-l-2 border-reddit-comment-line pl-0" key={reply?._id?.toString()}>
+            <CommentCardNew commentId={reply} showReply />
+          </div>
+        ))}
     </div>
   )
 }

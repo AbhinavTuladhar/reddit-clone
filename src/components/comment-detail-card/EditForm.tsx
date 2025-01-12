@@ -4,16 +4,17 @@ import { Types } from 'mongoose'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import CommentService from '@/services/comment.service'
 import { CommentEditBodyWithId } from '@/types'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface EditFormProps {
   currentComment: string
   commentId: Types.ObjectId
   toggleEditing: () => void
-  refetch: () => void
 }
 
-const EditForm: FC<EditFormProps> = ({ currentComment, toggleEditing, refetch, commentId }) => {
+const EditForm: FC<EditFormProps> = ({ currentComment, toggleEditing, commentId }) => {
+  const queryClient = useQueryClient()
+
   const { userName } = useCurrentUser()
 
   const [editedComment, setEditedComment] = useState(currentComment)
@@ -21,8 +22,10 @@ const EditForm: FC<EditFormProps> = ({ currentComment, toggleEditing, refetch, c
   const { mutate: editComment } = useMutation({
     mutationFn: CommentService.editComment,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comment', commentId],
+      })
       console.log('Comment successfully edited.')
-      refetch()
     },
     onError: (error) => {
       console.error(error)

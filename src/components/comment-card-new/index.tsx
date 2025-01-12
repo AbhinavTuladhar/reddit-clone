@@ -19,7 +19,7 @@ const CommentCardNew: FC<CommentCardProps> = ({ commentId, postAuthor, showReply
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['comment-detail', commentId],
+    queryKey: ['comment', commentId],
     queryFn: () => CommentService.getComment(commentId.toString()),
   })
 

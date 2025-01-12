@@ -6,16 +6,16 @@ import { Types } from 'mongoose'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import CommentService from '@/services/comment.service'
 import { CommentCreationBody } from '@/types'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface ReplyFormProps {
   toggleVisibility: () => void
   postId: Types.ObjectId
   parentCommentId: Types.ObjectId
-  refetch: () => void
 }
 
-const ReplyForm: FC<ReplyFormProps> = ({ toggleVisibility, postId, parentCommentId, refetch }) => {
+const ReplyForm: FC<ReplyFormProps> = ({ toggleVisibility, postId, parentCommentId }) => {
+  const queryClient = useQueryClient()
   const { userName } = useCurrentUser()
 
   const [reply, setReply] = useState('')
@@ -30,6 +30,9 @@ const ReplyForm: FC<ReplyFormProps> = ({ toggleVisibility, postId, parentComment
   const { mutate: postComment } = useMutation({
     mutationFn: CommentService.createComment,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comment', parentCommentId],
+      })
       console.log('Reply successfully created.')
     },
     onError: (error) => {
@@ -48,8 +51,8 @@ const ReplyForm: FC<ReplyFormProps> = ({ toggleVisibility, postId, parentComment
     }
 
     postComment(requestBody)
+    // postComment()
     setReply('')
-    refetch()
     toggleVisibility()
   }
 
