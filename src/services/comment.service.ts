@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { CommentCreationBody, CommentEditBody, CommentType, VotingRequestBodyWithId } from '@/types'
+import { CommentCreationBody, CommentEditBodyWithId, CommentType, VotingRequestBodyWithId } from '@/types'
 
 class CommentService {
   static async getComment(commentId: string) {
@@ -30,9 +30,11 @@ class CommentService {
     }
   }
 
-  static async editComment(commentId: string, body: CommentEditBody) {
+  static async editComment(body: CommentEditBodyWithId) {
+    const { commentId, ...rest } = body
+
     try {
-      const response = await axios.patch(`/api/comment/${commentId}/edit`, body)
+      const response = await axios.patch(`/api/comment/${commentId}/edit`, rest)
       return response.data
     } catch (error) {
       console.error(error)

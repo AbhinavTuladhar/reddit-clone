@@ -3,6 +3,7 @@ import Image from 'next/image'
 import classnames from 'classnames'
 import { Types } from 'mongoose'
 import { FaRegCommentAlt } from 'react-icons/fa'
+import { SlPencil } from 'react-icons/sl'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useToggle from '@/hooks/useToggle'
@@ -15,6 +16,7 @@ import CommentCardNew from '../comment-card-new'
 import IconWithText from '../IconWithText'
 import PostVoteArrows from '../post-vote-arrows'
 
+import EditForm from './EditForm'
 import MetaData from './MetaData'
 import ReplyForm from './ReplyForm'
 
@@ -48,6 +50,7 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
 
   const { userName } = useCurrentUser()
   const { value: replyFormFlag, toggleValue: toggleReplyForm } = useToggle(false)
+  const { value: editFlag, toggleValue: toggleEditFlag } = useToggle(false)
 
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const editedDateString = calculateDateString(new Date(editedAt), new Date())
@@ -81,28 +84,42 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
               />
             </div>
             <div className="ml-4 flex flex-col gap-y-1 border-l-2 border-reddit-comment-line pl-4">
-              {paragraphs?.map((row, index) => (
-                <div key={index}>
-                  <span> {row} </span>
-                  <br />
-                </div>
-              ))}
-              <div className="flex items-center gap-x-2">
-                <PostVoteArrows
-                  author={author}
-                  downvotedBy={downvotedBy}
-                  upvotedBy={upvotedBy}
-                  resourceType="comment"
+              {editFlag ? (
+                <EditForm
+                  commentId={commentId}
+                  currentComment={content}
                   refetch={refetch}
-                  initialVoteStatus={initialVoteStatus}
-                  postId={commentId}
+                  toggleEditing={toggleEditFlag}
                 />
-                <IconWithText
-                  icon={<FaRegCommentAlt className="h-4 w-4" />}
-                  text="Reply"
-                  handleClick={toggleReplyForm}
-                />
-              </div>
+              ) : (
+                paragraphs?.map((row, index) => (
+                  <div key={index}>
+                    <span> {row} </span>
+                    <br />
+                  </div>
+                ))
+              )}
+              {!editFlag ? (
+                <div className="flex items-center gap-x-2">
+                  <PostVoteArrows
+                    author={author}
+                    downvotedBy={downvotedBy}
+                    upvotedBy={upvotedBy}
+                    resourceType="comment"
+                    refetch={refetch}
+                    initialVoteStatus={initialVoteStatus}
+                    postId={commentId}
+                  />
+                  <IconWithText
+                    icon={<FaRegCommentAlt className="h-4 w-4" />}
+                    text="Reply"
+                    handleClick={toggleReplyForm}
+                  />
+                  {userName === author ? (
+                    <IconWithText icon={<SlPencil className="h-4 w-4" />} text="Edit" handleClick={toggleEditFlag} />
+                  ) : null}
+                </div>
+              ) : null}
               {replyFormFlag && (
                 <ReplyForm
                   toggleVisibility={toggleReplyForm}
