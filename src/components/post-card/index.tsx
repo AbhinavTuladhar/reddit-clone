@@ -29,7 +29,7 @@ const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
   })
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className="h-[100px] bg-reddit-dark"> Loading...</div>
   }
 
   if (isError || !postData) {
