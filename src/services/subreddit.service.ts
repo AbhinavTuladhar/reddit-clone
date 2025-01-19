@@ -1,8 +1,23 @@
 import axios from 'axios'
 
-import { JoinSubBody, SubCreationBody, SubDescChangeBody, SubredditListResponse, SubredditType } from '@/types'
+import {
+  JoinSubBody,
+  PopularSubreddits,
+  SubCreationBody,
+  SubDescChangeBody,
+  SubredditListResponse,
+  SubredditType,
+} from '@/types'
 
 class SubredditService {
+  static async getPopularSubs() {
+    try {
+      const response = await axios.get<PopularSubreddits[]>('/api/popular')
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
   static async getSubreddits() {
     try {
       const response = await axios.get<SubredditListResponse[]>('/api/r')

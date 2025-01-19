@@ -26,7 +26,7 @@ export const HomeFeed = () => {
   }, [fetchNextPage, inView])
 
   if (isLoading) {
-    return <div> Loading... </div>
+    return <div className="grid h-screen place-items-center bg-reddit-dark"> Loading... </div>
   }
 
   if (error) {
