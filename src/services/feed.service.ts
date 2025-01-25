@@ -19,6 +19,20 @@ class FeedService {
       console.error(error)
     }
   }
+
+  static async getSubredditPosts({ name, pageParam }: { name: string; pageParam: number }) {
+    const params = new URLSearchParams()
+    params.append('offset', pageParam.toString())
+    params.append('limit', '10')
+
+    const url = `/api/r/${name}/posts?${params.toString()}`
+    try {
+      const response = await axios.get<Types.ObjectId[]>(url)
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
 
 export default FeedService

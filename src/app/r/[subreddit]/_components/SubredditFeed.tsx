@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import Loader from '@/components/Loader'
@@ -7,17 +7,18 @@ import { PAGINATION_SIZE } from '@/constants'
 import FeedService from '@/services/feed.service'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-export const HomeFeed = () => {
-  const { ref, inView } = useInView({
-    rootMargin: '200px',
-  })
+interface Props {
+  subredditName: string
+}
+
+export const SubredditFeed: FC<Props> = ({ subredditName }) => {
+  const { ref, inView } = useInView()
 
   const { data, error, fetchNextPage, isFetchingNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['home'],
-    queryFn: FeedService.getHomePosts,
+    queryKey: ['subreddit-posts', subredditName],
+    queryFn: ({ pageParam }) => FeedService.getSubredditPosts({ name: subredditName, pageParam }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      // If the last page has fewer items than the limit, there are no more pages
       const hasMore = lastPage?.length === PAGINATION_SIZE
       return hasMore ? allPages.length * PAGINATION_SIZE : undefined
     },
@@ -48,7 +49,7 @@ export const HomeFeed = () => {
   return (
     <div className="flex flex-col gap-px">
       {data.pages.map((page) =>
-        page?.map((postId) => <PostCard key={postId.toString()} postId={postId} subViewFlag={true} />),
+        page?.map((postId) => <PostCard key={postId.toString()} postId={postId} subViewFlag={false} />),
       )}
       <div ref={ref}>{isFetchingNextPage && <Loader />}</div>
       <div>{!hasNextPage && <p className="mx-auto my-2 w-full text-center text-lg">You have seen all posts!</p>}</div>
