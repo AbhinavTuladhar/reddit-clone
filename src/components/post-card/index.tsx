@@ -24,7 +24,7 @@ const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['post-detail', postId],
+    queryKey: ['post', postId],
     queryFn: () => PostService.getPost(postId.toString()),
   })
 

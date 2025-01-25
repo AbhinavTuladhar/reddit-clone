@@ -1,3 +1,5 @@
+import { Types } from 'mongoose'
+
 export interface UserBioChangeBody {
   name: string
   bio: string
@@ -11,6 +13,12 @@ export interface ContentId {
 export interface VotedPosts {
   upvotedIds: string[]
   downvotedIds: string[]
+}
+
+export interface ContentWithType extends Omit<ContentId, '_id'> {
+  _id: Types.ObjectId
+  type: 'post' | 'comment'
+  postId?: Types.ObjectId
 }
 
 export interface SpecificContentId extends ContentId {
