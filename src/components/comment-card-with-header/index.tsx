@@ -37,16 +37,19 @@ const CommentCardWithHeader: FC<CommentHeaderProps> = ({ commentId, postId, user
   return (
     <article className=" relative border border-transparent duration-300 hover:border-white">
       <Link href={`/r/${subreddit}/comments/${postId}`} className="absolute inset-0" />
-      <div className="mb-0 flex flex-row flex-wrap items-center gap-x-1 border border-reddit-border bg-reddit-dark p-2 text-xs duration-300 hover:cursor-pointer hover:border-white">
+      <div className="mb-0 flex flex-row flex-wrap items-center gap-x-1 border border-reddit-border bg-reddit-dark p-2 text-xs ">
         <FaRegCommentAlt className="mr-2 h-4 w-4 text-reddit-placeholder-gray" />
         <span> {userName} </span>
         <span className="text-reddit-placeholder-gray"> commented on </span>
         <span className="text-white"> {`${title}`} </span>
         <span> • </span>
-        <Link className="font-bold text-white hover:underline" href={`/r/${subreddit}`}>{`/r/${subreddit}`}</Link>
+        <Link
+          className="relative z-10 font-bold text-white hover:underline"
+          href={`/r/${subreddit}`}
+        >{`/r/${subreddit}`}</Link>
         <span className="text-reddit-placeholder-gray">
           Posted by
-          <Link className="hover:underline" href={`/u/${author}`}>
+          <Link className="relative z-10 hover:underline" href={`/u/${author}`}>
             {`u/${author}`}
           </Link>
         </span>

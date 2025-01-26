@@ -1,3 +1,5 @@
+'use client'
+
 import React, { FC, useEffect } from 'react'
 import { Types } from 'mongoose'
 import { useInView } from 'react-intersection-observer'

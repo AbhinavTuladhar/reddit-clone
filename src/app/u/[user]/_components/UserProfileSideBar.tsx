@@ -9,9 +9,8 @@ import { SlPencil } from 'react-icons/sl'
 import useSWR from 'swr'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
+import ProfilePic from '@/images/profile_pic.png'
 import { UserBioChangeBody, UserType } from '@/types'
-
-import ProfilePic from '../images/profile_pic.png'
 
 function formatDate(inputDate: string) {
   const date = new Date(inputDate)
@@ -26,7 +25,7 @@ interface SideBarProps {
   userName: string
 }
 
-const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
+export const UserProfileSideBar: React.FC<SideBarProps> = ({ userName }) => {
   const { userName: currentUser } = useCurrentUser()
 
   const fetcher = (url: string) => axios.get(url).then((response) => response.data)

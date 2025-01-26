@@ -1,7 +1,8 @@
 import React from 'react'
 
 import ProfileNavigation from '@/components/ProfileNavigation'
-import UserProfileSideBar from '@/components/UserProfileSideBar'
+
+import { UserProfileSideBar } from './_components'
 
 interface LayoutProps {
   children: React.ReactNode
