@@ -70,7 +70,7 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
         'ml-4': parentComment,
       })}
     >
-      <article className="flex flex-col">
+      <article className="flex flex-col bg-reddit-dark">
         <div className="mt-2 flex gap-x-4">
           <div className="flex flex-1 flex-col gap-y-1">
             <div className="flex items-center gap-x-2 text-xs">
@@ -95,7 +95,7 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
                 ))
               )}
               {!editFlag ? (
-                <div className="flex items-center gap-x-2">
+                <div className="relative z-20 flex w-fit items-center gap-x-2">
                   <PostVoteArrows
                     author={author}
                     downvotedBy={downvotedBy}
@@ -116,7 +116,9 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
                 </div>
               ) : null}
               {replyFormFlag && (
-                <ReplyForm toggleVisibility={toggleReplyForm} postId={postId} parentCommentId={commentId} />
+                <div className="relative z-10">
+                  <ReplyForm toggleVisibility={toggleReplyForm} postId={postId} parentCommentId={commentId} />
+                </div>
               )}
             </div>
           </div>

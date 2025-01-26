@@ -99,9 +99,6 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       if (!matchingObj) return {}
 
       return {
-        postAuthor: matchingObj.author,
-        postSubreddit: matchingObj.subreddit,
-        postTitle: matchingObj.title,
         postId: matchingObj._id,
         _id: obj1._id,
         createdAt: obj1.createdAt,
@@ -115,9 +112,6 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
         type: 'comment',
         _id: comment._id,
         createdAt: comment.createdAt,
-        // postAuthor: comment.postAuthor,
-        // postSubreddit: comment.postSubreddit,
-        // postTitle: comment.postTitle,
         postId: comment.postId,
       })),
     ]

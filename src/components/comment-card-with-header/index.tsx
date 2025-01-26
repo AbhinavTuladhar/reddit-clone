@@ -35,10 +35,8 @@ const CommentCardWithHeader: FC<CommentHeaderProps> = ({ commentId, postId, user
   const { author, subreddit, title } = data
 
   return (
-    <Link
-      href={`/r/${subreddit}/comments/${postId}`}
-      className="border border-transparent duration-300 hover:border-white"
-    >
+    <article className=" relative border border-transparent duration-300 hover:border-white">
+      <Link href={`/r/${subreddit}/comments/${postId}`} className="absolute inset-0" />
       <div className="mb-0 flex flex-row flex-wrap items-center gap-x-1 border border-reddit-border bg-reddit-dark p-2 text-xs duration-300 hover:cursor-pointer hover:border-white">
         <FaRegCommentAlt className="mr-2 h-4 w-4 text-reddit-placeholder-gray" />
         <span> {userName} </span>
@@ -53,12 +51,10 @@ const CommentCardWithHeader: FC<CommentHeaderProps> = ({ commentId, postId, user
           </Link>
         </span>
       </div>
-      <section
-        className={`${'pb-2 pl-2'} border border-transparent bg-reddit-dark duration-300 hover:cursor-pointer hover:border-white`}
-      >
+      <section className={`${'pb-2 pl-2'} bg-reddit-dark`}>
         <CommentCardNew commentId={commentId} showReply={false} />
       </section>
-    </Link>
+    </article>
   )
 }
 
