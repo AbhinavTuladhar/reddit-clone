@@ -21,6 +21,11 @@ export interface ContentWithType extends Omit<ContentId, '_id'> {
   postId?: Types.ObjectId
 }
 
+export interface UserComment extends Omit<ContentId, '_id'> {
+  _id: Types.ObjectId
+  postId: Types.ObjectId
+}
+
 export interface SpecificContentId extends ContentId {
   type: 'post' | 'comment'
   postAuthor?: string
