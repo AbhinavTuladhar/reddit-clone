@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer'
 import { PAGINATION_SIZE } from '@/constants'
 import FeedService from '@/services/feed.service'
 import { SimpleVoteStatus } from '@/types'
+import { hasData } from '@/utils/data.utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 import Loader from '../Loader'
@@ -52,6 +53,12 @@ const VotedPostsList: FC<VotedPostsListProps> = ({ userName, voteType }) => {
 
   if (!data) {
     return <div> No data </div>
+  }
+
+  const noData = hasData(data)
+
+  if (noData) {
+    return <p className="mx-auto my-2 w-full text-center text-lg">You have not {voteType} any post yet!</p>
   }
 
   return (

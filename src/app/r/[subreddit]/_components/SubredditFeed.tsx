@@ -5,6 +5,7 @@ import Loader from '@/components/Loader'
 import PostCard from '@/components/post-card'
 import { PAGINATION_SIZE } from '@/constants'
 import FeedService from '@/services/feed.service'
+import { hasData } from '@/utils/data.utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 interface Props {
@@ -44,6 +45,12 @@ export const SubredditFeed: FC<Props> = ({ subredditName }) => {
 
   if (!data) {
     return <div> No data </div>
+  }
+
+  const noData = hasData(data)
+
+  if (noData) {
+    return <p className="mx-auto my-2 w-full text-center text-lg">This subreddit has no posts.</p>
   }
 
   return (

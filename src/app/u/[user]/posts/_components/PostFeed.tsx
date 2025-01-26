@@ -7,6 +7,7 @@ import Loader from '@/components/Loader'
 import PostCard from '@/components/post-card'
 import { PAGINATION_SIZE } from '@/constants'
 import FeedService from '@/services/feed.service'
+import { hasData } from '@/utils/data.utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 interface FeedProps {
@@ -49,6 +50,12 @@ export const PostFeed: FC<FeedProps> = ({ userName }) => {
 
   if (!data) {
     return <div> No data </div>
+  }
+
+  const noData = hasData(data)
+
+  if (noData) {
+    return <p className="mx-auto my-2 w-full text-center text-lg">The user has not posted anything yet.</p>
   }
 
   return (
