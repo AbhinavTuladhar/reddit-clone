@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import useSWR from 'swr'
 
 import PostingRules from '@/components/PostingRules'
 import PostSubredditSelector from '@/components/PostSubredditSelector'
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { useQuery } from '@tanstack/react-query'
 
 interface SubListResponse {
@@ -25,8 +25,7 @@ const Page = () => {
     }
   }
 
-  const session = useSession()
-  const userName = session?.data?.user?.name
+  const { userName } = useCurrentUser()
 
   // FOr the title text
   const [titleLength, setTitleLength] = useState(0)

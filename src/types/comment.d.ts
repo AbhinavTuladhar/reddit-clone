@@ -5,6 +5,10 @@ export interface CommentEditBody {
   content: string
 }
 
+export interface CommentEditBodyWithId extends CommentEditBody {
+  commentId: Types.ObjectId
+}
+
 export interface CommentCreationBody {
   content: string
   author: string

@@ -3,7 +3,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 interface NavElementProps {
   text: string
@@ -23,8 +24,7 @@ const NavElement: React.FC<NavElementProps> = ({ text, href, condition }) => {
 
 const ProfileNavigation = () => {
   const currentPath = usePathname()
-  const session = useSession()
-  const currentUser = session.data?.user?.name
+  const { userName: currentUser } = useCurrentUser()
 
   // Extract the userName
   const urlParts = currentPath.split('/')

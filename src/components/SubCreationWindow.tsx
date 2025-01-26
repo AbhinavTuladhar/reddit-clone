@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import { RxCross2 } from 'react-icons/rx'
+
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 interface SubProps {
   handleModalView: () => void
@@ -15,10 +16,9 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
   const nameLimit = 21
   const [charactersRemaining, setCharactersRemaining] = useState(nameLimit)
   const [subredditName, setSubredditName] = useState('')
-  const session = useSession()
   const router = useRouter()
 
-  const email = session?.data?.user?.email || null
+  const { email } = useCurrentUser()
 
   useEffect(() => {
     const subLength = subredditName.length

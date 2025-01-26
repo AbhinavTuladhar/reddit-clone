@@ -1,13 +1,9 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
-import axios from 'axios'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import React from 'react'
 
-import LoadingRow from '@/components/LoadingRow'
-import PostCard from '@/components/PostCard'
-import { VotedPostsResponse } from '@/types'
+import VotedPostsList from '@/components/voted-posts-list'
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 interface UserParams {
   params: {
@@ -17,35 +13,7 @@ interface UserParams {
 
 const Page: React.FC<UserParams> = ({ params }) => {
   const userName = params.user
-  const session = useSession()
-  const currentUser = session.data?.user?.name
-
-  const [upvotedPosts, setUpvotedPosts] = useState<string[]>([])
-  const [hasMore, setHasMore] = useState(true)
-  const [isEmpty, setIsEmpty] = useState(false)
-  const [index, setIndex] = useState<number>(5)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get<VotedPostsResponse>(`/api/u/${userName}/voted?offset=0&limit=5`)
-      const votedPosts = response.data
-      if (votedPosts.upvotedIds.length === 0) {
-        setIsEmpty(true)
-      }
-      if (votedPosts.upvotedIds.length < 5) {
-        setHasMore(false)
-      }
-      setUpvotedPosts(votedPosts.upvotedIds)
-    }
-    fetchData()
-  })
-
-  const fetchMoreData = async () => {
-    const response = await axios.get<VotedPostsResponse>(`/api/u/${userName}/voted?offset=${index}&limit=5`)
-    const upvotedPosts = response.data.upvotedIds
-    setUpvotedPosts((prevData) => [...prevData, ...upvotedPosts])
-    setIndex((prevIndex) => prevIndex + 5)
-  }
+  const { userName: currentUser } = useCurrentUser()
 
   if (userName !== currentUser) {
     return (
@@ -57,22 +25,7 @@ const Page: React.FC<UserParams> = ({ params }) => {
 
   return (
     <div className="flex-1">
-      {isEmpty ? (
-        <p className="text-center text-base">You have not upvoted any post!</p>
-      ) : (
-        <InfiniteScroll
-          dataLength={upvotedPosts.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          loader={<LoadingRow />}
-          endMessage={<p className="mx-auto my-2 w-full text-center text-base">You have reached the end.</p>}
-          style={{ height: '100%', overflow: 'hidden' }}
-        >
-          <main className="flex flex-1 flex-col gap-y-2">
-            {upvotedPosts?.map((postId, index) => <PostCard id={postId} subViewFlag={true} key={index} />)}
-          </main>
-        </InfiniteScroll>
-      )}
+      <VotedPostsList userName={userName} voteType="upvoted" />
     </div>
   )
 }

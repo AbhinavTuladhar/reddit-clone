@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { PAGINATION_SIZE } from '@/constants'
 import Comment from '@/models/Comment'
 import Post from '@/models/Post'
 import User from '@/models/User'
@@ -16,7 +17,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     params: { name },
   } = params
   const offset = request.nextUrl.searchParams.get('offset') || 0
-  const limit = request.nextUrl.searchParams.get('limit') || 100
+  const limit = request.nextUrl.searchParams.get('limit') || PAGINATION_SIZE
 
   try {
     await connectDatabase()
@@ -98,9 +99,6 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       if (!matchingObj) return {}
 
       return {
-        postAuthor: matchingObj.author,
-        postSubreddit: matchingObj.subreddit,
-        postTitle: matchingObj.title,
         postId: matchingObj._id,
         _id: obj1._id,
         createdAt: obj1.createdAt,
@@ -114,9 +112,6 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
         type: 'comment',
         _id: comment._id,
         createdAt: comment.createdAt,
-        postAuthor: comment.postAuthor,
-        postSubreddit: comment.postSubreddit,
-        postTitle: comment.postTitle,
         postId: comment.postId,
       })),
     ]

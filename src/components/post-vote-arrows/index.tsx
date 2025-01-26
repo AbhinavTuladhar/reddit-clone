@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { useSession } from 'next-auth/react'
 import classNames from 'classnames'
 import { Types } from 'mongoose'
 import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import useResourceVote from '@/hooks/useResourceVote'
-import { voteStatus } from '@/types'
+import { ResourceType, voteStatus } from '@/types'
 
 interface PostVoteArrowProps {
   postId: Types.ObjectId
@@ -13,6 +13,7 @@ interface PostVoteArrowProps {
   author: string
   upvotedBy: string[]
   downvotedBy: string[]
+  resourceType: ResourceType
   refetch: () => void
 }
 
@@ -24,20 +25,19 @@ const PostVoteArrows: React.FC<PostVoteArrowProps> = ({
   author,
   upvotedBy,
   downvotedBy,
+  resourceType,
   refetch,
 }) => {
   const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
 
-  const session = useSession()
-  const status = session?.status
-  const userName = session?.data?.user?.name || ''
+  const { status, userName } = useCurrentUser()
 
   const { handleVoteChange, voteStatus, setVoteStatus } = useResourceVote({
     author,
     initialVoteStatus,
     refetchResource: refetch,
     resourceId: postId,
-    resourceType: 'post',
+    resourceType,
     status,
     userName,
   })
@@ -48,7 +48,11 @@ const PostVoteArrows: React.FC<PostVoteArrowProps> = ({
   }, [setVoteStatus, initialVoteStatus])
 
   return (
-    <section className="flex flex-col items-center gap-y-1">
+    <section
+      className={classNames('flex gap-x-2 gap-y-1', {
+        'flex-col items-center': resourceType === 'post',
+      })}
+    >
       <PiArrowFatUpFill
         className={classNames(
           baseIconClassName,

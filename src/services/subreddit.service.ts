@@ -1,8 +1,26 @@
 import axios from 'axios'
 
-import { JoinSubBody, SubCreationBody, SubDescChangeBody, SubredditListResponse, SubredditType } from '@/types'
+import {
+  JoinSubBody,
+  PopularSubreddits,
+  SubCreationBody,
+  SubDescChangeBody,
+  SubredditListResponse,
+  SubredditType,
+} from '@/types'
+
+// The posts are fetched from a different API endpoint, so posts are omitted from the response
+type BasicSubreddit = Omit<SubredditType, 'posts'>
 
 class SubredditService {
+  static async getPopularSubs() {
+    try {
+      const response = await axios.get<PopularSubreddits[]>('/api/popular')
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
   static async getSubreddits() {
     try {
       const response = await axios.get<SubredditListResponse[]>('/api/r')
@@ -14,7 +32,7 @@ class SubredditService {
 
   static async getSubreddit(subredditName: string) {
     try {
-      const response = await axios.get<SubredditType>(`/api/r/${subredditName}`)
+      const response = await axios.get<BasicSubreddit>(`/api/r/${subredditName}`)
       return response.data
     } catch (error) {
       console.error(error)

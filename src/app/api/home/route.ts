@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { PAGINATION_SIZE } from '@/constants'
 import Post from '@/models/Post'
 import { connectDatabase } from '@/utils/db'
 
 export const GET = async (request: NextRequest) => {
   const offset = request.nextUrl.searchParams.get('offset') || 0
-  const limit = request.nextUrl.searchParams.get('limit') || 10
+  const limit = request.nextUrl.searchParams.get('limit') || PAGINATION_SIZE
 
   try {
     await connectDatabase()

@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import { GiMegaphone } from 'react-icons/gi'
 import { SiReddit } from 'react-icons/si'
 import useSWR from 'swr'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { ModalStateType } from '@/types'
 
 import IconGroup from './IconGroup'
@@ -24,8 +24,7 @@ interface SubListResponse {
 }
 
 const NavBar = () => {
-  const session = useSession()
-  const { status } = session
+  const { status, userName } = useCurrentUser()
 
   const [modalState, setModalState] = useState<ModalStateType>('closed')
 
@@ -35,7 +34,7 @@ const NavBar = () => {
   const subredditList = data?.map((row) => `r/${row.name}`)
 
   return (
-    <nav className="fixed top-0 z-20 flex h-12 w-screen flex-row items-center justify-between gap-x-2 border-b-[1px] border-reddit-border bg-reddit-dark px-6">
+    <nav className="fixed top-0 z-[99999] flex h-12 w-screen flex-row items-center justify-between gap-x-2 border-b-[1px] border-reddit-border bg-reddit-dark px-6">
       <Link className="flex flex-row items-center gap-x-2" href="/">
         <SiReddit className="h-8 w-8 rounded-full bg-white text-reddit-orange" />
         <h1 className="hidden text-xl text-white lg:block"> reddit </h1>
@@ -66,7 +65,7 @@ const NavBar = () => {
             <GiMegaphone className="h-6 w-10" />
             <span> Advertise </span>
           </div>
-          <UserOptions userName={session?.data?.user?.name} />
+          <UserOptions userName={userName} />
         </>
       ) : (
         <Loader />

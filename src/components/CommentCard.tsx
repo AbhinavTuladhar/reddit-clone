@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import useSWR from 'swr'
 
+import useCurrentUser from '@/hooks/useCurrentUser'
 import { CommentEditBody, CommentType, voteStatus } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
@@ -23,10 +23,7 @@ interface CommentProps {
 }
 
 const CommentCard: React.FC<CommentProps> = ({ _id, postAuthor, showReply }) => {
-  const session = useSession()
-
-  const { status, data: sessionData } = session
-  const userName = sessionData?.user?.name || ''
+  const { userName, status } = useCurrentUser()
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -155,64 +152,64 @@ const CommentCard: React.FC<CommentProps> = ({ _id, postAuthor, showReply }) => 
   )
 
   return (
-    <div className={`${parentComment !== null && 'pl-1'} flex flex-col`}>
-      <main className="mt-2 flex flex-row gap-x-4">
-        <section className="flex flex-1 flex-col gap-y-1">
-          <div className="flex flex-row items-center gap-x-2 text-xs">
-            <Image src={Profile} alt="profile pic" className="h-8 w-8 rounded-full" />
-            <div className="flex flex-row flex-wrap items-center gap-x-2 text-xs">
-              <Link href={`/u/${author}`} className="font-bold tracking-tight hover:underline">
-                {' '}
-                {author}{' '}
-              </Link>
-              {postAuthor === author && <span className="font-bold text-blue-600"> OP </span>}
-              <span className="text-reddit-placeholder-gray"> · </span>
-              <span className="text-reddit-placeholder-gray"> {dateString} </span>
-              {editedFlag && (
-                <>
-                  <span className="text-reddit-placeholder-gray"> · </span>
-                  <span className="italic text-reddit-placeholder-gray"> {`edited ${editedDateString}`} </span>
-                </>
-              )}
-            </div>
-          </div>
-          <section className="ml-4 flex flex-col gap-y-1 border-l-2 border-reddit-comment-line pl-4">
-            <div>
-              {isEditing
-                ? editingForm
-                : paragraphs?.map((row, index) => (
-                    <div key={index}>
-                      <span> {row} </span>
-                      <br />
-                    </div>
-                  ))}
-            </div>
-            {!isEditing && (
-              <CommentActions
-                toggleEditing={toggleEditing}
-                sameUser={author === userName}
-                effectiveKarma={effectiveKarma}
-                handleVoteChange={handleVoteChange}
-                toggleReplyVisibility={toggleReplyVisibility}
-                voteStatus={voteStatus}
-              />
-            )}
-          </section>
-          <>
-            {replyFlag && (
-              <div className="m-2 w-full">
-                <ReplyForm
-                  reply={reply}
-                  setReply={setReply}
-                  handleSubmit={handleSubmit}
-                  toggleReplyVisibility={toggleReplyVisibility}
-                />
+    <div>
+      <div className={`${parentComment !== null && 'pl-2'} flex flex-col`}>
+        <main className="mt-2 flex flex-row gap-x-4">
+          <section className="flex flex-1 flex-col gap-y-1">
+            <div className="flex flex-row items-center gap-x-2 text-xs">
+              <Image src={Profile} alt="profile pic" className="h-8 w-8 rounded-full" />
+              <div className="flex flex-row flex-wrap items-center gap-x-2 text-xs">
+                <Link href={`/u/${author}`} className="font-bold tracking-tight hover:underline">
+                  {author}
+                </Link>
+                {postAuthor === author && <span className="font-bold text-blue-600"> OP </span>}
+                <span className="text-reddit-placeholder-gray"> · </span>
+                <span className="text-reddit-placeholder-gray"> {dateString} </span>
+                {editedFlag && (
+                  <>
+                    <span className="text-reddit-placeholder-gray"> · </span>
+                    <span className="italic text-reddit-placeholder-gray"> {`edited ${editedDateString}`} </span>
+                  </>
+                )}
               </div>
-            )}
-          </>
-        </section>
-      </main>
-
+            </div>
+            <section className="ml-4 flex flex-col gap-y-1 border-l-2 border-reddit-comment-line pl-4">
+              <div>
+                {isEditing
+                  ? editingForm
+                  : paragraphs?.map((row, index) => (
+                      <div key={index}>
+                        <span> {row} </span>
+                        <br />
+                      </div>
+                    ))}
+              </div>
+              {!isEditing && (
+                <CommentActions
+                  toggleEditing={toggleEditing}
+                  sameUser={author === userName}
+                  effectiveKarma={effectiveKarma}
+                  handleVoteChange={handleVoteChange}
+                  toggleReplyVisibility={toggleReplyVisibility}
+                  voteStatus={voteStatus}
+                />
+              )}
+            </section>
+            <>
+              {replyFlag && (
+                <div className="m-2 w-full">
+                  <ReplyForm
+                    reply={reply}
+                    setReply={setReply}
+                    handleSubmit={handleSubmit}
+                    toggleReplyVisibility={toggleReplyVisibility}
+                  />
+                </div>
+              )}
+            </>
+          </section>
+        </main>
+      </div>
       {showReply &&
         replies?.map((reply, index) => (
           <div key={index}>

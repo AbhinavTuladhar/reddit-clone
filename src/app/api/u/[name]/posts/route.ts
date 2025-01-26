@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { PAGINATION_SIZE } from '@/constants'
 import Post from '@/models/Post'
 import User from '@/models/User'
 import { connectDatabase } from '@/utils/db'
@@ -15,7 +16,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
     params: { name },
   } = params
   const offset = request.nextUrl.searchParams.get('offset') || 0
-  const limit = request.nextUrl.searchParams.get('limit') || 100
+  const limit = request.nextUrl.searchParams.get('limit') || PAGINATION_SIZE
 
   try {
     await connectDatabase()
@@ -40,8 +41,14 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       .sort({ createdAt: -1 })
       .skip(+offset)
       .limit(+limit)
+      .select({
+        _id: 1,
+        createdAt: 0,
+      })
 
-    return new NextResponse(JSON.stringify(foundPosts, null, 2), { status: 201 })
+    const foundPostIds = foundPosts.map((post) => post._id)
+
+    return new NextResponse(JSON.stringify(foundPostIds, null, 2), { status: 201 })
   } catch (error) {
     console.error(error)
     return new NextResponse(JSON.stringify({ error }), { status: 501 })
