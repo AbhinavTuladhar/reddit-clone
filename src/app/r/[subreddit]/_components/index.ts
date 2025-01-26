@@ -1,0 +1,1 @@
+export { SubredditFeed } from './SubredditFeed'

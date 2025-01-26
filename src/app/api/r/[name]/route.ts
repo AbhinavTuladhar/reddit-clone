@@ -18,9 +18,13 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
   try {
     await connectDatabase()
 
-    const foundSubreddit = await Subreddit.findOne({ name })
+    // Another endpoint is used to fetch the posts
+    const foundSubreddit = await Subreddit.findOne({ name }).select({ posts: 0 })
 
-    // console.log(foundSubreddit)
+    if (!foundSubreddit) {
+      return new NextResponse(JSON.stringify({ error: 'Subreddit not found' }), { status: 501 })
+    }
+
     return new NextResponse(JSON.stringify(foundSubreddit), { status: 201 })
   } catch (error) {
     console.error(error)

@@ -24,12 +24,12 @@ const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['post-detail', postId],
+    queryKey: ['post', postId],
     queryFn: () => PostService.getPost(postId.toString()),
   })
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className="grid h-[100px] place-items-center bg-reddit-dark"> Loading...</div>
   }
 
   if (isError || !postData) {

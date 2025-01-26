@@ -31,7 +31,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['post-detail', postId],
+    queryKey: ['post', postId],
     queryFn: () => PostService.getPost(postId),
   })
 

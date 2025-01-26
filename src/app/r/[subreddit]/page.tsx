@@ -8,7 +8,6 @@ import useSWR from 'swr'
 
 import AboutCommunity from '@/components/AboutCommunity'
 import CreatePostCard from '@/components/CreatePostCard'
-import PostsList from '@/components/posts-list'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import SubredditService from '@/services/subreddit.service'
 import { JoinSubBody, SubredditType } from '@/types'
@@ -16,6 +15,8 @@ import formatSubName from '@/utils/formatSubName'
 import { useQuery } from '@tanstack/react-query'
 
 import SubIcon from '../../../images/subreddit_icon.png'
+
+import { SubredditFeed } from './_components'
 
 interface SubredditParams {
   params: {
@@ -103,7 +104,8 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
             </div>
           )}
           {/* {postDetails?.map((post, index) => <PostCard id={post._id.toString()} subViewFlag={false} key={index} />)} */}
-          <PostsList postIds={subInfo?.posts || []} />
+          {/* <PostsList postIds={subInfo?.posts || []} /> */}
+          <SubredditFeed subredditName={subredditName} />
         </div>
         <section className="w-full lg:w-80">
           <AboutCommunity subName={subredditName} />

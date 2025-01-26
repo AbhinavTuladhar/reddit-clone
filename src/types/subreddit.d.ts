@@ -19,4 +19,9 @@ export interface JoinSubBody {
   subreddit: string
 }
 
+export interface PopularSubreddits {
+  name: string
+  members: number
+}
+
 export { SubredditType } from '@/models/Subreddit'

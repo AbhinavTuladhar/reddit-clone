@@ -2,6 +2,8 @@ import { Types } from 'mongoose'
 
 export type voteStatus = 'upvoted' | 'nonvoted' | 'downvoted'
 
+export type SimpleVoteStatus = 'upvoted' | 'downvoted'
+
 export type ResourceType = 'post' | 'comment'
 
 export interface VotingRequestBody {

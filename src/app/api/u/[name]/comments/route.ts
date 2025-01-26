@@ -59,9 +59,7 @@ export const GET = async (request: NextRequest, params: RequestParams) => {
       if (!matchingObj) return {}
 
       return {
-        postAuthor: matchingObj.author,
-        postSubreddit: matchingObj.subreddit,
-        postTitle: matchingObj.title,
+        type: 'comment',
         postId: matchingObj._id,
         _id: obj1._id,
         createdAt: obj1.createdAt,
