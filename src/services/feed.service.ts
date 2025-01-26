@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Types } from 'mongoose'
 
 import { PAGINATION_SIZE } from '@/constants'
-import { ContentWithType, UserComment } from '@/types'
+import { ContentWithType, SimpleVoteStatus, UserComment } from '@/types'
 
 /**
  * For implementing infinite scrolling
@@ -73,6 +73,29 @@ class FeedService {
     const url = `/api/u/${userName}/comments?${params.toString()}`
     try {
       const response = await axios.get<UserComment[]>(url)
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  static async getUserVotedPosts({
+    userName,
+    pageParam,
+    voteType,
+  }: {
+    userName: string
+    pageParam: number
+    voteType: SimpleVoteStatus
+  }) {
+    const params = new URLSearchParams()
+    params.append('offset', pageParam.toString())
+    params.append('limit', PAGINATION_SIZE.toString())
+    params.append('type', voteType)
+
+    const url = `/api/u/${userName}/voted?${params.toString()}`
+    try {
+      const response = await axios.get<Types.ObjectId[]>(url)
       return response.data
     } catch (error) {
       console.error(error)
