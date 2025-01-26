@@ -55,10 +55,14 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx,css}": [
-      "npm run format"
+      "yarn run format"
     ],
     "**/*.{ts,tsx}": [
       "eslint --fix . --ext js,ts,tsx src"
     ]
+  },
+  "resolutions": {
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0"
   }
 }
