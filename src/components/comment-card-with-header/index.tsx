@@ -3,8 +3,7 @@ import Link from 'next/link'
 import { Types } from 'mongoose'
 import { FaRegCommentAlt } from 'react-icons/fa'
 
-import PostService from '@/services/post.service'
-import { useQuery } from '@tanstack/react-query'
+import usePost from '@/hooks/usePost'
 
 import CommentCardNew from '../comment-card-new'
 
@@ -15,10 +14,7 @@ interface CommentHeaderProps {
 }
 
 const CommentCardWithHeader: FC<CommentHeaderProps> = ({ commentId, postId, userName }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['post', postId],
-    queryFn: () => PostService.getPost(postId.toString()),
-  })
+  const { data, isLoading, isError } = usePost(postId.toString())
 
   if (isLoading) {
     return <div>Loading...</div>
