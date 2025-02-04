@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { createPortal } from 'react-dom'
 import { GiMegaphone } from 'react-icons/gi'
 import { SiReddit } from 'react-icons/si'
 import useSWR from 'swr'
@@ -70,12 +71,18 @@ const NavBar = () => {
       ) : (
         <Loader />
       )}
-      <ModalContainer visibilityFlag={modalState === 'login'}>
-        <LoginWindow modalState={modalState} setModalState={setModalState} />
-      </ModalContainer>
-      <ModalContainer visibilityFlag={modalState === 'signup'}>
-        <SignupWindow modalState={modalState} setModalState={setModalState} />
-      </ModalContainer>
+      {createPortal(
+        <ModalContainer visibilityFlag={modalState === 'login'}>
+          <LoginWindow modalState={modalState} setModalState={setModalState} />
+        </ModalContainer>,
+        document.body,
+      )}
+      {createPortal(
+        <ModalContainer visibilityFlag={modalState === 'signup'}>
+          <SignupWindow modalState={modalState} setModalState={setModalState} />
+        </ModalContainer>,
+        document.body,
+      )}
     </nav>
   )
 }
