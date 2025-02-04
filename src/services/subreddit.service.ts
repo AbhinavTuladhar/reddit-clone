@@ -21,7 +21,7 @@ class SubredditService {
       console.error(error)
     }
   }
-  static async getSubreddits() {
+  static async getSubredditList() {
     try {
       const response = await axios.get<SubredditListResponse[]>('/api/r')
       return response.data

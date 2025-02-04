@@ -4,16 +4,11 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import usePopularSubreddits from '@/hooks/usePopularSubreddits'
 import SubredditIcon from '@/images/subreddit_icon.png'
-import SubredditService from '@/services/subreddit.service'
-import { useQuery } from '@tanstack/react-query'
 
 const SubredditList = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['popular-subreddits'],
-    queryFn: SubredditService.getPopularSubs,
-  })
-
+  const { data, isLoading, isError } = usePopularSubreddits()
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -33,8 +28,7 @@ const SubredditList = () => {
           <Image src={SubredditIcon} alt="icon" className="h-10 w-10 rounded-full" />
           <div className="flex flex-col justify-between">
             <Link href={`r/${subreddit.name}`} className="text-base font-bold duration-200 hover:underline">
-              {' '}
-              {`r/${subreddit.name}`}{' '}
+              {`r/${subreddit.name}`}
             </Link>
             <span> {`${subreddit.members} ${subreddit.members === 1 ? 'member' : 'members'}`} </span>
           </div>

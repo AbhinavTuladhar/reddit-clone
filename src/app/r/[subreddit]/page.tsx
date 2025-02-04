@@ -9,10 +9,9 @@ import useSWR from 'swr'
 import AboutCommunity from '@/components/AboutCommunity'
 import CreatePostCard from '@/components/CreatePostCard'
 import useCurrentUser from '@/hooks/useCurrentUser'
-import SubredditService from '@/services/subreddit.service'
+import useSubreddit from '@/hooks/useSubreddit'
 import { JoinSubBody, SubredditType } from '@/types'
 import formatSubName from '@/utils/formatSubName'
-import { useQuery } from '@tanstack/react-query'
 
 import SubIcon from '../../../images/subreddit_icon.png'
 
@@ -31,10 +30,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
   const formattedSubredditName = formatSubName(subredditName)
   const { status, userName } = useCurrentUser()
 
-  const { data: subData } = useQuery({
-    queryKey: ['subreddit-detail', subredditName],
-    queryFn: () => SubredditService.getSubreddit(subredditName),
-  })
+  const { data: subData } = useSubreddit(subredditName)
 
   console.log(subData)
 

@@ -7,7 +7,7 @@ import useSWR from 'swr'
 import PostingRules from '@/components/PostingRules'
 import PostSubredditSelector from '@/components/PostSubredditSelector'
 import useCurrentUser from '@/hooks/useCurrentUser'
-import { useQuery } from '@tanstack/react-query'
+import useSubredditList from '@/hooks/useSubredditList'
 
 interface SubListResponse {
   name: string
@@ -68,13 +68,7 @@ const Page = () => {
   // Checking whether the post can be made or not
   const buttonDisableFlag = postData.title === '' || selectedSubreddit === placeholderSub
 
-  const { data: useQueryData } = useQuery({
-    queryKey: ['subreddit-list'],
-    queryFn: async () => {
-      const response = await axios.get('/api/r')
-      return response.data
-    },
-  })
+  const { data: useQueryData } = useSubredditList()
 
   console.log(useQueryData)
 
