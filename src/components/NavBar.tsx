@@ -71,18 +71,20 @@ const NavBar = () => {
       ) : (
         <Loader />
       )}
-      {createPortal(
-        <ModalContainer visibilityFlag={modalState === 'login'}>
-          <LoginWindow modalState={modalState} setModalState={setModalState} />
-        </ModalContainer>,
-        document.body,
-      )}
-      {createPortal(
-        <ModalContainer visibilityFlag={modalState === 'signup'}>
-          <SignupWindow modalState={modalState} setModalState={setModalState} />
-        </ModalContainer>,
-        document.body,
-      )}
+      {typeof window === 'object' &&
+        createPortal(
+          <ModalContainer visibilityFlag={modalState === 'login'}>
+            <LoginWindow modalState={modalState} setModalState={setModalState} />
+          </ModalContainer>,
+          document.body,
+        )}
+      {typeof window === 'object' &&
+        createPortal(
+          <ModalContainer visibilityFlag={modalState === 'signup'}>
+            <SignupWindow modalState={modalState} setModalState={setModalState} />
+          </ModalContainer>,
+          document.body,
+        )}
     </nav>
   )
 }
