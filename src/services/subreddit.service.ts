@@ -21,7 +21,7 @@ class SubredditService {
       console.error(error)
     }
   }
-  static async getSubreddits() {
+  static async getSubredditList() {
     try {
       const response = await axios.get<SubredditListResponse[]>('/api/r')
       return response.data
@@ -57,9 +57,9 @@ class SubredditService {
     }
   }
 
-  static async changeSubredditDescription(subredditName: string, requestBody: SubDescChangeBody) {
+  static async changeSubredditDescription(requestBody: SubDescChangeBody) {
     try {
-      const response = await axios.patch(`/api/r/${subredditName}`, requestBody)
+      const response = await axios.patch(`/api/r/${requestBody.name}`, requestBody)
       return response.data
     } catch (error) {
       console.error(error)

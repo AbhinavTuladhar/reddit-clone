@@ -3,8 +3,7 @@ import Link from 'next/link'
 import { Types } from 'mongoose'
 import { FaRegCommentAlt } from 'react-icons/fa'
 
-import PostService from '@/services/post.service'
-import { useQuery } from '@tanstack/react-query'
+import usePost from '@/hooks/usePost'
 
 interface CommentHeaderProps {
   postId: Types.ObjectId
@@ -15,12 +14,7 @@ interface CommentHeaderProps {
  * For displaying information about the post that the comment belongs to
  */
 const CommentHeader: FC<CommentHeaderProps> = ({ postId, userName }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['post', postId],
-    queryFn: () => PostService.getPost(postId.toString()),
-  })
-
-  console.log({ data, isLoading, isError })
+  const { data, isLoading, isError } = usePost(postId.toString())
 
   if (isLoading) {
     return <div>Loading...</div>

@@ -1,8 +1,7 @@
 import React, { FC } from 'react'
 import { Types } from 'mongoose'
 
-import CommentService from '@/services/comment.service'
-import { useQuery } from '@tanstack/react-query'
+import useComment from '@/hooks/useComment'
 
 import CommentDetailCard from '../comment-detail-card'
 
@@ -13,15 +12,7 @@ interface CommentCardProps {
 }
 
 const CommentCardNew: FC<CommentCardProps> = ({ commentId, postAuthor, showReply }) => {
-  const {
-    data: commentData,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ['comment', commentId],
-    queryFn: () => CommentService.getComment(commentId.toString()),
-  })
+  const { data: commentData, isLoading, isError, refetch } = useComment(commentId.toString())
 
   if (isLoading) {
     return <div>Loading...</div>

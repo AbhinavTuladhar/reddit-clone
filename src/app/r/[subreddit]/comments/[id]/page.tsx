@@ -6,9 +6,8 @@ import AboutCommunity from '@/components/AboutCommunity'
 import CommentCardNew from '@/components/comment-card-new'
 import PostVoteArrows from '@/components/post-vote-arrows'
 import useCurrentUser from '@/hooks/useCurrentUser'
-import PostService from '@/services/post.service'
+import usePost from '@/hooks/usePost'
 import { voteStatus } from '@/types'
-import { useQuery } from '@tanstack/react-query'
 
 import { CommentForm, IconRow, MetaData } from './_components'
 
@@ -25,15 +24,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
 
   const { status, userName } = useCurrentUser()
 
-  const {
-    data: postData,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ['post', postId],
-    queryFn: () => PostService.getPost(postId),
-  })
+  const { data: postData, isLoading, isError, refetch } = usePost(postId)
 
   if (isLoading) {
     return <div> Loading... </div>
