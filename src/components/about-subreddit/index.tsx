@@ -40,7 +40,7 @@ export const CommunityMemberCount: FC<{ memberCount: number }> = ({ memberCount 
   </div>
 )
 
-export const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
+const AboutSubreddit: React.FC<CommunityProps> = ({ subName }) => {
   const { data, isLoading, isError } = useSubreddit(subName)
 
   if (isLoading) {
@@ -66,3 +66,5 @@ export const AboutCommunity: React.FC<CommunityProps> = ({ subName }) => {
     </aside>
   )
 }
+
+export default AboutSubreddit

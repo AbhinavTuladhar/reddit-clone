@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="max-w-full overflow-x-clip px-4 pt-12 text-sm text-reddit-white md:px-6">{children}</main>
           </div>
         </Providers>
-        <ToastContainer theme="dark" />
+        <ToastContainer theme="dark" autoClose={2000} />
       </body>
     </html>
   )

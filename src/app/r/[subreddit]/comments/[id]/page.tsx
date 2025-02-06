@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import AboutCommunity from '@/components/AboutCommunity'
+import AboutSubreddit from '@/components/about-subreddit'
 import CommentCardNew from '@/components/comment-card-new'
 import PostVoteArrows from '@/components/post-vote-arrows'
 import useCurrentUser from '@/hooks/useCurrentUser'
@@ -90,10 +90,6 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
           <span className="ml-4 flex flex-shrink justify-end text-white"> {comments?.length} comments </span>
         </div>
 
-        {/* {commentData.map((comment, index) => (
-          <CommentCard _id={comment.toString()} postAuthor={author || ''} showReply={true} key={index} />
-        ))} */}
-
         {commentData.map((comment) => (
           <CommentCardNew key={comment.toString()} commentId={comment} postAuthor={author || ''} showReply />
         ))}
@@ -101,7 +97,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
 
       <section className="w-full lg:w-80">
         <div className="sticky top-16">
-          <AboutCommunity subName={subredditName} />
+          <AboutSubreddit subName={subredditName} />
         </div>
       </section>
     </main>

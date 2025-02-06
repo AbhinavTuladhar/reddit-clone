@@ -2,10 +2,10 @@
 
 import React from 'react'
 
+import AboutSubreddit from '@/components/about-subreddit'
 import CreatePostCard from '@/components/CreatePostCard'
 import useCurrentUser from '@/hooks/useCurrentUser'
 
-import { AboutCommunity } from './_components'
 import { SubredditFeed, SubredditHeader } from './_components'
 
 interface SubredditParams {
@@ -31,7 +31,7 @@ const Page: React.FC<SubredditParams> = ({ params }) => {
           <SubredditFeed subredditName={subredditName} />
         </div>
         <section className="w-full lg:w-80">
-          <AboutCommunity subName={subredditName} />
+          <AboutSubreddit subName={subredditName} />
         </section>
       </div>
     </div>
