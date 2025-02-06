@@ -2,6 +2,7 @@
 
 import React, { FC, useState } from 'react'
 import classNames from 'classnames'
+import { toast } from 'react-toastify'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useSubreddit from '@/hooks/useSubreddit'
@@ -52,10 +53,12 @@ const JoinButtonBody: FC<JoinButtonBodyProps> = ({ initialJoinStatus, subredditN
   const { mutate } = useMutation({
     mutationFn: SubredditService.joinSubreddit,
     onSuccess: () => {
-      console.log('Successfully joined the subreddit.')
+      toast.success('Successfully joined the subreddit.')
+      // console.log('Successfully joined the subreddit.')
     },
     onError: () => {
-      console.log('Failed to join the subreddit.')
+      toast.error('Failed to join the subreddit.')
+      console.error('Failed to join the subreddit.')
     },
   })
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Types } from 'mongoose'
+import { toast } from 'react-toastify'
 
 import CommentService from '@/services/comment.service'
 import PostService from '@/services/post.service'
@@ -50,10 +51,12 @@ const useResourceVote = ({
     mutationFn: resourceType === 'post' ? PostService.updatePostVoteCount : CommentService.updateCommentVoteCount,
     onSuccess: () => {
       refetchResource()
+      toast.success(`Successfully voted on ${resourceType}`)
       console.log('The use resource vote was successful')
     },
     onError: () => {
-      console.log('The use resource vote failed')
+      toast.error(`Failed to vote on ${resourceType}`)
+      console.error('The use resource vote failed')
     },
   })
 

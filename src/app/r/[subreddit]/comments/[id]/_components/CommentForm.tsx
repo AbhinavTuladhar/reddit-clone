@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Types } from 'mongoose'
+import { toast } from 'react-toastify'
 
 import CommentService from '@/services/comment.service'
 import { useMutation } from '@tanstack/react-query'
@@ -24,9 +25,11 @@ export const CommentForm: React.FC<CommentFormProps> = ({ userName, postId, refe
   const { mutate: createComment } = useMutation({
     mutationFn: CommentService.createComment,
     onSuccess: () => {
+      toast.success('Comment successfully posted!')
       refetchComments()
     },
     onError: (error) => {
+      toast.error('Failed to post the comment!')
       console.error(error)
     },
   })
