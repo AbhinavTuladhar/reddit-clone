@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { ToastContainer } from 'react-toastify'
 
 import AuthProvider from '@/components/AuthProvider'
 import NavBar from '@/components/NavBar'
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="max-w-full overflow-x-clip px-4 pt-12 text-sm text-reddit-white md:px-6">{children}</main>
           </div>
         </Providers>
+        <ToastContainer theme="dark" />
       </body>
     </html>
   )
