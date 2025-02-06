@@ -2,6 +2,7 @@
 
 import React, { FC, FormEvent, useState } from 'react'
 import { Types } from 'mongoose'
+import { toast } from 'react-toastify'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import CommentService from '@/services/comment.service'
@@ -33,9 +34,11 @@ const ReplyForm: FC<ReplyFormProps> = ({ toggleVisibility, postId, parentComment
       queryClient.invalidateQueries({
         queryKey: ['comment', parentCommentId],
       })
+      toast.success('Reply successfully created.')
       console.log('Reply successfully created.')
     },
     onError: (error) => {
+      toast.error('Failed to reply to the comment.')
       console.error(error)
     },
   })

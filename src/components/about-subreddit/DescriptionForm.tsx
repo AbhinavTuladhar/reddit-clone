@@ -1,6 +1,7 @@
 'use state'
 
 import React, { FC, FormEvent, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import { MAX_SUB_DESC_LENGTH } from '@/constants'
 import SubredditService from '@/services/subreddit.service'
@@ -31,11 +32,11 @@ export const DescriptionForm: FC<FormProps> = ({ subredditName, initialDescripti
   const { mutate } = useMutation({
     mutationFn: SubredditService.changeSubredditDescription,
     onSuccess: () => {
+      toast.success('Successfully changed the subreddit description.')
       queryClient.invalidateQueries({ queryKey: ['subreddit', subredditName] })
-      console.log('Successfully changed the subreddit description.')
     },
     onError: () => {
-      console.log('Failed to change the subreddit description.')
+      toast.error('Failed to change the subreddit description.')
     },
   })
 

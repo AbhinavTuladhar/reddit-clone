@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 import { Types } from 'mongoose'
+import { toast } from 'react-toastify'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import CommentService from '@/services/comment.service'
@@ -25,9 +26,11 @@ const EditForm: FC<EditFormProps> = ({ currentComment, toggleEditing, commentId 
       queryClient.invalidateQueries({
         queryKey: ['comment', commentId],
       })
+      toast.success('Successfully edited the comment.')
       console.log('Comment successfully edited.')
     },
     onError: (error) => {
+      toast.error('Failed toe edit the comment')
       console.error(error)
     },
   })

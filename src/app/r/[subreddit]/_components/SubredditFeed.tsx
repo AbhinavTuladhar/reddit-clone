@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
