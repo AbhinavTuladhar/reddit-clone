@@ -57,9 +57,9 @@ class SubredditService {
     }
   }
 
-  static async changeSubredditDescription(subredditName: string, requestBody: SubDescChangeBody) {
+  static async changeSubredditDescription(requestBody: SubDescChangeBody) {
     try {
-      const response = await axios.patch(`/api/r/${subredditName}`, requestBody)
+      const response = await axios.patch(`/api/r/${requestBody.name}`, requestBody)
       return response.data
     } catch (error) {
       console.error(error)

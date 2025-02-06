@@ -2,10 +2,10 @@
 
 import React from 'react'
 
-import AboutCommunity from '@/components/AboutCommunity'
 import CreatePostCard from '@/components/CreatePostCard'
 import useCurrentUser from '@/hooks/useCurrentUser'
 
+import { AboutCommunity } from './_components'
 import { SubredditFeed, SubredditHeader } from './_components'
 
 interface SubredditParams {
