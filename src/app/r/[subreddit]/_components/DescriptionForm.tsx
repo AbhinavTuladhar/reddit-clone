@@ -23,7 +23,7 @@ export const DescriptionForm: FC<FormProps> = ({ subredditName, initialDescripti
     const {
       target: { value },
     } = event
-    if (description.length <= MAX_SUB_DESC_LENGTH) {
+    if (description.length < MAX_SUB_DESC_LENGTH) {
       setDescription(value)
     }
   }
@@ -54,8 +54,12 @@ export const DescriptionForm: FC<FormProps> = ({ subredditName, initialDescripti
     setCharactersRemaining(MAX_SUB_DESC_LENGTH - initialDescription.length)
   }, [initialDescription, setDescription])
 
+  useEffect(() => {
+    setCharactersRemaining(MAX_SUB_DESC_LENGTH - description.length)
+  }, [description])
+
   return (
-    <form className="peer flex flex-col" onSubmit={handleSubmit}>
+    <form className="peer flex w-full flex-col" onSubmit={handleSubmit}>
       <textarea
         className="resize-none border border-reddit-gray bg-reddit-gray p-1 placeholder:text-reddit-placeholder-gray peer-focus:border peer-focus:border-slate-100"
         placeholder="Tell us about your community"

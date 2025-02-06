@@ -37,7 +37,7 @@ export const CommunityDescription: FC<DescriptionProps> = ({ creator, descriptio
    * Description is empty and the current user is the creator of the subreddit.
    * Action: allow editing
    */
-  if (description === '') {
+  if (description === '' && !isEditing) {
     return (
       <div
         className="flex flex-row border border-black bg-reddit-gray px-2 py-1 duration-300 hover:cursor-pointer hover:border-slate-100"
