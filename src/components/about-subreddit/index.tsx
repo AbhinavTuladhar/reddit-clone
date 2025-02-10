@@ -4,20 +4,12 @@ import React, { FC } from 'react'
 import { LuCake } from 'react-icons/lu'
 
 import useSubreddit from '@/hooks/useSubreddit'
+import { formatDate } from '@/utils/date.utils'
 
 import { CommunityDescription } from './CommunityDescription'
 
 interface CommunityProps {
   subName: string
-}
-
-function formatDate(inputDate: string) {
-  const date = new Date(inputDate)
-  return date.toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
 }
 
 // For showing the cake day
