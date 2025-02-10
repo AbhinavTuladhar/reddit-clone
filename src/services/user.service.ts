@@ -7,7 +7,7 @@ type CommentDetails = Omit<SpecificContentId, 'type'>
 class UserService {
   static async getUserData(userName: string) {
     try {
-      const response = await axios.get<UserType>(`api/user/${userName}/overview?offset=0&limit=10`)
+      const response = await axios.get<UserType>(`/api/u/${userName}`)
       return response.data
     } catch (error) {
       console.error(error)
@@ -16,7 +16,7 @@ class UserService {
 
   static async getUserOverview(userName: string, offset: number) {
     try {
-      const response = await axios.get<SpecificContentId[]>(`/api/user/${userName}/overview?offset=${offset}&limit=10`)
+      const response = await axios.get<SpecificContentId[]>(`/api/u/${userName}/overview?offset=${offset}&limit=10`)
       return response.data
     } catch (error) {
       console.error(error)
@@ -25,7 +25,7 @@ class UserService {
 
   static async getUserComments(userName: string, offset: number) {
     try {
-      const response = await axios.get<CommentDetails[]>(`/api/user/${userName}/comments?offset=${offset}&limit=10`)
+      const response = await axios.get<CommentDetails[]>(`/api/u/${userName}/comments?offset=${offset}&limit=10`)
       return response.data
     } catch (error) {
       console.error(error)
@@ -34,7 +34,7 @@ class UserService {
 
   static async getVotedPosts(userName: string, offset: number) {
     try {
-      const response = await axios.get<VotedPosts>(`/api/user/${userName}/voted?offset=${offset}&limit=10`)
+      const response = await axios.get<VotedPosts>(`/api/u/${userName}/voted?offset=${offset}&limit=10`)
       return response.data
     } catch (error) {
       console.error(error)
@@ -43,16 +43,18 @@ class UserService {
 
   static async getUserPosts(userName: string, offset: number) {
     try {
-      const response = await axios.get<ContentId[]>(`/api/user/${userName}/posts?offset=${offset}&limit=10`)
+      const response = await axios.get<ContentId[]>(`/api/u/${userName}/posts?offset=${offset}&limit=10`)
       return response.data
     } catch (error) {
       console.error(error)
     }
   }
 
-  static async updateUserBio(userName: string, body: UserBioChangeBody) {
+  static async updateUserBio(body: UserBioChangeBody) {
+    const { name: userName } = body
+
     try {
-      const response = await axios.patch(`/api/user/${userName}/bioChange`, body)
+      const response = await axios.patch(`/api/u/${userName}/bioChange`, body)
       return response.data
     } catch (error) {
       console.error(error)
