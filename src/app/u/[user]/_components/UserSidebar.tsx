@@ -1,3 +1,5 @@
+'use client'
+
 import React, { FC } from 'react'
 import Image from 'next/image'
 import { LuCake } from 'react-icons/lu'
@@ -6,6 +8,8 @@ import { PiFlowerFill } from 'react-icons/pi'
 import useUser from '@/hooks/useUser'
 import ProfilePic from '@/images/profile_pic.png'
 import { formatDate } from '@/utils/date.utils'
+
+import { UserDescription } from './UserDescription'
 
 const UserIntro: FC<{ userName: string }> = ({ userName }) => (
   <>
@@ -49,7 +53,9 @@ const DateCard: FC<{ date: Date }> = ({ date }) => {
 }
 
 const UserSidebar: FC<{ userName: string }> = ({ userName }) => {
-  const { data, isLoading, isError } = useUser(userName)
+  const userQuery = useUser(userName)
+
+  const { data, isLoading, isError } = userQuery
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -70,6 +76,7 @@ const UserSidebar: FC<{ userName: string }> = ({ userName }) => {
       <div className="h-24 w-full rounded border border-reddit-border bg-reddit-blue" />
       <div className="flex flex-col gap-y-2 bg-reddit-dark p-4">
         <UserIntro userName={userName} />
+        <UserDescription description={bio} userName={userName} />
         <div className="flex justify-between text-xs">
           <KarmaCard postKarma={postKarma} commentKarma={commentKarma} />
           <DateCard date={createdAt} />
