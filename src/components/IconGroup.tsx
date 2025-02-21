@@ -11,11 +11,7 @@ import { Tooltip } from 'react-tooltip'
 import ModalContainer from './ModalContainer'
 import SubCreationWindow from './SubCreationWindow'
 
-interface IconProps {
-  mutateData: () => void
-}
-
-const IconGroup: React.FC<IconProps> = ({ mutateData }) => {
+const IconGroup = () => {
   const [subCreationFlag, setSubCreationFlag] = useState(false)
 
   const handleModalView = () => {
@@ -26,7 +22,7 @@ const IconGroup: React.FC<IconProps> = ({ mutateData }) => {
   return (
     <>
       <ModalContainer visibilityFlag={subCreationFlag} containerClassName="w-5/6 mx-auto">
-        <SubCreationWindow handleModalView={handleModalView} mutateData={mutateData} />
+        <SubCreationWindow handleModalView={handleModalView} />
       </ModalContainer>
       <div className="hidden sm:flex sm:flex-row sm:gap-x-1.5">
         <CgArrowTopRightO id="createSub" className={className} onClick={handleModalView} />

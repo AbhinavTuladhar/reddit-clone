@@ -2,7 +2,7 @@ import React from 'react'
 
 import ProfileNavigation from '@/components/ProfileNavigation'
 
-import UserSidebar from './_components/UserSidebar'
+import { UserSidebar } from './_components/'
 
 interface LayoutProps {
   children: React.ReactNode

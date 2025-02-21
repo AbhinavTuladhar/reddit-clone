@@ -6,13 +6,14 @@ import axios from 'axios'
 import { RxCross2 } from 'react-icons/rx'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface SubProps {
   handleModalView: () => void
-  mutateData: () => void
 }
 
-const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) => {
+const SubCreationWindow: React.FC<SubProps> = ({ handleModalView }) => {
+  const queryClient = useQueryClient()
   const nameLimit = 21
   const [charactersRemaining, setCharactersRemaining] = useState(nameLimit)
   const [subredditName, setSubredditName] = useState('')
@@ -46,7 +47,7 @@ const SubCreationWindow: React.FC<SubProps> = ({ handleModalView, mutateData }) 
     const response = await axios.post('/api/r', { email, subredditName })
     response.status === 201 && router.push('/?success=subreddit created')
 
-    mutateData()
+    queryClient.invalidateQueries({ queryKey: ['subreddit-list'] })
     handleModalView()
   }
 
