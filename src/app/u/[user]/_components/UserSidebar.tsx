@@ -52,7 +52,7 @@ const DateCard: FC<{ date: Date }> = ({ date }) => {
   )
 }
 
-const UserSidebar: FC<{ userName: string }> = ({ userName }) => {
+export const UserSidebar: FC<{ userName: string }> = ({ userName }) => {
   const userQuery = useUser(userName)
 
   const { data, isLoading, isError } = userQuery
@@ -85,5 +85,3 @@ const UserSidebar: FC<{ userName: string }> = ({ userName }) => {
     </aside>
   )
 }
-
-export default UserSidebar
