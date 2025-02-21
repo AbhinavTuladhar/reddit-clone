@@ -4,10 +4,13 @@ import { useInView } from 'react-intersection-observer'
 import Loader from '@/components/Loader'
 import PostCard from '@/components/post-card'
 import { PAGINATION_SIZE } from '@/constants'
+import useCurrentUser from '@/hooks/useCurrentUser'
 import FeedService from '@/services/feed.service'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 export const HomeFeed = () => {
+  const { userName } = useCurrentUser()
+
   const { ref, inView } = useInView({
     rootMargin: '200px',
   })

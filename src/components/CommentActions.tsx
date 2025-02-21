@@ -9,15 +9,15 @@ import { FiBookmark } from 'react-icons/fi'
 import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 import { SlPencil } from 'react-icons/sl'
 
-import { voteStatus } from '@/types'
+import { VoteStatus } from '@/types'
 
 import IconWithText from './IconWithText'
 
 interface CommentActionProps {
   sameUser: boolean
-  voteStatus: voteStatus
+  voteStatus: VoteStatus
   effectiveKarma: number
-  handleVoteChange: (status: voteStatus) => void
+  handleVoteChange: (status: VoteStatus) => void
   toggleReplyVisibility: () => void
   toggleEditing: () => void
 }

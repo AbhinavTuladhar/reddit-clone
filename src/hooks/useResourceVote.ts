@@ -4,13 +4,13 @@ import { toast } from 'react-toastify'
 
 import CommentService from '@/services/comment.service'
 import PostService from '@/services/post.service'
-import { ResourceType, voteStatus, VotingRequestBodyWithId } from '@/types'
+import { ResourceType, VoteStatus, VotingRequestBodyWithId } from '@/types'
 import updateVoteStatus from '@/utils/updateVoteStatus'
 import { useMutation } from '@tanstack/react-query'
 
 interface VoteProps {
   author: string | undefined
-  initialVoteStatus: voteStatus
+  initialVoteStatus: VoteStatus
   refetchResource: () => void
   status: string
   userName: string
@@ -44,7 +44,7 @@ const useResourceVote = ({
   status,
   userName,
 }: VoteProps) => {
-  const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+  const [voteStatus, setVoteStatus] = useState<VoteStatus>(() => initialVoteStatus)
 
   // The mutation hook for changing the votes
   const { mutate: updateVotes } = useMutation({
@@ -60,7 +60,7 @@ const useResourceVote = ({
     },
   })
 
-  const handleVoteChange = async (targetStatus: voteStatus) => {
+  const handleVoteChange = async (targetStatus: VoteStatus) => {
     if (status !== 'authenticated') {
       alert('Please login to vote.')
       return

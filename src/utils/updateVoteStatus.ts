@@ -1,7 +1,7 @@
-import { voteStatus } from '@/types'
+import { VoteStatus } from '@/types'
 
-const updateVoteStatus = (initialVoteStatus: voteStatus, targetStatus: voteStatus) => {
-  let newVoteStatus: voteStatus = 'nonvoted'
+const updateVoteStatus = (initialVoteStatus: VoteStatus, targetStatus: VoteStatus) => {
+  let newVoteStatus: VoteStatus = 'nonvoted'
 
   if (initialVoteStatus === targetStatus && targetStatus === 'upvoted') {
     newVoteStatus = 'nonvoted'

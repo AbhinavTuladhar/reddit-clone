@@ -1,4 +1,4 @@
-import { voteStatus } from '@/types'
+import { VoteStatus } from '@/types'
 
 interface VoteStatusProps {
   userName: string
@@ -8,7 +8,7 @@ interface VoteStatusProps {
 }
 
 const getVoteStatus = ({ author, upvotedBy, downvotedBy, userName }: VoteStatusProps) => {
-  let initialVoteStatus: voteStatus = 'nonvoted'
+  let initialVoteStatus: VoteStatus = 'nonvoted'
 
   if (upvotedBy.includes(userName) || author === userName) {
     initialVoteStatus = 'upvoted'

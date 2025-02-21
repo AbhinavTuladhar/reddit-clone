@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 
-export type voteStatus = 'upvoted' | 'nonvoted' | 'downvoted'
+export type VoteStatus = 'upvoted' | 'nonvoted' | 'downvoted'
 
 export type SimpleVoteStatus = 'upvoted' | 'downvoted'
 
@@ -9,7 +9,7 @@ export type ResourceType = 'post' | 'comment'
 export interface VotingRequestBody {
   user: string
   author: string
-  voteTarget: voteStatus
+  voteTarget: VoteStatus
 }
 
 export interface VotingRequestBodyWithId extends VotingRequestBody {

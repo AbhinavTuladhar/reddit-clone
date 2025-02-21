@@ -10,7 +10,7 @@ import { FiBookmark } from 'react-icons/fi'
 import { PiShareFatBold } from 'react-icons/pi'
 
 import useToggle from '@/hooks/useToggle'
-import { PostType, voteStatus } from '@/types'
+import { PostTypeNew } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
 
 import IconWithText from '../IconWithText'
@@ -26,14 +26,13 @@ const extraRowIcons = [
 
 interface CardProps {
   postId: Types.ObjectId
-  postData: PostType
+  postData: PostTypeNew
   refetch: () => void
   subViewFlag?: boolean
-  initialVoteStatus: voteStatus
 }
 
-const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, initialVoteStatus, subViewFlag = false }) => {
-  const { author, subreddit, title, createdAt, upvotedBy, downvotedBy, comments } = postData
+const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, subViewFlag = false }) => {
+  const { author, subreddit, title, createdAt, comments, voteStatus, effectiveKarma } = postData
 
   const { value: isMenuOpen, toggleValue: toggleMenu } = useToggle(false)
 
@@ -46,9 +45,8 @@ const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, initialV
         <PostVoteArrows
           postId={postId}
           author={author}
-          initialVoteStatus={initialVoteStatus}
-          upvotedBy={upvotedBy}
-          downvotedBy={downvotedBy}
+          initialVoteStatus={voteStatus}
+          effectiveKarma={effectiveKarma}
           refetch={refetch}
           resourceType="post"
         />
@@ -80,9 +78,8 @@ const PresentationalCard: FC<CardProps> = ({ postData, postId, refetch, initialV
             <PostVoteArrows
               postId={postId}
               author={author}
-              initialVoteStatus={initialVoteStatus}
-              upvotedBy={upvotedBy}
-              downvotedBy={downvotedBy}
+              initialVoteStatus={voteStatus}
+              effectiveKarma={effectiveKarma}
               refetch={refetch}
               resourceType="post"
             />
