@@ -62,7 +62,7 @@ const useResourceVote = ({
 
   const handleVoteChange = async (targetStatus: VoteStatus) => {
     if (status !== 'authenticated') {
-      alert('Please login to vote.')
+      toast.info('Please login to vote.')
       return
     }
 

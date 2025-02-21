@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { Types } from 'mongoose'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { SlPencil } from 'react-icons/sl'
+import { toast } from 'react-toastify'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useToggle from '@/hooks/useToggle'
@@ -47,9 +48,17 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
     voteStatus,
   } = commentData
 
-  const { userName } = useCurrentUser()
+  const { userName, status } = useCurrentUser()
   const { value: replyFormFlag, toggleValue: toggleReplyForm } = useToggle(false)
   const { value: editFlag, toggleValue: toggleEditFlag } = useToggle(false)
+
+  const handleToggleReplyForm = () => {
+    if (status === 'authenticated') {
+      toggleReplyForm()
+    } else {
+      toast.info('Please login to reply to comment.')
+    }
+  }
 
   const dateString = calculateDateString(new Date(createdAt), new Date())
   const editedDateString = calculateDateString(new Date(editedAt), new Date())
@@ -99,7 +108,7 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
                   <IconWithText
                     icon={<FaRegCommentAlt className="h-4 w-4" />}
                     text="Reply"
-                    handleClick={toggleReplyForm}
+                    handleClick={handleToggleReplyForm}
                   />
                   {userName === author ? (
                     <IconWithText icon={<SlPencil className="h-4 w-4" />} text="Edit" handleClick={toggleEditFlag} />
