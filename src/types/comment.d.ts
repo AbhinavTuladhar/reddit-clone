@@ -1,5 +1,7 @@
 import { Types } from 'mongoose'
 
+import { CommentType } from '@/models/Comment'
+
 export interface CommentEditBody {
   userName: string
   content: string
@@ -16,4 +18,9 @@ export interface CommentCreationBody {
   parentComment?: string
 }
 
-export { CommentType } from '@/models/Comment'
+export interface CommentTypeNew extends Omit<CommentType, 'upvotedBy' | 'downvotedBy'> {
+  voteStatus: VoteStatus
+  effectiveKarma: number
+}
+
+export { CommentType }

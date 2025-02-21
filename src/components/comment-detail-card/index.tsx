@@ -8,9 +8,8 @@ import { SlPencil } from 'react-icons/sl'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useToggle from '@/hooks/useToggle'
 import Profile from '@/images/reddit_default_pp.png'
-import { CommentType } from '@/types'
+import { CommentTypeNew } from '@/types'
 import calculateDateString from '@/utils/calculateDateString'
-import getVoteStatus from '@/utils/getVoteStatus'
 
 import CommentCardNew from '../comment-card-new'
 import IconWithText from '../IconWithText'
@@ -21,7 +20,7 @@ import MetaData from './MetaData'
 import ReplyForm from './ReplyForm'
 
 interface CommentDetailProps {
-  commentData: CommentType
+  commentData: CommentTypeNew
   commentId: Types.ObjectId
   postAuthor: string
   showReply?: boolean
@@ -38,14 +37,14 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
   const {
     author,
     post: postId,
-    upvotedBy,
-    downvotedBy,
     replies,
     content,
     createdAt,
     editedAt,
     editedFlag,
     parentComment,
+    effectiveKarma,
+    voteStatus,
   } = commentData
 
   const { userName } = useCurrentUser()
@@ -56,13 +55,6 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
   const editedDateString = calculateDateString(new Date(editedAt), new Date())
 
   const paragraphs = content?.split('\n')
-
-  const initialVoteStatus = getVoteStatus({
-    author,
-    upvotedBy,
-    downvotedBy,
-    userName,
-  })
 
   return (
     <div
@@ -98,11 +90,10 @@ const CommentDetailCard: FC<CommentDetailProps> = ({
                 <div className="relative z-20 flex w-fit items-center gap-x-2">
                   <PostVoteArrows
                     author={author}
-                    downvotedBy={downvotedBy}
-                    upvotedBy={upvotedBy}
                     resourceType="comment"
                     refetch={refetch}
-                    initialVoteStatus={initialVoteStatus}
+                    initialVoteStatus={voteStatus}
+                    effectiveKarma={effectiveKarma}
                     postId={commentId}
                   />
                   <IconWithText
