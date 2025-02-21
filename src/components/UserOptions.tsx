@@ -5,14 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signOut } from 'next-auth/react'
-import axios from 'axios'
 import { PiCaretDown } from 'react-icons/pi'
 import { PiFlowerFill } from 'react-icons/pi'
-import useSWR from 'swr'
 
-import { UserType } from '@/types'
+import useUser from '@/hooks/useUser'
 
 import Profile from '../images/reddit_default_pp.png'
+
+import Loader from './Loader'
 
 interface UserOptionsProps {
   userName: string | null | undefined
@@ -22,10 +22,21 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()
 
-  const fetcher = (url: string) => axios.get(url).then((response) => response.data)
-  const { data: userData } = useSWR<UserType>(`/api/u/${userName}`, fetcher)
+  const { data: userData, isLoading, isError } = useUser(userName as string)
 
-  const { commentKarma = 0, postKarma = 0 } = userData || {}
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (isError) {
+    return <div>Error</div>
+  }
+
+  if (!userData) {
+    return <div>User not found</div>
+  }
+
+  const { commentKarma = 0, postKarma = 0 } = userData
   const totalKarma = Math.max(1, postKarma + commentKarma)
 
   const toggleMenu = () => {
@@ -64,12 +75,10 @@ const UserOptions: React.FC<UserOptionsProps> = ({ userName }) => {
           href={`/u/${userName}`}
           onClick={toggleMenu}
         >
-          {' '}
-          Profile{' '}
+          Profile
         </Link>
         <div className="p-2 duration-200 hover:cursor-pointer hover:bg-reddit-hover-gray" onClick={handleLogOut}>
-          {' '}
-          Sign out{' '}
+          Sign out
         </div>
       </div>
     </div>

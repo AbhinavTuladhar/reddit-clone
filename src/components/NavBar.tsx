@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import Link from 'next/link'
 import { createPortal } from 'react-dom'
 import { GiMegaphone } from 'react-icons/gi'
@@ -48,15 +48,13 @@ const NavBar = () => {
             className="whitespace-nowrap rounded-3xl bg-reddit-orange p-2 text-white hover:brightness-50"
             onClick={() => setModalState('login')}
           >
-            {' '}
-            Log In{' '}
+            Log In
           </button>
           <button
             className="whitespace-nowrap rounded-3xl bg-white p-2 text-reddit-orange hover:brightness-50"
             onClick={() => setModalState('signup')}
           >
-            {' '}
-            Sign up{' '}
+            Sign up
           </button>
         </div>
       ) : status === 'authenticated' ? (
@@ -66,7 +64,9 @@ const NavBar = () => {
             <GiMegaphone className="h-6 w-10" />
             <span> Advertise </span>
           </div>
-          <UserOptions userName={userName} />
+          <Suspense fallback={<Loader />}>
+            <UserOptions userName={userName} />
+          </Suspense>
         </>
       ) : (
         <Loader />
