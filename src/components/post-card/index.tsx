@@ -5,7 +5,6 @@ import { Types } from 'mongoose'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import usePost from '@/hooks/usePost'
-import getVoteStatus from '@/utils/getVoteStatus'
 
 import PresentationalCard from './PresentationalCard'
 
@@ -16,8 +15,7 @@ interface PostCardProps {
 
 const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
   const { userName } = useCurrentUser()
-
-  const { data: postData, isLoading, isError, refetch } = usePost(postId.toString())
+  const { data: postData, isLoading, isError, refetch } = usePost(postId.toString(), userName)
 
   if (isLoading) {
     return <div className="grid h-[100px] place-items-center bg-reddit-dark"> Loading...</div>
@@ -27,19 +25,7 @@ const PostCard: FC<PostCardProps> = ({ postId, subViewFlag }) => {
     return <div>Error</div>
   }
 
-  const { author, upvotedBy, downvotedBy } = postData
-
-  const voteStatus = getVoteStatus({ author, upvotedBy, downvotedBy, userName })
-
-  return (
-    <PresentationalCard
-      postId={postId}
-      postData={postData}
-      refetch={refetch}
-      subViewFlag={subViewFlag}
-      initialVoteStatus={voteStatus}
-    />
-  )
+  return <PresentationalCard postId={postId} postData={postData} refetch={refetch} subViewFlag={subViewFlag} />
 }
 
 export default PostCard

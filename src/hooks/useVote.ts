@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-import { voteStatus } from '@/types'
+import { VoteStatus } from '@/types'
 
 interface VoteProps {
   author: string | undefined
   apiUrl: string
-  initialVoteStatus: voteStatus
+  initialVoteStatus: VoteStatus
   mutate: () => void
   status: string
   userName: string
@@ -29,15 +29,15 @@ interface VoteProps {
  * @property {function} handleVoteChange  An async function for handling vote changes using PATCH request.
  */
 const useVote = ({ author, apiUrl, initialVoteStatus, mutate, status, userName }: VoteProps) => {
-  const [voteStatus, setVoteStatus] = useState<voteStatus>(initialVoteStatus)
+  const [voteStatus, setVoteStatus] = useState<VoteStatus>(initialVoteStatus)
 
-  const handleVoteChange = async (targetStatus: voteStatus) => {
+  const handleVoteChange = async (targetStatus: VoteStatus) => {
     if (status !== 'authenticated') {
       alert('Please login to vote.')
       return
     }
 
-    let newVoteStatus: voteStatus = 'nonvoted'
+    let newVoteStatus: VoteStatus = 'nonvoted'
 
     if (voteStatus === targetStatus && targetStatus === 'upvoted') {
       newVoteStatus = 'nonvoted'

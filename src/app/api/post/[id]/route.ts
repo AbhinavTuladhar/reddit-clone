@@ -4,7 +4,7 @@ import { Types } from 'mongoose'
 import Comment from '@/models/Comment'
 import Post from '@/models/Post'
 import User from '@/models/User'
-import { VotingRequestBody } from '@/types'
+import { VoteStatus, VotingRequestBody } from '@/types'
 import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {
@@ -13,19 +13,28 @@ interface RequestParams {
   }
 }
 
-export const GET = async (_request: NextRequest, params: RequestParams) => {
+export const GET = async (request: NextRequest, params: RequestParams) => {
   const {
     params: { id },
   } = params
+  const userName = request.nextUrl.searchParams.get('userName') || ''
 
   try {
     await connectDatabase()
 
-    const foundPost = await Post.findOne({ _id: id })
+    let foundPost = await Post.findOne({ _id: id })
 
     if (!foundPost) {
       return new NextResponse(JSON.stringify({ message: 'Post not found!' }), { status: 501 })
     }
+
+    // Check the status of the vote depending on whether the user is in the list of upvoters or downvoters
+    const voteStatus: VoteStatus =
+      foundPost.upvotedBy.includes(userName) || foundPost.author === userName
+        ? 'upvoted'
+        : foundPost.downvotedBy.includes(userName)
+          ? 'downvoted'
+          : 'nonvoted'
 
     // Fetch the top-level comment IDs for the post
     const topLevelCommentsList = await Comment.find({ post: id, parentComment: null }, { _id: 1 })
@@ -33,10 +42,15 @@ export const GET = async (_request: NextRequest, params: RequestParams) => {
     // Extract IDs from the query result
     const topLevelComments = topLevelCommentsList.map((comment) => comment._id)
 
+    // Remove the upovted and downvoters list from the object
+    const { upvotedBy: _upvote, downvotedBy: _downvote, ...postData } = foundPost.toJSON()
+
     // Include the IDs in the post data
     const postWithTopLevelCommentIds = {
-      ...foundPost.toJSON(),
+      ...postData,
       topLevelComments,
+      voteStatus,
+      effectiveKarma: foundPost.upvotedBy.length - foundPost.downvotedBy.length + 1,
     }
 
     return new NextResponse(JSON.stringify(postWithTopLevelCommentIds), { status: 201 })

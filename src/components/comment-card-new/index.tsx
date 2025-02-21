@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Types } from 'mongoose'
 
 import useComment from '@/hooks/useComment'
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 import CommentDetailCard from '../comment-detail-card'
 
@@ -12,7 +13,8 @@ interface CommentCardProps {
 }
 
 const CommentCardNew: FC<CommentCardProps> = ({ commentId, postAuthor, showReply }) => {
-  const { data: commentData, isLoading, isError, refetch } = useComment(commentId.toString())
+  const { userName } = useCurrentUser()
+  const { data: commentData, isLoading, isError, refetch } = useComment(commentId.toString(), userName)
 
   if (isLoading) {
     return <div>Loading...</div>

@@ -1,10 +1,10 @@
 import CommentService from '@/services/comment.service'
 import { useQuery } from '@tanstack/react-query'
 
-const useComment = (commentId: string) =>
+const useComment = (commentId: string, userName?: string) =>
   useQuery({
-    queryKey: ['comment', commentId],
-    queryFn: () => CommentService.getComment(commentId.toString()),
+    queryKey: ['comment', commentId, userName],
+    queryFn: () => CommentService.getComment(commentId.toString(), userName),
   })
 
 export default useComment

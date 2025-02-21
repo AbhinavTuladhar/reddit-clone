@@ -5,7 +5,7 @@ import { Types } from 'mongoose'
 
 import Comment from '@/models/Comment'
 import User from '@/models/User'
-import { VotingRequestBody } from '@/types'
+import { VoteStatus, VotingRequestBody } from '@/types'
 import { connectDatabase } from '@/utils/db'
 
 interface RequestParams {
@@ -14,17 +14,38 @@ interface RequestParams {
   }
 }
 
-export const GET = async (_request: NextRequest, params: RequestParams) => {
+export const GET = async (request: NextRequest, params: RequestParams) => {
   const {
     params: { id },
   } = params
+
+  const userName = request.nextUrl.searchParams.get('userName') || ''
 
   try {
     await connectDatabase()
 
     const foundComment = await Comment.findOne({ _id: id })
 
-    return new NextResponse(JSON.stringify(foundComment), { status: 201 })
+    if (!foundComment) {
+      return new NextResponse(JSON.stringify({ message: 'Comment not found!' }), { status: 501 })
+    }
+
+    const voteStatus: VoteStatus =
+      foundComment.upvotedBy.includes(userName) || foundComment.author === userName
+        ? 'upvoted'
+        : foundComment.downvotedBy.includes(userName)
+          ? 'downvoted'
+          : 'nonvoted'
+
+    const { upvotedBy: _upvote, downvotedBy: _downvote, ...commentData } = foundComment.toJSON()
+
+    const finalCommentData = {
+      ...commentData,
+      voteStatus,
+      effectiveKarma: foundComment.upvotedBy.length - foundComment.downvotedBy.length + 1,
+    }
+
+    return new NextResponse(JSON.stringify(finalCommentData), { status: 201 })
   } catch (error) {
     console.error('new error')
     return new NextResponse(JSON.stringify({ error: 'error!' }), { status: 501 })

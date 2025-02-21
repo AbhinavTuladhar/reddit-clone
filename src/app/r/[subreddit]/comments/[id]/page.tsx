@@ -7,7 +7,6 @@ import CommentCardNew from '@/components/comment-card-new'
 import PostVoteArrows from '@/components/post-vote-arrows'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import usePost from '@/hooks/usePost'
-import { voteStatus } from '@/types'
 
 import { CommentForm, IconRow, MetaData } from './_components'
 
@@ -24,7 +23,7 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
 
   const { status, userName } = useCurrentUser()
 
-  const { data: postData, isLoading, isError, refetch } = usePost(postId)
+  const { data: postData, isLoading, isError, refetch } = usePost(postId, userName)
 
   if (isLoading) {
     return <div> Loading... </div>
@@ -38,21 +37,8 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
     return <div> Post not found </div>
   }
 
-  const { _id, author, subreddit, title, body, createdAt, upvotedBy, downvotedBy, comments, topLevelComments } =
+  const { _id, author, subreddit, title, body, createdAt, comments, topLevelComments, voteStatus, effectiveKarma } =
     postData
-  // Check if the user is in the upvote or downvotedby list in the comment
-  let initialVoteStatus: voteStatus = 'nonvoted'
-
-  if (upvotedBy.includes(userName) || author === userName) {
-    initialVoteStatus = 'upvoted'
-  } else if (downvotedBy.includes(userName)) {
-    initialVoteStatus = 'downvoted'
-  } else {
-    initialVoteStatus = 'nonvoted'
-  }
-
-  // setVoteStatus(initialVoteStatus)
-
   const paragraphs = body?.split('\n')
 
   const commentData = topLevelComments.map((comment) => comment.toString())
@@ -63,12 +49,11 @@ const Page: React.FC<SubredditCommentParams> = ({ params }) => {
         <div className="flex flex-row gap-x-4">
           <PostVoteArrows
             postId={_id}
-            initialVoteStatus={initialVoteStatus}
+            initialVoteStatus={voteStatus}
             author={author}
-            upvotedBy={upvotedBy}
-            downvotedBy={downvotedBy}
             refetch={refetch}
             resourceType="post"
+            effectiveKarma={effectiveKarma}
           />
           <section className="flex flex-1 flex-col gap-y-2">
             <MetaData createdAt={createdAt} subreddit={subreddit} author={author} />

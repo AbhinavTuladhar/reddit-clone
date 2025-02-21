@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { Types } from 'mongoose'
 import { PiArrowFatDownFill, PiArrowFatUpFill } from 'react-icons/pi'
 
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useResourceVote from '@/hooks/useResourceVote'
-import { ResourceType, voteStatus } from '@/types'
+import { ResourceType, VoteStatus } from '@/types'
 
 interface PostVoteArrowProps {
   postId: Types.ObjectId
-  initialVoteStatus: voteStatus
+  initialVoteStatus: VoteStatus
   author: string
-  upvotedBy: string[]
-  downvotedBy: string[]
+  effectiveKarma: number
   resourceType: ResourceType
   refetch: () => void
 }
@@ -23,16 +22,13 @@ const PostVoteArrows: React.FC<PostVoteArrowProps> = ({
   postId,
   initialVoteStatus,
   author,
-  upvotedBy,
-  downvotedBy,
+  effectiveKarma,
   resourceType,
   refetch,
 }) => {
-  const effectiveKarma = upvotedBy.length + downvotedBy.length === 0 ? 1 : upvotedBy.length - downvotedBy.length + 1
-
   const { status, userName } = useCurrentUser()
 
-  const { handleVoteChange, voteStatus, setVoteStatus } = useResourceVote({
+  const { handleVoteChange, voteStatus } = useResourceVote({
     author,
     initialVoteStatus,
     refetchResource: refetch,
@@ -42,10 +38,9 @@ const PostVoteArrows: React.FC<PostVoteArrowProps> = ({
     userName,
   })
 
-  // Change the arrow fill colours whenever the vote status changes
-  useEffect(() => {
-    setVoteStatus(initialVoteStatus)
-  }, [setVoteStatus, initialVoteStatus])
+  // if (postId.toString() === '67ab69405433a523a867ab25') {
+  //   console.log('For the first post, the vote status is', initialVoteStatus)
+  // }
 
   return (
     <section

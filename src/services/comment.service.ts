@@ -1,11 +1,17 @@
 import axios from 'axios'
 
-import { CommentCreationBody, CommentEditBodyWithId, CommentType, VotingRequestBodyWithId } from '@/types'
+import {
+  CommentCreationBody,
+  CommentEditBodyWithId,
+  CommentType,
+  CommentTypeNew,
+  VotingRequestBodyWithId,
+} from '@/types'
 
 class CommentService {
-  static async getComment(commentId: string) {
+  static async getComment(commentId: string, userName?: string) {
     try {
-      const response = await axios.get<CommentType>(`/api/comment/${commentId}`)
+      const response = await axios.get<CommentTypeNew>(`/api/comment/${commentId}?userName=${userName}`)
       return response.data
     } catch (error) {
       console.error(error)
